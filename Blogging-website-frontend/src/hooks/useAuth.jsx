@@ -2,6 +2,8 @@ import React from 'react'
 import { json } from 'react-router-dom';
 import { proxy, useSnapshot } from 'valtio';
 import { proxyWithComputed } from 'valtio/utils';
+import axios from "axios";
+
 
 function getAuthUser() {
     const jwt = window.localStorage.getItem('jwtToken');
@@ -24,7 +26,8 @@ const actions = {
     login: (user) => {
         console.log('login', {user, state});
         state.authUser = user;
-        window.localStorage.setItem('jwtToken', btoa(JSON.stringify(state.authUser)))
+        window.localStorage.setItem('jwtToken', btoa(JSON.stringify(state.authUser)));
+        axios.defaults.headers.Authorization = `Token ${state.authUser.token}`;
     },
     logout: ()  => {
         state.authUser = {};

@@ -2,6 +2,20 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 
+const getCurrentUser = async (req, res) => {
+  //after authentication, email, password and hashed password and that we need to store in the request 
+
+  const email = req.userEmail;
+  console.log('email', {email});
+
+  const user = await User.findOne({email}).exec();
+  if(!user){
+    return res.status(404).json({message: "User Not Found"});
+  }
+  return res.status(200).json({user: user.toUserResponse()});
+
+}
+
 const userLogin = async (req, res) => {
 const user  = req.body;
 
@@ -87,4 +101,5 @@ const registerUser = async (req, res) => {
 module.exports = {
   registerUser,
   userLogin,
+  getCurrentUser
 };
