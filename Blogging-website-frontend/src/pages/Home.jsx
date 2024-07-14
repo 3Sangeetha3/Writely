@@ -6,7 +6,7 @@ function Home() {
     //const { logout } = useAuth();
     async function getCurrentUser() {
        const result = await axios.get('http://localhost:3001/api/user');
-       console.log('result', {result});
+       //console.log('result', {result});
     }
   return (
         <div> 

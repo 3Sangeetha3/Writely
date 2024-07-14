@@ -24,7 +24,7 @@ const state = proxy (
 
 const actions = {
     login: (user) => {
-        console.log('login', {user, state});
+        //console.log('login', {user, state});
         state.authUser = user;
         window.localStorage.setItem('jwtToken', btoa(JSON.stringify(state.authUser)));
         axios.defaults.headers.Authorization = `Token ${state.authUser.token}`;
@@ -39,7 +39,7 @@ const actions = {
 
 function useAuth() {
     const snap = useSnapshot(state);
-    console.log('snap: ', {snap});
+    //console.log('snap: ', {snap});
     return {
         ...snap,
         ...actions

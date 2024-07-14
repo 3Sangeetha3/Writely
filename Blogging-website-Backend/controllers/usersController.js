@@ -6,7 +6,7 @@ const getCurrentUser = async (req, res) => {
   //after authentication, email, password and hashed password and that we need to store in the request 
 
   const email = req.userEmail;
-  console.log('email', {email});
+ //console.log('email', {email});
 
   const user = await User.findOne({email}).exec();
   if(!user){
