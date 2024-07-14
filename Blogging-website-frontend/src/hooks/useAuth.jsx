@@ -25,6 +25,11 @@ const actions = {
         console.log('login', {user, state});
         state.authUser = user;
         window.localStorage.setItem('jwtToken', btoa(JSON.stringify(state.authUser)))
+    },
+    logout: ()  => {
+        state.authUser = {};
+        window.localStorage.removeItem('jwtToken');
+    
     }
 }
 
