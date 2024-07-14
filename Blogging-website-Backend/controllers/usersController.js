@@ -2,8 +2,36 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 
-const userLogin = (req, res) => {
-  res.status(200).send("user login");
+const userLogin = async (req, res) => {
+  const user = req.body;
+
+  //check if the user exists
+  if (!user || !user.email || !user.password ) {
+    return res.status(400).json({
+      message: "Please enter all the fields"
+    });
+  }
+
+  //since email is unique query and find out that user
+  const loginUser = await User.findOne({
+    email: user.email
+  }).exec();
+
+  if (!loginUser) {
+    return res.status(404).json({
+      message: "User Not Found"
+    });
+  }
+  //if the password matches 
+  const match  = await bcrypt.compare(user.password, loginUser.password);
+  if(!match) {
+    return res.status(401).json({
+      message: "Unauthorized: Wrong password"
+    });
+  }
+  res.status(200).json({
+    user: loginUser.toUserResponse()
+  });
 };
 
 const registerUser = async (req, res) => {
