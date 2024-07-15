@@ -19,7 +19,7 @@ function Auth() {
 
       // api request to login or register
       const { data } = await axios.post(
-        `http://localhost:3001/api/users${isRegister ? " " : "/login"}`,
+        `http://localhost:3001/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
       //console.log("result", result);
@@ -46,7 +46,7 @@ function Auth() {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign {isRegister ? "up" : "in"}</h1>
             <p className="text-xs-center">
-              <Link to={isRegister ? "/login" : "/register"}>
+              <Link to={isRegister ? "" : "/register"}>
                 {isRegister ? "Have" : "Need"}
                 &nbsp;an account?
               </Link>
@@ -55,9 +55,7 @@ function Auth() {
             <Formik
               onSubmit={onSubmit}
               initialValues={
-                isRegister
-                  ? { ...loginInitialValues, username: "" }
-                  : loginInitialValues
+                isRegister? { ...loginInitialValues, username: "" } : loginInitialValues
               }
             >
               {() => (

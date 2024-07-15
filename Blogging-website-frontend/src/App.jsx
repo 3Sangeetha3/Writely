@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthRoute, GuestRoute } from './components';
+import { AuthRoute, GuestRoute, Navbar } from './components';
 import './constants.js';
 import { Auth, Home } from "./pages";
 
@@ -10,7 +10,7 @@ function App() {
     <Router>
       <div>
         <header>
-          {/* <navbar /> */}
+          <Navbar />
         </header>
         <main>
           <Routes>
