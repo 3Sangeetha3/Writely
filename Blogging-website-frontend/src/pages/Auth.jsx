@@ -46,7 +46,7 @@ function Auth() {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign {isRegister ? "up" : "in"}</h1>
             <p className="text-xs-center">
-              <Link to={isRegister ? "" : "/register"}>
+              <Link to={isRegister ? "/login" : "/register"}>
                 {isRegister ? "Have" : "Need"}
                 &nbsp;an account?
               </Link>
