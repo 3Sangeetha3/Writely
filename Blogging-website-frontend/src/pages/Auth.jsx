@@ -9,21 +9,17 @@ function Auth() {
   // console.log(isRegister)
   const navigate = useNavigate();
   const { login } = useAuth();
-
   async function onSubmit(values, actions) {
     console.log("onSubmit", { values, actions });
 
     try {
-      // api request to login
-      // console.log("User logged in ");
-
       // api request to login or register
+
       const { data } = await axios.post(
         `http://localhost:3001/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
-      //console.log("result", result);
-      console.log("User logged in ");
+
 
       //navigate the user back to home page
       login(data.user);
@@ -31,8 +27,9 @@ function Auth() {
     } catch (error) {
       console.error("Error while onSubmit: ", error);
 
-      const { status, data } = error.response;
-      if (status === 422) {
+      const {status, data} = error.response;
+
+      if(status === 422){
         actions.setErrors(data.errors);
       }
     }
@@ -55,7 +52,9 @@ function Auth() {
             <Formik
               onSubmit={onSubmit}
               initialValues={
-                isRegister? { ...loginInitialValues, username: "" } : loginInitialValues
+                isRegister
+                  ? { ...loginInitialValues, username: "" }
+                  : loginInitialValues
               }
             >
               {() => (
@@ -91,7 +90,7 @@ function Auth() {
                     </fieldset>
                     <button
                       type="submit"
-                      className="btn btn-lg btn-info pull-xs-right"
+                      className="btn btn-lg btn-primary pull-xs-right"
                     >
                       Sign {isRegister ? "up" : "in"}
                     </button>
