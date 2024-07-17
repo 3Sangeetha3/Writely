@@ -28,6 +28,12 @@ app.use(express.json()); //middleware to parse json
 
 app.use("/api", require("../routes/userRoutes"));
 
+// article routes 
+
+app.use("/api/articles", require("../routes/articleRoutes"));
+
+
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
 

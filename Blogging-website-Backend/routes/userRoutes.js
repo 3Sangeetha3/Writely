@@ -18,4 +18,7 @@ router.get('/user', verifyJWT, userController.getCurrentUser);
 //update the user
 //router.put('/users', userController.updateUser )
 
+//update the user
+router.put('/user',verifyJWT, userController.updateUser);
+
 module.exports = router;

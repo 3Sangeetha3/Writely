@@ -98,6 +98,53 @@ const registerUser = async (req, res) => {
 //   res.status(200).json({ createdUser });
 };
 
+const updateUser = async (req,res) => {
+
+  const {user} = req.body;
+
+  if(!user){
+    return res.status(400).json({message: "Required a User object"});
+  }
+
+  const email = req.userEmail;
+
+  const target = await User.findOne({email}).exec();
+
+  if(user.email){
+    target.email = user.email;
+  }
+
+  if(user.username){
+    target.username = user.username;
+  }
+
+  if(user.password){
+    const hashedPass = await bcrypt.hash(user.password,10);
+    target.password = hashedPass;
+  }
+
+  if(typeof user.image !== 'undefined'){
+    target.image = user.image;
+  }
+
+  if(typeof user.bio !== 'undefined'){
+    target.bio = user.bio;
+  }
+
+  await target.save();
+  return res.status(200).json({
+    user: target.toUserResponse()
+  });
+
+}
+
+module.exports = {
+  registerUser,
+  userLogin,
+  getCurrentUser,
+  updateUser
+};
+
 module.exports = {
   registerUser,
   userLogin,
