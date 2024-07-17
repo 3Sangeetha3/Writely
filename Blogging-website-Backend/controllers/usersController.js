@@ -17,7 +17,7 @@ const getCurrentUser = async (req, res) => {
 }
 
 const userLogin = async (req, res) => {
-const {user}  = req.body;
+const user  = req.body;
 
   //check if the user exists
   if (!user || !user.email || !user.password ) {
@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
   //logic to register the user
   // console.log('registering the user')
 
-  const {user} = req.body;
+  const user = req.body;
 
   //check if the data exists
 
@@ -145,8 +145,3 @@ module.exports = {
   updateUser
 };
 
-module.exports = {
-  registerUser,
-  userLogin,
-  getCurrentUser
-};
