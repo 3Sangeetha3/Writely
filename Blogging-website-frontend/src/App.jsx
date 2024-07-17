@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { AuthRoute, GuestRoute, Navbar } from "./components";
-import { Auth, Home, Settings } from "./pages";
+import { Auth, Editor, Home, Settings } from "./pages";
+import axios from "axios";
+import { Navbar } from "./components";
+import { AuthRoute, GuestRoute } from "./components";
 
 function App() {
+  useEffect(() => {
+
+    const jwt = window.localStorage.getItem('jwtToken');
+
+    if(!jwt) return {};
+
+    const parsedJwt = JSON.parse(atob(jwt));
+    console.log('parsedJwt',{parsedJwt})
+    axios.defaults.headers.Authorization = `Token ${parsedJwt.token}`;
+
+  }, []);
   return (
     <Router>
       <div>
         <header>
-          <Navbar />
+          <Navbar/>
         </header>
         <main>
           <Routes>
@@ -27,7 +40,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
             </Route>
             <Route path="/editor" element={<AuthRoute />}>
-              <Route path="/editor" element={<h1>Editor </h1>} />
+              <Route path="/editor" element={<Editor/>} />
             </Route>
             <Route path="/editor/:slug" element={<h1>Editor </h1>} />
             <Route path="/article/:slug" element={<h1>Article </h1>} />
