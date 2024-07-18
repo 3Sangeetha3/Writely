@@ -51,11 +51,7 @@ function Auth() {
 
             <Formik
               onSubmit={onSubmit}
-              initialValues={
-                isRegister
-                  ? { ...loginInitialValues, username: "" }
-                  : loginInitialValues
-              }
+              initialValues={isRegister ? registerInitialValues : loginInitialValues}
             >
               {() => (
                 <>

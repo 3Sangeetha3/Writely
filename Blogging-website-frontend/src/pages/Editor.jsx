@@ -4,25 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { FormErrors, TagsInput } from "../components";
-// import { useArticleQuery } from "../hooks";
+import { useArticleQuery } from "../hooks";
 import useCreateArticle from "../hooks/useCreateArticle";
 
 function Editor() {
   const navigate = useNavigate();
-  //   const articleQuery = useArticleQuery();
+  const articleQuery = useArticleQuery();
     const queryClient = useQueryClient();
-  //   const article = articleQuery?.data?.article || {};
-  //   const { slug } = article;
+    const article = articleQuery?.data?.article || {};
+   const { slug } = article;
   
     const { isCreating, createArticle } = useCreateArticle();
   
   
     async function onSubmit(values, { setErrors }) {
       try {
-      //   const { data } = await axios[slug ? "put" : "post"](
-      //     `/articles${slug ? `/${slug}` : ""}`,
-      //     { article: values }
-      //   );
+        const url = `/articles${slug ? `/${slug}` : ""}`;
+      console.log("Submitting to URL:", url);
+      console.log("Form values:", values);
+        const { data } = await axios[slug ? "put" : "post"](
+          `/articles${slug ? `/${slug}` : ""}`,
+          { article: values }
+        );
         createArticle({values})
   
         if (slug) {
@@ -30,6 +33,8 @@ function Editor() {
         } else {
           queryClient.invalidateQueries("/articles");
         }
+
+        navigate(`/articles/${data.article.slug}`);
   
       } catch (error) {
         const { status, data } = error.response;
@@ -48,9 +53,9 @@ function Editor() {
             <Formik
               onSubmit={onSubmit}
               initialValues={{
-                // title: article?.title || '',
-                // description: article?.description || '',
-                // body: article?.body || '',
+                title: article?.title || '',
+                description: article?.description || '',
+                body: article?.body || '',
                 tagList: [],
               }}
               enableReinitialize

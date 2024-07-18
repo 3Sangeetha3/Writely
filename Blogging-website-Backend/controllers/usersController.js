@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
   //logic to register the user
   // console.log('registering the user')
 
-  const user = req.body;
+  const {user} = req.body;
 
   //check if the data exists
 

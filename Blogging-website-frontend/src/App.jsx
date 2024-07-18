@@ -11,7 +11,7 @@ function App() {
 
     const jwt = window.localStorage.getItem('jwtToken');
 
-    if(!jwt) return {};
+    if(!jwt) return ;
 
     const parsedJwt = JSON.parse(atob(jwt));
     console.log('parsedJwt',{parsedJwt})
