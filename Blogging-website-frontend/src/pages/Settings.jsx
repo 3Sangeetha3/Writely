@@ -4,6 +4,7 @@ import { useAuth, useUserQuery } from "../hooks";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { FormErrors } from "../components";
 
 function Settings() {
   const { logout } = useAuth();
@@ -42,6 +43,15 @@ function Settings() {
       }
     }
   }
+
+  if (isCurrentUserLoading) {
+    return <div>Loading...</div>; // Show a loading message while fetching user data
+  }
+
+  if (currentUserError) {
+    return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
+  }
+
   return (
     <div className="settings-page">
       <div className="container page">
@@ -50,19 +60,13 @@ function Settings() {
             <h1 className="text-xs-center">Your Settings</h1>
 
             <Formik
-              initialValues={{
-                image: currentUser?.user?.image || "",
-                username: currentUser?.user?.username || "",
-                bio: currentUser?.user?.bio || "",
-                email: currentUser?.user?.email || "",
-                password: "",
-              }}
+              initialValues={currentUser.user}
               onSubmit={onSubmit}
               enableReinitialize
             >
               {({ isSubmitting }) => (
                 <>
-                  {/* <FormErrors /> */}
+                  <FormErrors />
                   <Form>
                     <fieldset disabled={isSubmitting}>
                       <fieldset className="form-group">
