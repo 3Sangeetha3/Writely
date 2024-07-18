@@ -60,7 +60,7 @@ function Settings() {
             <h1 className="text-xs-center">Your Settings</h1>
 
             <Formik
-              initialValues={currentUser.user}
+              initialValues={currentUser?.user}
               onSubmit={onSubmit}
               enableReinitialize
             >
