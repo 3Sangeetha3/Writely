@@ -1,0 +1,25 @@
+/* TagsInput.css */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Ensures tags start from the left */
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin-top: 8px;
+  margin: 2px; /* Optional: To add some spacing between tags */
+  border: 1px solid #ddd; /* Optional: To add a border around tags */
+  border-radius: 35px; /* Optional: To make the tags look like pills */
+  background-color: #464242b6; /* Optional: To give the tags a background color */
+}
+
+.tag-icon {
+  margin-top: 2px; /* Adjust this value as needed */
+  margin-right: 5px; /* To add some spacing between the icon and the tag text */
+  cursor: pointer; /* To change the cursor to a pointer when hovering over the icon */
+}

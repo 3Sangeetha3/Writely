@@ -6,6 +6,8 @@ import axios from "axios";
 import { FormErrors, TagsInput } from "../components";
 import { useArticleQuery } from "../hooks";
 import useCreateArticle from "../hooks/useCreateArticle";
+import './Editor.css';
+
 
 function Editor() {
   const navigate = useNavigate();
@@ -93,9 +95,11 @@ function Editor() {
                       <fieldset className="form-group">
                         <Field name="tagList" component={TagsInput} />
                       </fieldset>
-                      <button className="btn btn-lg pull-xs-right btn-primary" type="submit">
-                        Publish Article
-                      </button>
+                      <div className="button-container">
+                        <button className="btn btn-lg btn-primary" type="submit">
+                          Publish Article
+                        </button>
+                      </div>
                     </fieldset>
                   </Form>
                 </>

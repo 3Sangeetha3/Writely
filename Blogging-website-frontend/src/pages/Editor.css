@@ -1,0 +1,12 @@
+/* Center the button container within its parent */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Optional: To add some spacing above the button */
+}
+
+/* Optional: Additional styling for the button */
+.btn-primary {
+  padding: 10px 20px;
+  font-size: 18px;
+}

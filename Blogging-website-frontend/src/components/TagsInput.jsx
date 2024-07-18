@@ -1,4 +1,5 @@
 import React from 'react'
+import './TagsInput.css'
 
 function TagsInput({ field, form }) {
 
@@ -23,10 +24,10 @@ function TagsInput({ field, form }) {
         placeholder="Enter tags"
       />
       <div className="tag-list">
-        {field?.value?.map((tag) => (
-          <span className="tag-default tag-pill">
+        {field?.value?.map((tag, index) => (
+          <span key={index} className="tag-default tag-pill tag-item">
             <i
-              className="ion-close-round"
+              className="ion-close-round tag-icon"
               onClick={() =>
                 form.setFieldValue(
                   field.name,

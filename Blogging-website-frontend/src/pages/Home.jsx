@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import { ArticleList } from '../components'
 import { useArticlesQuery, useAuth } from '../hooks'
+import '../App.css'
 
 const initialFilters = { tag: '', offset: null, feed: false }
 
