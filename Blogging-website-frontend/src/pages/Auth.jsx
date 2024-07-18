@@ -35,6 +35,7 @@ function Auth() {
     }
   }
   const loginInitialValues = { email: "", password: "" };
+  const registerInitialValues = { username: "", email: "", password:""};
 
   return (
     <div className="auth-page">

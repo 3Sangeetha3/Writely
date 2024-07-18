@@ -9,7 +9,7 @@ const verifyJWT = require("../middleware/verifyJWT");
 router.post('/',verifyJWT,  articlesController.createArticle);
 
 
-//router.get('/feed',verifyJWT,  articlesController.feedArticles);
+router.get('/feed',verifyJWT,  articlesController.feedArticles);
 
 router.get('/:slug',verifyJWT,  articlesController.getArticleWithSlug);
 

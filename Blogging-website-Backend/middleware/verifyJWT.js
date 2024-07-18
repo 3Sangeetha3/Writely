@@ -27,10 +27,9 @@ const verifyJWT = (req, res, next) => {
             // console.log("userId: ", decoded.userId);
             // console.log("userEmail: ", decoded.userEmail);
             // console.log("userHashedPass: ", decoded.userHashedPass);
-
+            next();
         }
     )
-    next();
 }
 
 module.exports = verifyJWT;
