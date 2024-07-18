@@ -6,7 +6,7 @@ const creteArticle = async (values) => {
     console.log("creteArticle", { values });
 
     const { data } = await axios.post(
-        `http://localhost:3001/api/articles`,
+        `https://blogging-website-5l8x.onrender.com/api/articles`,
         { article: {...values.values} }
       );
 
