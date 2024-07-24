@@ -2,41 +2,34 @@ const Article = require("../models/Article");
 const User = require("../models/user");
 
 
-const createArticle = async(req,res) => {
-    //in the req\\
-
+const createArticle = async (req, res) => {
     const id = req.userId;
-
     const author = await User.findById(id).exec();
-    //console.log('article', {body:req.body})
 
-    const {title, description, body, tagList} = req.body.article;
+    console.log('article', { body: req.body });
+    if (!req.body.article) {
+        return res.status(400).json({ message: "Invalid request structure" });
+    }
+    const { title = '', description, body, tagList } = req.body.article;
 
-
-
-    if(!title || !description || !body){
-        return res.status(400).json({message: "All fields are required"});
+    if (!title || !description || !body) {
+        return res.status(400).json({ message: "All fields are required" });
     }
 
-    const article = await Article.create({title, description, body});
-
+    const article = await Article.create({ title, description, body });
     article.author = id;
 
-    if(Array.isArray(tagList) && tagList.length  > 0 ){
+    if (Array.isArray(tagList) && tagList.length > 0) {
         article.tagList = tagList;
     }
 
     await article.save();
+    return res.status(200).json({ article: await article.toArticleResponse(author) });
+};
 
-
-    return res.status(200).json({article: await article.toArticleResponse(author)});
-
-
-}
 
 const feedArticles = async(req,res) => {
     //in the req\\
-
     Article.find({})
     .then(articles => {
         res.json(articles);  // Send JSON response with the articles
@@ -45,7 +38,7 @@ const feedArticles = async(req,res) => {
         console.error('Error fetching articles', err);
         res.status(500).json({ error: 'Error fetching articles' });
     });
-
+  
 }
 
 const getArticleWithSlug = async (req,res) => {
@@ -63,7 +56,6 @@ const getArticleWithSlug = async (req,res) => {
         article:await article.toArticleResponse(false)
     })
 }
-
 
 
 

@@ -78,4 +78,21 @@ articleSchema.methods.toArticleResponse = async function (user) {
   };
 };
 
+articleSchema.methods.addComment = async function (commentId) {
+
+  if(this.comments.indexOf(commentId) === -1){
+    this.comments.push(commentId);
+  }
+  return this.save();
+};
+
+
+articleSchema.methods.removeComment = async function (commentId) {
+  if(this.comments.indexOf(commentId) !== -1){
+    this.comments.remove(commentId);
+  }
+  return this.save();
+};
+
+
 module.exports = mongoose.model("Article", articleSchema);
