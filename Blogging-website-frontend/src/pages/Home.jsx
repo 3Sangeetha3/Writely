@@ -1,31 +1,32 @@
-import classNames from 'classnames'
-import React from 'react'
-import { ArticleList } from '../components'
-import { useArticlesQuery, useAuth } from '../hooks'
-import '../App.css'
+import classNames from "classnames";
+import React from "react";
+import { ArticleList, PopularTags } from "../components";
+import { useArticlesQuery, useAuth } from "../hooks";
 
-const initialFilters = { tag: '', offset: null, feed: false }
+const initialFilters = { tag: "", offset: null, feed: false };
 
 function Home() {
-  const { isAuth } = useAuth()
-  const [filters, setFilters] = React.useState({ ...initialFilters, feed: isAuth })
+  const { isAuth } = useAuth();
+  const [filters, setFilters] = React.useState({
+    ...initialFilters,
+    feed: isAuth,
+  });
   const { isArticlesLoading, articles, ArticlesError } = useArticlesQuery();
 
-
   React.useEffect(() => {
-    setFilters({ ...initialFilters, feed: isAuth })
-  }, [isAuth])
+    setFilters({ ...initialFilters, feed: isAuth });
+  }, [isAuth]);
 
   function onTagClick(tag) {
-    setFilters({ ...initialFilters, tag })
+    setFilters({ ...initialFilters, tag });
   }
 
   function onGlobalFeedClick() {
-    setFilters(initialFilters)
+    setFilters(initialFilters);
   }
 
   function onFeedClick() {
-    setFilters({ ...initialFilters, feed: true })
+    setFilters({ ...initialFilters, feed: true });
   }
 
   return (
@@ -46,7 +47,7 @@ function Home() {
                     <button
                       onClick={onFeedClick}
                       type="button"
-                      className={classNames('nav-link', {
+                      className={classNames("nav-link", {
                         active: filters.feed,
                       })}
                     >
@@ -54,17 +55,17 @@ function Home() {
                     </button>
                   </li>
                 )}
-
-
               </ul>
             </div>
-            <ArticleList  />
+            <ArticleList />
           </div>
-
+          <div className="col-md-3">
+            <PopularTags />
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

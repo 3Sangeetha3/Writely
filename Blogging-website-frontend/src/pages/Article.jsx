@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ArticleMeta } from '../components'
+import { ArticleComments, ArticleMeta } from '../components'
 import { useArticleQuery } from '../hooks'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -46,7 +46,10 @@ useEffect(() => {
           <ArticleMeta author={article?.author} createdAt={article?.createdAt} />
         </div>
         <div className="row">
-
+        {/* ArticleComments  */}
+          <div className='col-xs-12 col-md-8 offeset-md-2'>
+            <ArticleComments />
+          </div>
         </div>
       </div>
     </div>

@@ -6,4 +6,5 @@ export {default as TagsInput} from './TagsInput'
 export {default as ArticleList} from './ArticleList';
 export {default as ArticlePreview} from './ArticlePreview';
 export {default as ArticleMeta} from './ArticleMeta';
-
+export {default as PopularTags} from './PopularTags';
+export {default as ArticleComments} from './ArticleComments';
