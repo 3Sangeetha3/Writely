@@ -22,7 +22,7 @@ const addCommentsToArticle = async (req, res) => {
         message: "Article Not Found",
         });
     }
-    console.log("req.body", req.body);
+    //console.log("req.body", req.body);
     const { body } = req.body.comment;
 
     const newComment = await Comment.create({

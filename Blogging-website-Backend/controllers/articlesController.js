@@ -6,7 +6,7 @@ const createArticle = async (req, res) => {
     const id = req.userId;
     const author = await User.findById(id).exec();
 
-    console.log('article', { body: req.body });
+    //console.log('article', { body: req.body });
     if (!req.body.article) {
         return res.status(400).json({ message: "Invalid request structure" });
     }
