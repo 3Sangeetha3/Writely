@@ -8,7 +8,7 @@ import ArticlePreview from './ArticlePreview'
 function ArticleList() {
   const { articles } = useArticlesQuery()
 
-  console.log('ArticleList',{articles})
+  //console.log('ArticleList',{articles})
 
 
 

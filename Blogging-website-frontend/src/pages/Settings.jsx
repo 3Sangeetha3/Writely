@@ -15,11 +15,11 @@ function Settings() {
 
   const navigate = useNavigate();
 
-  console.log("Settings", {
-    isCurrentUserLoading,
-    currentUser,
-    currentUserError,
-  });
+  // console.log("Settings", {
+  //   isCurrentUserLoading,
+  //   currentUser,
+  //   currentUserError,
+  // });
 
   async function onSubmit(values, { setErrors }) {
     try {

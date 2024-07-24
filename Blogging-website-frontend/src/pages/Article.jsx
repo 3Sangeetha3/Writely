@@ -9,12 +9,12 @@ function Article() {
 const [article, setArticle] = useState([]);
 const { slug } = useParams()
 
-console.log('article',article)
+//console.log('article',article)
 
 const getArticleBySlug = async (slug) => {
     const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
 
-    console.log("getArticleBySlug", { data });
+    //console.log("getArticleBySlug", { data });
 
     setArticle(data.article) ;
   };

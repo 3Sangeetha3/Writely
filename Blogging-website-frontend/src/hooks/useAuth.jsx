@@ -35,7 +35,7 @@ const actions = {
 
 function useAuth() {
   const snap = useSnapshot(state);
-  console.log('snap: ', {snap});
+  //console.log('snap: ', {snap});
 
   const getAuthStatus = () => !isEmpty(snap.authUser);
   return {

@@ -14,7 +14,7 @@ function App() {
     if(!jwt) return ;
 
     const parsedJwt = JSON.parse(atob(jwt));
-    console.log('parsedJwt',{parsedJwt})
+    //console.log('parsedJwt',{parsedJwt})
     axios.defaults.headers.Authorization = `Token ${parsedJwt.token}`;
 
   }, []);

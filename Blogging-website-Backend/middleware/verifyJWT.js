@@ -4,13 +4,13 @@ const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     //('authheader: ', {authHeader});
 
-    console.log('authHeader',{authHeader})
+    //console.log('authHeader',{authHeader})
 
     if(!authHeader?.startsWith('Token')){
         return res.status(401).json({message: "Unauthorized: Missing token"});
     }
     const token = authHeader.split(' ')[1];
-    console.log('Token: ', token);
+    //console.log('Token: ', token);
 
     jwt.verify(
         token,

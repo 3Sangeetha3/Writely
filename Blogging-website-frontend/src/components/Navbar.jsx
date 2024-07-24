@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
     const { isAuth, authUser } = useAuth();
 
-    console.log("authUser", { isAuth, authUser });
+    //console.log("authUser", { isAuth, authUser });
     return (
         <nav className="navbar navbar-light">
             <div className="container">
