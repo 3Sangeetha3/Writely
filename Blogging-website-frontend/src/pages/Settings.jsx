@@ -44,13 +44,13 @@ function Settings() {
     }
   }
 
-  if (isCurrentUserLoading) {
-    return <div>Loading...</div>; // Show a loading message while fetching user data
-  }
+  // if (isCurrentUserLoading) {
+  //   return <div>Loading...</div>; // Show a loading message while fetching user data
+  // }
 
-  if (currentUserError) {
-    return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
-  }
+  // if (currentUserError) {
+  //   return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
+  // }
 
   return (
     <div className="settings-page">
@@ -66,7 +66,7 @@ function Settings() {
             >
               {({ isSubmitting }) => (
                 <>
-                  <FormErrors />
+                  {/* <FormErrors /> */}
                   <Form>
                     <fieldset disabled={isSubmitting}>
                       <fieldset className="form-group">
