@@ -10,7 +10,7 @@ function Auth() {
   const navigate = useNavigate();
   const { login } = useAuth();
   async function onSubmit(values, actions) {
-    console.log("onSubmit", { values, actions });
+    //console.log("onSubmit", { values, actions });
 
     try {
       // api request to login or register
