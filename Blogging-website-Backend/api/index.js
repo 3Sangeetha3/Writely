@@ -32,7 +32,8 @@ app.use("/api", require("../routes/userRoutes"));
 
 app.use("/api/articles", require("../routes/articleRoutes"));
 
-
+//tag routes
+app.use("/api/tags", require("../routes/tagRoutes"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
