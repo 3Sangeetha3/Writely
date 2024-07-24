@@ -8,3 +8,4 @@ export {default as ArticlePreview} from './ArticlePreview';
 export {default as ArticleMeta} from './ArticleMeta';
 export {default as PopularTags} from './PopularTags';
 export {default as ArticleComments} from './ArticleComments';
+export {default as ArticleComment} from './ArticleComment';
