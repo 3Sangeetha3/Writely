@@ -2,6 +2,7 @@ import React from 'react'
 import { useArticleCommentsQuery, useAuth } from '../hooks'
 import { Link } from 'react-router-dom';
 import ArticleComment from './ArticleComment';
+import ArticleCommentForm from './ArticleCommentForm';
 
 function ArticleComments() {
 
@@ -24,7 +25,7 @@ function ArticleComments() {
     }
   return (
     <div>
-        {/* <ArticleCommentForm /> */}
+        <ArticleCommentForm />
 
         {articleComments?.comments?.map((comment) => (
             <ArticleComment key={comment.id} comment={comment} />

@@ -100,7 +100,7 @@ const deleteComment = async (req, res) => {
 
     const comment = await Comment.findById(id).exec();
 
-    console.log("comment", comment);
+    //console.log("comment", comment);
     if (comment.author.toString() === commentor._id.toString()) {
         //go to article and remove the comment from that array
 
