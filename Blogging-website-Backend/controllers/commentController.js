@@ -60,7 +60,8 @@ const getCommentsFromArticle = async (req, res) => {
         comments: await Promise.all(
             article.comments.map(async (commentId) => {
             const commentObj = await Comment.findById(commentId).exec();
-            return await commentObj.toCommentResponse(loginUser);
+            if(commentObj) return await commentObj.toCommentResponse(loginUser);
+            return null; // returning null if no comment exists.
             })
         ),
         });

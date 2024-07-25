@@ -20,7 +20,7 @@ function useArticleCommentsQuery() {
     data: articleComments,
     error: articleCommentsError,
   } = useQuery({
-    queryKey: ["articleComments"],
+    queryKey: ["articleComments", slug],
     queryFn: async () => {
       const data = await getArticleComments(slug);
       return data;
