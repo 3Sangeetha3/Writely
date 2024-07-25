@@ -16,4 +16,4 @@ router.delete('/:slug/comments/:id', verifyJWT, commentController.deleteComment)
 
 
 
-module.exports = router;
+module.exports = router; 

@@ -5,9 +5,8 @@ import { useParams } from "react-router-dom";
 
 const getArticleComments = async (slug) => {
   const { data } = await axios.get(
-    `https://blogging-website-5l8x.onrender.com/api/articles/${slug}/comments`
+    `http://localhost:3001/api/articles/${slug}/comments`
   );
-
 
   return data;
 };
@@ -20,7 +19,7 @@ function useArticleCommentsQuery() {
     data: articleComments,
     error: articleCommentsError,
   } = useQuery({
-    queryKey: ["articleComments", slug],
+    queryKey: ["articleComments"],
     queryFn: async () => {
       const data = await getArticleComments(slug);
       return data;

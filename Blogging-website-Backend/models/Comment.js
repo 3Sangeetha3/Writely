@@ -21,28 +21,14 @@ const commentSchema = new mongoose.Schema({
 
 commentSchema.methods.toCommentResponse = async function(user){
     const authorObj =await User.findById(this.author).exec();
-
-    if(!authorObj) {
-        return {
-            id: this._id,
-            body: this.body,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt,
-            author: {
-                username: "Unknown",
-                bio: "Unknown",
-                image: "Unknown",
-                following: false
-            },
-        };
-    }
     return {
         id: this._id,
         body: this.body,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
         author: authorObj.toProfileJSON(user)
-    };
+    }
+
 }
 
 module.exports = mongoose.model('Comment', commentSchema)
