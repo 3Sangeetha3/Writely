@@ -14,7 +14,7 @@ const { slug } = useParams()
 const getArticleBySlug = async (slug) => {
     const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
 
-    //console.log("getArticleBySlug", { data });
+    console.log("getArticleBySlug", { data });
 
     setArticle(data.article) ;
   };

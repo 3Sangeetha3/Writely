@@ -14,6 +14,8 @@ function ArticleComments() {
         articleCommentsError,
       } = useArticleCommentsQuery();
 
+      console.log("articleComments: ", articleComments);
+
     if(!isAuth){
         return (
             <p>
