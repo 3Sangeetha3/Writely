@@ -12,19 +12,24 @@ const { slug } = useParams()
 //console.log('article',article)
 
 const getArticleBySlug = async (slug) => {
-    const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
+  try {
+    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
+    console.log("getArticleBySlug response", data);
+    setArticle(data.article);
+  } catch (error) {
+    setInterval(2000);
+    console.error("Error fetching article:", error);
+  }
+};
 
-    console.log("getArticleBySlug", { data });
-
-    setArticle(data.article) ;
-  };
 useEffect(() => {
+  if (!slug) return;
+  getArticleBySlug(slug);
+}, [slug]);
 
-
-    if(!slug) return;
-    getArticleBySlug(slug);
-
-}, [slug])
+if (!article) {
+  return <div>Loading...</div>;
+}
 
   return (
     <div className="article-page">
@@ -48,7 +53,8 @@ useEffect(() => {
         <div className="row">
         {/* ArticleComments  */}
           <div className='col-xs-12 col-md-8 offeset-md-2'>
-            <ArticleComments />
+          <ArticleComments article={article} />
+            {/* <ArticleComments /> */}
           </div>
         </div>
       </div>
