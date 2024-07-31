@@ -64,28 +64,18 @@ const getCommentsFromArticle = async (req, res) => {
       })),
     });
   }else{
-      try {
-        const comments = await Comment.find({ article: req.params.articleId });
-        const commentResponses = await Promise.all(comments.map(async (commentObj) => {
-            if (commentObj) {
-                return await commentObj.toCommentResponse(false);
-            } else {
-                console.error('Comment object is null');
-                return null; // or handle it in a way that suits your application's logic
-            }
-        }));
 
-        // Filter out any null responses
-        const filteredResponses = commentResponses.filter(response => response !== null);
-        res.json(filteredResponses);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
+    return res.status(200).json({
+      comments: await Promise.all(article.comments.map(async (commentId) => {
+        const commentObj = await Comment.findById(commentId).exec();
+
+        const temp  = commentObj.toCommentResponse(false)
+        return temp;
+      })),
+    });
   }
-
+  
 };
-
 const deleteComment = async (req, res) => {
   const userId = req.userId;
 

@@ -14,7 +14,7 @@ function ArticleComments() {
         articleCommentsError,
       } = useArticleCommentsQuery();
 
-      //console.log("articleComments: ", articleComments);
+      console.log("articleComments: ", articleComments);
 
     if(!isAuth){
         return (
@@ -28,7 +28,6 @@ function ArticleComments() {
   return (
     <div>
         <ArticleCommentForm />
-
         {articleComments?.comments?.map((comment) => (
             <ArticleComment key={comment.id} comment={comment} />
         ))}
