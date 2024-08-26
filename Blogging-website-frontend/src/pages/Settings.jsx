@@ -22,12 +22,15 @@ function Settings() {
   // });
 
   async function onSubmit(values, { setErrors }) {
+    console.log("values:", values);
     try {
       const { data } = await axios.put(`https://blogging-website-5l8x.onrender.com/api/user`, {
         user: values,
       });
 
       const updatedUsername = data?.user?.username;
+      
+      console.log("bio:", bio);
 
       logout(data?.user);
 
