@@ -1,13 +1,14 @@
 import React from "react";
 import { useAuth } from "../hooks";
 import { NavLink } from "react-router-dom";
+import "./Navbar.css";
 
 function Navbar() {
     const { isAuth, authUser } = useAuth();
 
     //console.log("authUser", { isAuth, authUser });
     return (
-        <nav className="navbar navbar-light">
+        <nav className="navbar navbar-light navbar-custom">
             <div className="container">
                 <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to="/" end>
                     Blogging App

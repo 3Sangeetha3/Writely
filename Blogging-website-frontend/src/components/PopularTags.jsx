@@ -11,14 +11,14 @@ function PopularTags() {
 
     function content(){
         return tags?.tags?.map((tag) => (
-            <span className='tag-pill tag-default'>
+            <span key={tag} className='tag-pill tag-default p-6s'>
                 {tag}
             </span>
         ))
     }
   return (
     <div className='sidebar'>
-        <p>Popular Tags</p>
+        <p style={{color: '#001519'}}>Popular Tags</p>
         <div className='tag-list'>{content()}</div>
     </div>
   )

@@ -1,0 +1,33 @@
+```
+└── 📁Blogging-website-Backend
+    └── 📁api
+        └── index.js
+    └── 📁config
+        └── allowedOrigins.js
+        └── corsOptions.js
+        └── dbConnect.js
+    └── 📁controllers
+        └── articlesController.js
+        └── commentController.js
+        └── tagsController.js
+        └── userController.js
+    └── 📁middleware
+        └── verifyJWT.js
+        └── verifyJWTOptional.js
+    └── 📁models
+        └── Article.js
+        └── Comment.js
+        └── Tag.js
+        └── user.js
+    └── 📁routes
+        └── articleRoutes.js
+        └── commentRoutes.js
+        └── tagRoutes.js
+        └── userRoutes.js
+    └── 📁views
+        └── index.html
+    └── .env
+    └── .gitignore
+    └── package-lock.json
+    └── package.json
+```

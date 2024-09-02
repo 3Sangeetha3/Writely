@@ -31,7 +31,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <div className="banner">
+      <div className="banner" style={{ backgroundColor: "#243635", important: true }}>
         <div className="container">
           <h1 className="logo-font">Blogging</h1>
           <p>A place to share your knowledge.</p>

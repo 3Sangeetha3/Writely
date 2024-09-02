@@ -1,0 +1,5 @@
+nav.navbar-custom .navbar-brand,
+nav.navbar-custom .nav-link {
+    color: #475756 !important;
+    font-family: "Roboto Serif", serif !important;
+}
