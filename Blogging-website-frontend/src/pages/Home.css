@@ -1,0 +1,22 @@
+/* Home.css */
+.feed-button {
+  background-color: #243635;
+  border: none;
+  color: #fcfbf9;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.feed-button-active {
+  color: #001514 !important;
+  background-color: #fcfbf9 !important;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.feed-button-inactive {
+  color: #fcfbf9;
+  background-color: transparent;
+}
