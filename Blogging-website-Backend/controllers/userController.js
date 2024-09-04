@@ -72,7 +72,9 @@ const registerUser = async (req, res) => {
   const userObject = {
     username: user.username,
     email: user.email,
-    password: hashedpass
+    password: hashedpass,
+    image: user.image,
+    bio: user.bio
   };
 
   //create a user
@@ -127,7 +129,7 @@ const updateUser = async (req,res) => {
     target.image = user.image;
   }
 
-  if(typeof user.bio !== 'undefined'){
+  if(bio){
     target.bio = user.bio;
   }
 
@@ -138,10 +140,18 @@ const updateUser = async (req,res) => {
 
 }
 
+const updateProfile = async(req, res) => {
+  const {bio, image} = req.body;
+  const user = {bio, image};
+  req.body.user = user;
+  await updateUser(req, res);
+}
+
 module.exports = {
   registerUser,
   userLogin,
   getCurrentUser,
-  updateUser
+  updateUser,
+  updateProfile
 };
 

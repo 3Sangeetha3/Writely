@@ -29,8 +29,6 @@ function Settings() {
       });
 
       const updatedUsername = data?.user?.username;
-      
-      console.log("bio:", bio);
 
       logout(data?.user);
 
@@ -47,13 +45,13 @@ function Settings() {
     }
   }
 
-  // if (isCurrentUserLoading) {
-  //   return <div>Loading...</div>; // Show a loading message while fetching user data
-  // }
+  if (isCurrentUserLoading) {
+    return <div>Loading...</div>; // Show a loading message while fetching user data
+  }
 
-  // if (currentUserError) {
-  //   return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
-  // }
+  if (currentUserError) {
+    return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
+  }
 
   return (
     <div className="settings-page">
@@ -63,7 +61,13 @@ function Settings() {
             <h1 className="text-xs-center">Your Settings</h1>
 
             <Formik
-              initialValues={currentUser?.user}
+              initialValues={{
+                image: currentUser?.user?.image,
+                username: currentUser?.user?.username,
+                bio: currentUser?.user?.bio,
+                email: currentUser?.user?.email,
+                password: "",
+              }}
               onSubmit={onSubmit}
               enableReinitialize
             >

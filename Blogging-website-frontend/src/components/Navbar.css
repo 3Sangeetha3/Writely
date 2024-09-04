@@ -1,5 +1,11 @@
-nav.navbar-custom .navbar-brand,
-nav.navbar-custom .nav-link {
+nav.navbar-custom .navbar-brand,nav.navbar-custom .nav-link {
     color: #475756 !important;
     font-family: "Roboto Serif", serif !important;
+}
+
+nav.navbar-custom .navbar-brand,nav.navbar-custom .nav-link :active {
+    outline: none;
+}
+nav {
+    margin: 15px;
 }

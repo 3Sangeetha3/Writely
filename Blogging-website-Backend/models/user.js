@@ -21,6 +21,12 @@ const userSchema = new mongoose.Schema({
     match: [/\S+@\S+\.\S+/, "is valid"],
     index: true, //for optimizing the query performance
   },
+  bio: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
 });
 
 userSchema.methods.generateAcessToken = function () {
@@ -49,14 +55,21 @@ userSchema.methods.toUserResponse = function () {
   };
 };
 
+userSchema.methods.updateProfile = function (bio, image) {
+  this.bio = bio;
+  this.image = image;
+  return this.save(); // returns a promise
+};
+
 userSchema.methods.toProfileJSON = function (user) {
   return {
     username: this.username,
     bio:this.bio,
     image: this.image,
-    following:10
+    // following:10
   };
 };
+
 
 
 
