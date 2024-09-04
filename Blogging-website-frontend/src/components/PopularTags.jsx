@@ -11,7 +11,7 @@ function PopularTags() {
 
     function content(){
         return tags?.tags?.map((tag) => (
-            <span key={tag} className='tag-pill tag-default p-6s'>
+            <span key={tag} className='tag-pill tag-default p-6'>
                 {tag}
             </span>
         ))

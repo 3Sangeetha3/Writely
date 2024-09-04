@@ -25,9 +25,9 @@ function TagsInput({ field, form }) {
       />
       <div className="tag-list">
         {field?.value?.map((tag, index) => (
-          <span key={index} className="tag-default tag-pill tag-item">
+          <span key={index} className="tag-pill tag-default p-6" style={{backgroundColor: "#5E6C6B", textAlign: 'center', padding: '8px', marginTop: '10px'}}>
             <i
-              className="ion-close-round tag-icon"
+              className="ion-close-round tag-icon p-6"
               onClick={() =>
                 form.setFieldValue(
                   field.name,

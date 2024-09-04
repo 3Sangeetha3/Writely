@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { FormErrors, TagsInput } from "../components";
-//import { useArticleQuery } from "../hooks";
+import { useArticleQuery } from "../hooks";
 import useCreateArticle from "../hooks/useCreateArticle";
 import './Editor.css';
 
 
 function Editor() {
   const navigate = useNavigate();
-  //const articleQuery = useArticleQuery();
-    const queryClient = useQueryClient();
-  //  const article = articleQuery?.data?.article || {};
+  const articleQuery = useArticleQuery();
+  const queryClient = useQueryClient();
+  
+  const article = articleQuery?.data?.article || {};
   // const { slug } = article;
   
     const { isCreating, createArticle } = useCreateArticle();
@@ -52,6 +53,7 @@ function Editor() {
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
+          <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>Your Settings</h1>
             <Formik
               onSubmit={onSubmit}
               initialValues={{
@@ -96,7 +98,11 @@ function Editor() {
                         <Field name="tagList" component={TagsInput} />
                       </fieldset>
                       <div className="button-container">
-                        <button className="btn btn-lg btn-primary" type="submit">
+                        <button 
+                          className="btn btn-lg btn-primary" 
+                          type="submit"
+                          style={{ backgroundColor: "#243635", important: true , border: "none" , color: "#FCFBF9" , padding: "15px", width: "250px", }}
+                        >
                           Publish Article
                         </button>
                       </div>

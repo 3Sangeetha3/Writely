@@ -40,7 +40,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
             </Route>
             <Route path="/editor" element={<AuthRoute />}>
-              <Route path="/editor" element={<Editor/>} />
+              <Route path="/editor" element={<Editor />} />
             </Route>
             <Route path="/editor/:slug" element={<h1>Editor </h1>} />
             <Route path="/article/:slug" element={<Article/>} />
