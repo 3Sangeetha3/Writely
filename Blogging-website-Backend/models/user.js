@@ -56,10 +56,15 @@ userSchema.methods.toUserResponse = function () {
 };
 
 userSchema.methods.updateProfile = function (bio, image) {
-  this.bio = bio;
-  this.image = image;
-  return this.save(); // returns a promise
+  if (bio !== undefined) {
+    this.bio = bio;
+  }
+  if (image !== undefined) {
+    this.image = image;
+  }
+  return this.save(); // This returns a promise to ensure that the update is saved to the database.
 };
+
 
 userSchema.methods.toProfileJSON = function (user) {
   return {

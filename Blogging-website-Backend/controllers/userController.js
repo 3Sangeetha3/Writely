@@ -129,7 +129,7 @@ const updateUser = async (req,res) => {
     target.image = user.image;
   }
 
-  if(bio){
+  if(typeof user.bio !== 'undefined'){
     target.bio = user.bio;
   }
 
@@ -140,12 +140,28 @@ const updateUser = async (req,res) => {
 
 }
 
-const updateProfile = async(req, res) => {
-  const {bio, image} = req.body;
-  const user = {bio, image};
-  req.body.user = user;
-  await updateUser(req, res);
-}
+const updateProfile = async (req, res) => {
+  const { bio, image } = req.body;
+  
+  try {
+    const email = req.userEmail;
+    const user = await User.findOne({ email }).exec();
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    await user.updateProfile(bio, image); // Calling the method to update profile
+    
+    return res.status(200).json({
+      user: user.toUserResponse(), // Return the updated user object
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error updating profile" });
+  }
+};
+
 
 module.exports = {
   registerUser,
