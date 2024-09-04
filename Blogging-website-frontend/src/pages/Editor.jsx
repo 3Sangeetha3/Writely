@@ -55,9 +55,9 @@ function Editor() {
             <Formik
               onSubmit={onSubmit}
               initialValues={{
-                // title: article?.title || '',
-                // description: article?.description || '',
-                // body: article?.body || '',
+                title: article?.title || '',
+                description: article?.description || '',
+                body: article?.body || '',
                 tagList: [],
               }}
               enableReinitialize

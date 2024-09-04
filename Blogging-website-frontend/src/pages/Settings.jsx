@@ -63,10 +63,10 @@ function Settings() {
 
             <Formik
               initialValues={{
-                image: currentUser?.user?.image,
-                username: currentUser?.user?.username,
-                bio: currentUser?.user?.bio,
-                email: currentUser?.user?.email,
+                image: currentUser?.user?.image ||'',
+                username: currentUser?.user?.username || '',
+                bio: currentUser?.user?.bio || '',
+                email: currentUser?.user?.email || '',
                 password: "",
               }}
               onSubmit={onSubmit}
