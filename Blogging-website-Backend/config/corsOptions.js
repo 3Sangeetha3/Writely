@@ -8,8 +8,10 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
    },
+   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
    Credentials: true,   //cookies, http authentication with cross-origin requests
-   optionsSuccessStatus: 200    //CORS preflight checks
+   optionsSuccessStatus: 200,    //CORS preflight checks
+   allowedHeaders: 'Content-Type,Authorization',
 };
 
 module.exports = corsOptions;

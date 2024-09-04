@@ -1,29 +1,28 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-// import { useArticleQuery } from '../hooks'
+import { useArticleQuery } from '../hooks'
+import ArticleMeta from './ArticleMeta'
 
 function ArticlePreview({ article }) {
-  // const { data } = useArticleQuery({ article })
-  const { slug, author, createdAt, favoritesCount, favorited, title, body, tagList } = article
+  const { data } = useArticleQuery({ article })
+  const { slug, author, createdAt, favoritesCount, favorited, title, body, tagList } = article;
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleReadMoreClick = () => {
+    setIsExpanded(!isExpanded);
+  };
+  const previewBody = body.length > 100 ? `${body.slice(0, 100)}...` : body;
 
   return (
     <div className="article-preview" key={slug}>
-      <div className="article-meta">
-        <Link to={`/profile/${author?.username}`}>
-          <img src={author?.image} />
-        </Link>
-        <div className="info">
-          <Link to={`/profile/${author?.username}`} className="author">
-            {author?.username}
-          </Link>
-          <span className="date">{new Date(createdAt).toDateString()}</span>
-        </div>
+      <ArticleMeta author={author} createdAt={createdAt} />
 
-      </div>
       <Link to={`/article/${slug}`} className="preview-link">
         <h1>{title}</h1>
-        <p>{body}</p>
-        <span>Read more...</span>
+        <p>{isExpanded ? body : previewBody}</p>
+        <span onClick={handleReadMoreClick} className="read-more">
+          {isExpanded ? 'Show less' : 'Read more...'}
+        </span>
         <ul className="tag-list">
           {tagList.map((tag) => (
             <li key={tag} className="tag-default tag-pill tag-outline">
