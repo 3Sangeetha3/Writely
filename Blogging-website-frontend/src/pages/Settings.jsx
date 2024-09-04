@@ -5,6 +5,7 @@ import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { FormErrors } from "../components";
+import { FaBorderNone } from "react-icons/fa";
 
 function Settings() {
   const { logout } = useAuth();
@@ -45,20 +46,20 @@ function Settings() {
     }
   }
 
-  if (isCurrentUserLoading) {
-    return <div>Loading...</div>; // Show a loading message while fetching user data
-  }
+  // if (isCurrentUserLoading) {
+  //   return <div>Loading...</div>; // Show a loading message while fetching user data
+  // }
 
-  if (currentUserError) {
-    return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
-  }
+  // if (currentUserError) {
+  //   return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
+  // }
 
   return (
     <div className="settings-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">Your Settings</h1>
+            <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>Your Settings</h1>
 
             <Formik
               initialValues={{
@@ -121,26 +122,32 @@ function Settings() {
                         />
                       </fieldset>
 
-                      <button
-                        type="submit"
-                        className="btn btn-lg btn-primary pill-xs-right"
-                      >
-                        Update Settings
-                      </button>
+                      <div style={{ textAlign: "center" }}>
+                        <button
+                          type="submit"
+                          className="btn btn-m btn-primary pill-xs-right"
+                          style={{ backgroundColor: "#243635", important: true , border: "none" , color: "#FCFBF9" , padding: "15px", width: "250px", }}
+                        >
+                          Update
+                        </button>
+                      </div>
                     </fieldset>
                   </Form>
                   <hr />
-                  <button
-                    onClick={() => {
-                      logout();
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      onClick={() => {
+                        logout();
 
-                      navigate("/");
-                    }}
-                    type="button"
-                    className="btn btn-outline-danger"
-                  >
-                    Or click here to logout.
-                  </button>
+                        navigate("/");
+                      }}
+                      type="button"
+                      className="btn btn-m"
+                      style={{ backgroundColor: "#FF4C4C", important: true , border: "none", color: "#FCFBF9", padding: "15px" , width: "250px" ,}}
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </>
               )}
             </Formik>
