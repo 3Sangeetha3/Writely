@@ -42,9 +42,9 @@ function Auth() {
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">Sign {isRegister ? "up" : "in"}</h1>
+            <h1 className="text-xs-center" style={{color: "#001514", marginBottom: "10px", marginTop: "60px"}}>Sign {isRegister ? "up" : "in"}</h1>
             <p className="text-xs-center">
-              <Link to={isRegister ? "/login" : "/register"}>
+              <Link to={isRegister ? "/login" : "/register"} style={{color: "#5e6c6b"}}>
                 {isRegister ? "Have" : "Need"}
                 &nbsp;an account?
               </Link>
@@ -85,12 +85,15 @@ function Auth() {
                         className="form-control form-control-lg"
                       />
                     </fieldset>
-                    <button
-                      type="submit"
-                      className="btn btn-lg btn-primary pull-xs-right"
-                    >
-                      Sign {isRegister ? "up" : "in"}
-                    </button>
+                    <div style={{ textAlign: "center" }}>
+                      <button
+                        type="submit"
+                        className="btn btn-lg btn-primary"
+                        style={{ backgroundColor: "#243635", border: "none", color: "#FCFBF9", marginTop: "10px" }}
+                      >
+                        Sign {isRegister ? "up" : "in"}
+                      </button>
+                    </div>
                   </Form>
                 </>
               )}
