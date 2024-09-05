@@ -73,8 +73,8 @@ const registerUser = async (req, res) => {
     username: user.username,
     email: user.email,
     password: hashedpass,
-    image: user.image,
-    bio: user.bio
+    // image: user.image,
+    // bio: user.bio
   };
 
   //create a user
