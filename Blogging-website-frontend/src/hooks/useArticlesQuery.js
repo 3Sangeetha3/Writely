@@ -1,26 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from 'axios';
-
-const getAllArticles = async () => {
-  const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/feed`);
-
-  //console.log("getCurrentUser", { data });
-
-  return data;
-};
+import useAuth from './useAuth';  // Import the useAuth hook
 
 function useArticlesQuery() {
-  const {
-    isLoading: isArticlesLoading,
-    data: articles,
-    error: ArticlesError,
-  } = useQuery({
+  const { authUser, isAuth } = useAuth();  // Get authUser and isAuth from useAuth
+  
+  // Get the JWT token from authUser
+  const token = authUser?.token;
+
+  // API call to fetch all articles
+  const getAllArticles = async () => {
+    if (!token) {
+      throw new Error("Token is missing. Cannot fetch articles.");
+    }
+
+    console.log('token: ', token);
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,  // Add the Authorization header with the token from useAuth
+    };
+
+    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/feed`, {
+      headers: headers,
+    });
+    return data;
+  };
+
+  const { isLoading: isArticlesLoading, data: articles, error: ArticlesError } = useQuery({
     queryKey: ["articles"],
     queryFn: getAllArticles,
+    enabled: isAuth,  // Only enable the query if the user is authenticated
     refetchOnWindowFocus: true,
     staleTime: 0,
     cacheTime: 0,
   });
+
   return {
     isArticlesLoading,
     articles,

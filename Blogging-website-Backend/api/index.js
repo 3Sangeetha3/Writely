@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require("cors");
 const corsOptions = require("../config/corsOptions");
 const connectDB = require("../config/dbConnect");
+const verifyToken = require('../middleware/verifyJWT')
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,6 +18,7 @@ app.use(cors(corsOptions));
 
 // Handle preflight requests for all routes
 app.options('*', cors(corsOptions)); // Add this line here
+
 
 
 // console.log(PORT)
@@ -41,7 +43,7 @@ app.use("/api/articles", require("../routes/articleRoutes"));
 app.use("/api/tags", require("../routes/tagRoutes"));
 
 //comment routes
-app.use("/api/articles", require("../routes/commentRoutes"));
+app.use("/api/articles", verifyToken, require("../routes/commentRoutes"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
