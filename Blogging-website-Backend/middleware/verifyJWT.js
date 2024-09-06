@@ -6,21 +6,22 @@ const verifyJWT = (req, res, next) => {
     //console.log('authHeader',{authHeader})
 
     if(!authHeader?.startsWith('Token')){
+        console.log('Invalid Authorization Header:', authHeader);
         return res.status(401).json({message: "Unauthorized: Missing token"});
     }
     const token = authHeader.split(' ')[1];
-    //console.log('Token: ', token);
+    console.log('Token Received: ', token);
 
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err){
-                //console.error('Token verification error:', err);
+                console.log('Token verification error:', err);
                 return res.status(403).json({message: "Forbidden"});
             }
 
-            //console.log('Decoded Token: ', decoded);
+            console.log('Decoded Token: ', decoded);
 
             req.userId= decoded.user.id;
             req.userEmail = decoded.user.email;

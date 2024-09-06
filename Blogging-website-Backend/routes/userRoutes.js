@@ -18,6 +18,8 @@ router.get('/user', verifyJWT, userController.getCurrentUser);
 //update the user
 //router.put('/users', userController.updateUser )
 
+router.get('/api/articles/feed', verifyJWT, feedArticles);
+
 //update the user
 router.put('/user',verifyJWT, userController.updateUser);
 

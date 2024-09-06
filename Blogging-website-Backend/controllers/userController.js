@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 
 const getCurrentUser = async (req, res) => {
@@ -43,8 +44,17 @@ const {user}  = req.body;
       message: "Unauthorized: Wrong password"
     });
   }
+
+  // Create the token
+  const token = jwt.sign(
+    { user: { id: loginUser.id, email: loginUser.email, password: loginUser.password } },
+    process.env.ACCESS_TOKEN_SECRET,  // Use the same secret key here
+    { expiresIn: "24h" }
+  );
+ 
   res.status(200).json({
-    user: loginUser.toUserResponse()
+    user: loginUser.toUserResponse(),
+    token,
   });
 };
 

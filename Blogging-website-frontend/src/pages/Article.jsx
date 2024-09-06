@@ -17,7 +17,6 @@ const getArticleBySlug = async (slug) => {
     console.log("getArticleBySlug response", data);
     setArticle(data.article);
   } catch (error) {
-    setInterval(2000);
     console.error("Error fetching article:", error);
   }
 };
