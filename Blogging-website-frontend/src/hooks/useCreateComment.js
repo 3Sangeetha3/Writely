@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const createCommentApi = async (values) => {
-    console.log("creteArticle", { values });
+    //console.log("creteArticle", { values });
 
     const { data } = await axios.post(
         `https://blogging-website-5l8x.onrender.com/api/articles/${values.slug}/comments`,
         { ...values.values }
       );
 
-      console.log("createCommentApi", { data });
+      //console.log("createCommentApi", { data });
 
     return data;
   };

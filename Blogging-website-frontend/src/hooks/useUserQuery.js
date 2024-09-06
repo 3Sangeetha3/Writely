@@ -5,7 +5,7 @@ import axios from 'axios';
 const getCurrentUser = async () => {
   const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/user`);
 
-  console.log("getCurrentUser", { data });
+  //console.log("getCurrentUser", { data });
 
   return data;
 };

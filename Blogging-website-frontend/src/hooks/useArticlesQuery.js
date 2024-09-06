@@ -14,7 +14,7 @@ function useArticlesQuery() {
       throw new Error("Token is missing. Cannot fetch articles.");
     }
 
-    console.log('token: ', token);
+    //console.log('token: ', token);
 
     const headers = {
       'Content-Type': 'application/json',
