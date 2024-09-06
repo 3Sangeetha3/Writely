@@ -22,7 +22,15 @@ function ArticleCommentForm() {
         <>
           {/* <FormErrors /> */}
           <Form className="card comment-form">
-            <div className="card-block">
+            <div className="card-block" 
+              style={{
+                display: "flex",
+                justifyContent: "center",  // Center horizontally
+                alignItems: "center",       // Center vertically (optional)
+                flexDirection: "column",    // Stack items vertically
+                padding: "20px",            // Add some padding for spacing
+              }}
+            >
               <Field
                 as="textarea"
                 required
@@ -32,14 +40,23 @@ function ArticleCommentForm() {
               />
             </div>
 
-            <div className="card-footer">
-              <button
-                disabled={isSubmitting}
-                type="submit"
-                className="btn btn-sm btn-primary pull-xs-right"
-              >
-                Post Comment
-              </button>
+            <div className="card-footer" style={{
+                backgroundColor: "#edefef",
+                display: "flex",
+                justifyContent: "center", // Center horizontally
+                alignItems: "center",      // Center vertically (if needed)
+              }}
+            >
+              
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="btn btn-sm btn-primary pull-xs-right"
+                  style={{ backgroundColor: "#243635", border: "none", color: "#FCFBF9", margin: '10px' }}
+                >
+                  Post Comment
+                </button>
+              
             </div>
           </Form>
         </>

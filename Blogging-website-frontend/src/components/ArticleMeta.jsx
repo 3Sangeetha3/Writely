@@ -13,7 +13,7 @@ function ArticleMeta({author,createdAt}) {
       <Link to={`/profile/${author?.username}`}>
         <img src={author?.image} />
       </Link>
-      <div className="info">
+      <div className="info" >
         <Link to={`/profile/${author?.username}`} className="author">
           {author?.username}
         </Link>
