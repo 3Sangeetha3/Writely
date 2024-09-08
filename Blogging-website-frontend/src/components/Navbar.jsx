@@ -5,6 +5,8 @@ import "./Navbar.css";
 
 function Navbar() {
     const { isAuth, authUser } = useAuth();
+    encodeURIComponent(authUser.username);
+
 
     //console.log("authUser", { isAuth, authUser });
     return (
@@ -34,9 +36,7 @@ function Navbar() {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to="/@{authUser.username}" end>
-                                    {/* <i className="ion-compose"/> */}
-                                    {/* image */}
+                                <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to={`/profile/${authUser?.username}`}>
                                     Hi {authUser?.username}
                                 </NavLink>
                             </li>

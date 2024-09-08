@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Article, Auth, Editor, Home, Settings } from "./pages";
+import { Article, Auth, Editor, Home, Settings, Profile } from "./pages";
 import axios from "axios";
 import { Navbar } from "./components";
 import { AuthRoute, GuestRoute } from "./components";
@@ -45,9 +45,10 @@ function App() {
             <Route path="/editor/:slug" element={<h1>Editor </h1>} />
             <Route path="/article/:slug" element={<Article/>} />
             <Route path="/profile/:username" element={<h1>Profile </h1>} />
-            <Route path="/@:username" element={<AuthRoute />}>
-              <Route path="/@:username" element={<h1>Profile </h1>} />
+            <Route path="/profile/:username" element={<AuthRoute />}>
+              <Route path="/profile/:username" element={<Profile />} />
             </Route>
+
           </Routes>
         </main>
       </div>
