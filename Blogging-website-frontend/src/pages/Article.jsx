@@ -31,8 +31,8 @@ if (!article) {
 }
 
   return (
-    <div className="article-page">
-      <div className="banner" style={{ backgroundColor: "#243635", important: true, borderRadius: '25px' , margin: '35px'}}>
+    <div className="container article-page">
+      <div className="banner" style={{ backgroundColor: "#243635", important: true, borderRadius: '25px'}}>
         <div className="container" style={{ margin: "25px" }}>
           <h1>{article?.title}</h1>
           <ArticleMeta author={article?.author} createdAt={article?.createdAt} />
