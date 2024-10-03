@@ -33,7 +33,7 @@ app.options('*', cors(corsOptions)); // Add this line here
 
 //user routes => /api/users and /api/user
 
-app.use("/api", require("../routes/userRoutes"));
+app.use("/api",verifyToken, require("../routes/userRoutes"));
 
 // article routes 
 
