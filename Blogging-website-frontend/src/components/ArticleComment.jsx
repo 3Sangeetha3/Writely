@@ -10,7 +10,7 @@ function ArticleComment({ comment }) {
   const { author, body, createdAt, id } = comment;
   const { authUser } = useAuth();
   // const { deleteComment, isDeletingComment } = useDeleteComment();
-  console.log("comment body: ", body);
+  // console.log("comment body: ", body);
 
   const canDelete = author?.username === authUser?.username;
 
