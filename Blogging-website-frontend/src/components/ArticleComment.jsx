@@ -9,7 +9,8 @@ function ArticleComment({ comment }) {
 
   const { author, body, createdAt, id } = comment;
   const { authUser } = useAuth();
-  const { deleteComment, isDeletingComment } = useDeleteComment();
+  // const { deleteComment, isDeletingComment } = useDeleteComment();
+  console.log("comment body: ", body);
 
   const canDelete = author?.username === authUser?.username;
 
@@ -31,15 +32,15 @@ function ArticleComment({ comment }) {
                 {new Date(createdAt).toDateString()}
             </span>
 
-          &nbsp;
-          {canDelete && 
+          {/* &nbsp; */}
+          {/* {canDelete && 
           <span>
             <FaTrash 
               className="pull-xs-right text-primary w-[15px] h-5"
               onClick={handleDelete}
               disabled={isDeletingComment}
             />
-          </span>}
+          </span>} */}
         </div>
       )}
     </div>
