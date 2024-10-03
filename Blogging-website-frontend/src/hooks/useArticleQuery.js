@@ -4,12 +4,17 @@ import axios from 'axios'
 
 
 const getArticleBySlug = async (slug) => {
-    const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
-  
-    //console.log("getCurrentUser", { data });
-  
-    return data;
-  };
+  const token = localStorage.getItem('authToken'); // Retrieve token from storage
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  const { data } = await axios.get(
+    `https://blogging-website-5l8x.onrender.com/api/articles/${slug}`,
+    { headers } // Include headers in the request
+  );
+
+  return data;
+};
+
 function useArticleQuery() {
   const { slug } = useParams()
 
@@ -24,8 +29,8 @@ const {
     data: article,
     error: ArticleError,
   } = useQuery({
-    queryKey: ["slugArticle"],
-    queryFn: getArticleBySlug,
+    queryKey: ["article", slug], // Include slug in the query key
+    queryFn: () => getArticleBySlug(slug), // Pass slug to the query function
     refetchOnWindowFocus: true,
     staleTime: 0,
     cacheTime: 0,

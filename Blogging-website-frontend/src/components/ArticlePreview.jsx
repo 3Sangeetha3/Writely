@@ -4,8 +4,10 @@ import { useArticleQuery } from '../hooks'
 import ArticleMeta from './ArticleMeta'
 
 function ArticlePreview({ article }) {
-  const { data } = useArticleQuery({ article })
-  const { slug, author, createdAt, favoritesCount, favorited, title, body, tagList } = article;
+  if (!article) return null;
+  // const {data} = useArticleQuery({ article })
+  // console.log("article data; ", data);
+  const { slug, author, createdAt, title, body, tagList} = article;
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleReadMoreClick = () => {

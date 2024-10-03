@@ -5,13 +5,15 @@ import { useAuth } from '../hooks'
 function ArticleMeta({author,createdAt}) {
   const { authUser } = useAuth()
 
-  const canUpdate = authUser?.username === author?.username
+  if (!author) return null; // Prevent rendering if author is undefined
+
+  const canUpdate = authUser?.username === author?.username;
 
 
   return (
     <div className="article-meta">
       <Link to={`/profile/${author?.username}`}>
-        <img src={author?.image} />
+      <img src={author?.image}/>
       </Link>
       <div className="info" >
         <Link to={`/profile/${author?.username}`} className="author">

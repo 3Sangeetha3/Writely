@@ -28,34 +28,42 @@ const createArticle = async (req, res) => {
 };
 
 
-const feedArticles = async(req,res) => {
-    //in the req\\
-    Article.find({})
-    .then(articles => {
-        res.json(articles);  // Send JSON response with the articles
-    })
-    .catch(err => {
-        console.error('Error fetching articles', err);
-        res.status(500).json({ error: 'Error fetching articles' });
-    });
-  
-}
-
-const getArticleWithSlug = async (req,res) => {
-    const {slug} = req.params;
-
-    const article = await Article.findOne({slug}).exec();
-
-    if(!article){
-        return res.status(401).json({
-            message:'Article Not Found'
-        })
+const feedArticles = async (req, res) => {
+    try {
+      const articles = await Article.find({})
+        .populate('author', 'username image'); // Assuming 'authorId' references the Author model and you want to fetch 'name' and 'email' fields
+      res.json(articles);  // Send JSON response with the articles and author details
+    } catch (err) {
+      console.error('Error fetching articles', err);
+      res.status(500).json({ error: 'Error fetching articles' });
     }
+  };
+  
 
-    return res.status(200).json({
-        article:await article.toArticleResponse(false)
-    })
-}
+const getArticleWithSlug = async (req, res) => {
+    const { slug } = req.params;
+  
+    try {
+      // Use populate to get the full author details
+      const article = await Article.findOne({ slug })
+        .populate('author', 'username bio image')  // Replace 'author' with full details
+        .exec();
+  
+      if (!article) {
+        return res.status(404).json({ message: 'Article Not Found' });
+      }
+  
+      // Respond with the article and the populated author details
+      return res.status(200).json({
+        article: await article.toArticleResponse(false)
+      });
+    } catch (error) {
+      console.error('Error fetching article:', error);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
+  
+  
 
 
 

@@ -15,7 +15,7 @@ router.post('/users/login', userController.userLogin);
 router.post('/users', userController.registerUser );
 
 //get the current user
-router.get('/user', verifyJWT, userController.getCurrentUser);
+router.get('/user', userController.getCurrentUser);
 
 //update the user
 //router.put('/users', userController.updateUser )
@@ -24,9 +24,9 @@ router.get('/user', verifyJWT, userController.getCurrentUser);
 
 
 //update the user
-router.put('/user',verifyJWT, userController.updateUser);
+router.put('/user', userController.updateUser);
 
-router.get('/api/articles/feed', verifyJWT, articlesController.feedArticles);
+router.get('/api/articles/feed', articlesController.feedArticles);
 
 
 module.exports = router;

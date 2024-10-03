@@ -8,11 +8,13 @@ import ArticlePreview from './ArticlePreview'
 function ArticleList() {
   const { articles } = useArticlesQuery()
 
-  //console.log('ArticleList',{articles})
+  console.log('ArticleList',{articles})
 
+  if (!articles || articles.length === 0) {
+    return <p className="article-preview">No articles are here... yet.</p>;
+  }
 
-
-  if (isEmpty(articles)) return <p className="article-preview">No articles are here... yet.</p>
+  // if (isEmpty(articles)) return <p className="article-preview">No articles are here... yet.</p>
 
   return (
     <>
