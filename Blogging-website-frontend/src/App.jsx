@@ -42,9 +42,9 @@ function App() {
             <Route path="/editor" element={<AuthRoute />}>
               <Route path="/editor" element={<Editor />} />
             </Route>
-            <Route path="/editor/:slug" element={<h1>Editor </h1>} />
+            {/* <Route path="/editor/:slug" element={<h1>Editor </h1>} /> */}
             <Route path="/article/:slug" element={<Article/>} />
-            <Route path="/profile/:username" element={<h1>Profile </h1>} />
+            {/* <Route path="/profile/:username" element={<Profile />} /> */}
             <Route path="/profile/:username" element={<AuthRoute />}>
               <Route path="/profile/:username" element={<Profile />} />
             </Route>
