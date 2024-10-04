@@ -7,7 +7,8 @@ function Article() {
 //   const { data } = useArticleQuery()
 //   const { title, description, body } = data.article
 const [article, setArticle] = useState([]);
-const { slug } = useParams()
+const { slug } = useParams();
+const [loading, setLoading] = useState(true);
 
 //console.log('article',article)
 
@@ -23,11 +24,20 @@ const getArticleBySlug = async (slug) => {
 
 useEffect(() => {
   if (!slug) return;
-  getArticleBySlug(slug);
+  const fetchArticle = async () => {
+    setLoading(true);
+    await getArticleBySlug(slug);
+    setLoading(false);
+  };
+  fetchArticle();
 }, [slug]);
 
-if (!article) {
+if (loading) {
   return <div>Loading...</div>;
+}
+
+if (!article) {
+  return <div>Article not found.</div>;
 }
 
   return (

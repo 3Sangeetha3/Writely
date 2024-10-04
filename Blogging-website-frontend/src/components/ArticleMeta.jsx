@@ -9,7 +9,6 @@ function ArticleMeta({author,createdAt}) {
 
   const canUpdate = authUser?.username === author?.username;
 
-
   return (
     <div className="article-meta">
       <Link to={`/profile/${author?.username}`}>
