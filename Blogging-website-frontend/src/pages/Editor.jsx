@@ -57,7 +57,7 @@ function Editor() {
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
-          <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>Your Settings</h1>
+          <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>New post</h1>
             <Formik
               onSubmit={onSubmit}
               initialValues={{
