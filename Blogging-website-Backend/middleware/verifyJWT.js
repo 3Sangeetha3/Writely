@@ -17,7 +17,7 @@ const verifyJWT = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err){
-                console.log('Token verification error:', err);
+                //console.log('Token verification error:', err);
                 return res.status(403).json({message: "Forbidden"});
             }
 

@@ -22,31 +22,35 @@ function Editor() {
   
     async function onSubmit(values, { setErrors }) {
       try {
-      //   const url = `/articles${slug ? `/${slug}` : ""}`;
-      // console.log("Submitting to URL:", url);
-      // console.log("Form values:", values);
-      //   const { data } = await axios[slug ? "put" : "post"](
-      //     `/articles${slug ? `/${slug}` : ""}`,
-      //     { article: values }
-      //   );
-        createArticle({values})
-  
-        if (slug) {
-          queryClient.invalidateQueries(`/articles/${slug}`);
+        // Submit the form using the createArticle mutation
+        createArticle({ values });
+        
+        // Optionally invalidate queries based on whether there is a slug (edit mode)
+        if (article?.slug) {
+          queryClient.invalidateQueries(`/articles/${article.slug}`);
         } else {
           queryClient.invalidateQueries("/articles");
         }
-
-        //navigate(`/articles/${data.article.slug}`);
-  
+    
+        // Optionally navigate after successful creation or update
+        navigate('/');
       } catch (error) {
-        const { status, data } = error.response;
-  
-        if (status === 422) {
-          setErrors(data.errors);
+        // Check if error.response exists before trying to access it
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 422) {
+            setErrors(data.errors); // Set validation errors
+          } else {
+            alert(`Error ${status}: ${data.message}`); // Handle other HTTP errors
+          }
+        } else {
+          // Handle cases where the response is undefined (network issues or other errors)
+          console.error("An unexpected error occurred:", error);
+          alert("An unexpected error occurred. Please try again.");
         }
       }
     }
+    
 
   return (
     <div className="editor-page">

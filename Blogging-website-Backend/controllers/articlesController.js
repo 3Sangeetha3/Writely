@@ -31,8 +31,8 @@ const createArticle = async (req, res) => {
 const feedArticles = async (req, res) => {
     try {
       const articles = await Article.find({})
-        .populate('author', 'username image'); // Assuming 'authorId' references the Author model and you want to fetch 'name' and 'email' fields
-      res.json(articles);  // Send JSON response with the articles and author details
+        .populate('author', 'username image').exec(); 
+      res.json(articles); 
     } catch (err) {
       console.error('Error fetching articles', err);
       res.status(500).json({ error: 'Error fetching articles' });
@@ -44,9 +44,8 @@ const getArticleWithSlug = async (req, res) => {
     const { slug } = req.params;
   
     try {
-      // Use populate to get the full author details
       const article = await Article.findOne({ slug })
-        .populate('author', 'username bio image')  // Replace 'author' with full details
+        .populate('author', 'username bio image')  
         .exec();
   
       if (!article) {

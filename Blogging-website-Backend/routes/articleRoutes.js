@@ -4,7 +4,7 @@ const articlesController = require('../controllers/articlesController');
 const verifyJWT = require("../middleware/verifyJWT");
 
 ///api/articles
-router.post('/',  articlesController.createArticle);
+router.post('/',verifyJWT,  articlesController.createArticle);
 
 
 router.get('/feed',articlesController.feedArticles);

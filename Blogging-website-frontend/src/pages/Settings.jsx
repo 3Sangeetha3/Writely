@@ -36,7 +36,7 @@ function Settings() {
       queryClient.invalidateQueries(`/profiles/${updatedUsername}`);
       queryClient.invalidateQueries(`/user`);
 
-      navigate(`/profile/${updatedUsername}`);
+      navigate(`/login`);
     } catch (error) {
       const { status, data } = error.response;
 
