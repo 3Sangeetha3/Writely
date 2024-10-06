@@ -9,7 +9,6 @@
     "start": "node api/index.js",
     "dev": "nodemon api/index.js"
   },
-  
   "license": "ISC",
   "description": "",
   "dependencies": {
