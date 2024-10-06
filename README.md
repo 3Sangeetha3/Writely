@@ -3,7 +3,7 @@
 <!-- ## preview -->
 
 ## Deployments
-- Frontend deployed link [https://blogging-website-sepia.vercel.app/](https://blogging-website-sepia.vercel.app/) to view frontend
+- Frontend deployed link [https://blogging-website.3sangeetha3.me/](https://blogging-website.3sangeetha3.me/) to view frontend
 - Backend deployed link [https://blogging-website-5l8x.onrender.com](https://blogging-website-5l8x.onrender.com) to view backend
 
 ## Getting started
@@ -32,13 +32,13 @@ The example application is a social blogging site (i.e. a Medium.com clone). It 
 
 **The general page breakdown looks like this:**
 
-- Home page (URL: https://blogging-website-sepia.vercel.app/ )
+- Home page (URL: https://blogging-website.3sangeetha3.me/ )
     - List of tags
     - List of articles pulled from either Feed, Global, or by Tag
     - Pagination for list of articles
-- Sign in/Sign up pages (URL: [/#/login](https://blogging-website-sepia.vercel.app/login), [/#/register](https://blogging-website-sepia.vercel.app/register) )
+- Sign in/Sign up pages (URL: [/#/login](https://blogging-website.3sangeetha3.me/login), [/#/register](https://blogging-website.3sangeetha3.me/register) )
     - Use JWT (store the token in localStorage)
-- Settings page (URL: [/#/settings](https://blogging-website-sepia.vercel.app/settings) )
+- Settings page (URL: [/#/settings](https://blogging-website.3sangeetha3.me/settings) )
 - Editor page to create/edit articles (URL: /#/editor, /#/editor/article-slug-here )
 - Article page (URL: /#/article/article-slug-here )
     - Delete article button (only shown to article's author)
