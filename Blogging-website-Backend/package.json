@@ -1,5 +1,7 @@
 {
   "name": "blogging-website-backend",
+  "author": "Jadamal Sangeetha Choudhary",
+  "github-username": "3sangeetha3",
   "version": "1.0.0",
   "main": "api/index.js",
   "scripts": {
@@ -7,7 +9,7 @@
     "start": "node api/index.js",
     "dev": "nodemon api/index.js"
   },
-  "author": "",
+  
   "license": "ISC",
   "description": "",
   "dependencies": {
