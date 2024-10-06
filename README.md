@@ -1,4 +1,4 @@
-# Blogging-Website
+<h1 align="center">Welcome to blogging-website-backend 👋</h1>
 
 [![wakatime](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908.svg)](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908)
 
@@ -130,6 +130,10 @@ ACCESS_TOKEN_SECRET=your_access_token_secret_here
 - Replace `your_database_uri_here` with your actual MongoDB connection string.
 - Replace `your_access_token_secret_here` with a secure secret for your access tokens.
 - Make sure to keep your `.env` file private and do not share it publicly.
+
+---
+## Author
+👤 **Jadamal Sangeetha Choudhary**
 
 ---
 
