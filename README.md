@@ -94,6 +94,7 @@ To install BLOGGING-WEBSITE, follow these steps:
    cd Blogging-website-frontend
    ```
    - Start the frontend:
+
     ```bash
     npm run dev
     ```
@@ -104,6 +105,7 @@ To install BLOGGING-WEBSITE, follow these steps:
    cd Blogging-website-Backend 
    ```
    - Start the backend:
+  
     ```bash
     npm run dev
     ```
