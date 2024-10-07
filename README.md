@@ -1,8 +1,8 @@
-<h1 align="center">Welcome to blogging-website-backend 👋</h1>
+<h1 align="center">Welcome to Writely Blogging Website 👋</h1>
 
 [![wakatime](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908.svg)](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908)
 
-<figure><embed src="https://wakatime.com/share/@018d8a5a-cab1-4ae5-8c4a-50cef4948510/a816097e-3502-4990-a595-e19f8a36f65a.svg"></embed></figure>
+
 
 **Blogging-Website** is a software that provides a social blogging platform with various features and functionalities. The software allows users to create and manage their blogs, as well as interact with other users through comments and favorites.
 
@@ -25,7 +25,7 @@
 Here’s an overview of the main pages of Blogging-Website:
 
 ### Home Page
-- **URL**: [https://blogging-website.3sangeetha3.me/](https://blogging-website.3sangeetha3.me/)
+- **URL**: [https://writely.3sangeetha3.me/](https://writely.3sangeetha3.me/)
 - Displays:
   - List of tags
   - List of articles pulled from either Feed, Global, or by Tag
@@ -59,16 +59,6 @@ Here’s an overview of the main pages of Blogging-Website:
 
 ---
 
-<!-- ## Installation Guide
-
-To install **BLOGGING-WEBSITE**, follow these steps:
-
-### Step 1: Clone the Repository
-Open your terminal and navigate to the directory where you want to install **BLOGGING-WEBSITE**. Then, clone the repository using the following command:
-
-```bash
-git clone https://github.com/3sangeetha3/BLOGGING-WEBSITE.git
-``` -->
 ## Installation Guide
 
 To install BLOGGING-WEBSITE, follow these steps:
