@@ -37,7 +37,7 @@ function Navbar() {
                             </li>
                             <li className="nav-item">
                                 <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to={`/profile/${authUser?.username}`}>
-                                    Hi {authUser?.username}
+                                    👋🏻 {authUser?.username}
                                 </NavLink>
                             </li>
                         </>

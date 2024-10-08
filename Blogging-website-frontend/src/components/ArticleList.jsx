@@ -49,21 +49,28 @@ function ArticleList() {
         </div>
       ))}
 
-      <Stack spacing={2} sx={{ alignItems: "center", mt: 4, mb: 4 }}>
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: "center", // Center pagination horizontally
+          mt: 4,
+          mb: 4,
+        }}
+      >
         <Pagination
-          count={Math.ceil(articles.length / articlesPerPage)} // Number of pages
-          page={page} // Current page
-          onChange={handlePageChange} // Handle page change
-          variant="outlined" // Optional styling
+          count={Math.ceil(articles.length / articlesPerPage)}
+          page={page}
+          onChange={handlePageChange}
+          variant="outlined"
           sx={{
-            // "& .MuiPaginationItem-root": {
-            //   color: "#475756", // Unselected page color
-            //   borderColor: "#475756", // Border color for unselected outlined items
-            // },
+            "& .MuiPaginationItem-root": {
+              color: "#001514", // Unselected page color
+              borderColor: "#001514", // Border color for unselected outlined items
+            },
             "& .Mui-selected": {
-              backgroundColor: "#001514", // Background color for selected page
-              color: "#fff", // Text color for selected page
-              borderColor: "#001514", // Border color for selected page (outlined variant)
+              backgroundColor: "#001514 !important", // Ensure selected page has this background color
+              color: "#fff !important", // Ensure text color for selected page
+              borderColor: "#001514 !important", // Ensure border color for selected page
             },
             "& .MuiPaginationItem-root:hover": {
               backgroundColor: "#5E6C6B", // Hover background color
