@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../hooks";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "../assets/Writely_logo.svg";
 
 function Navbar() {
     const { isAuth, authUser } = useAuth();
@@ -13,7 +14,7 @@ function Navbar() {
         <nav className="navbar navbar-light navbar-custom">
             <div className="container">
                 <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to="/" end>
-                    Blogging App
+                    <img src={Logo} alt="Writely Logo" width="180" height="60" />
                 </NavLink>
                 <ul className="nav navbar-nav pull-xs-right">
                     <li className="nav-item">
