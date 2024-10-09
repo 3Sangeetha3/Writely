@@ -13,7 +13,7 @@ function Navbar() {
     return (
         <nav className="navbar navbar-light navbar-custom">
             <div className="container">
-                <NavLink className={({ isActive }) => isActive ? "navbar-brand active" : "navbar-brand"} to="/" end>
+                <NavLink className="navbar-brand" to="/" end>
                     <img src={Logo} alt="Writely Logo" width="180" height="60" />
                 </NavLink>
                 <ul className="nav navbar-nav pull-xs-right">
