@@ -27,7 +27,7 @@ const Profile = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6 offset-md-3 col-xs-12">
-        <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>Profile</h1>
+        <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-16">Profile</h1>
           <div className='profile'>
             {user.image && (
               <img src={user.image} alt={`${user.username}'s profile`} className="profile-image" />

@@ -42,11 +42,10 @@ function Auth() {
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center" style={{color: "#001514", marginBottom: "10px", marginTop: "60px"}}>Sign {isRegister ? "up" : "in"}</h1>
-            <p className="text-xs-center">
-              <Link to={isRegister ? "/login" : "/register"} style={{color: "#5e6c6b"}}>
-                {isRegister ? "Have" : "Need"}
-                &nbsp;an account?
+            <h1 className="text-center text-4xl font-bold text-[#243635] mb-2 mt-36">Sign {isRegister ? "up" : "in"}</h1>
+            <p className="text-xs-center mb-8">
+              <Link to={isRegister ? "/login" : "/register"} className="text-[#5e6c6b] hover:text-[#5E6C6B]">
+                {isRegister ? "Already have an account?" : "Don't have an account?"}
               </Link>
             </p>
 
@@ -59,7 +58,7 @@ function Auth() {
                   {/* <FormErrors /> */}
                   <Form>
                     {isRegister && (
-                      <fieldset className="form-group">
+                      <fieldset className="form-group mb-2">
                         <Field
                           type="text"
                           name="username"
@@ -69,7 +68,7 @@ function Auth() {
                       </fieldset>
                     )}
 
-                    <fieldset className="form-group">
+                    <fieldset className="form-group mb-2">
                       <Field
                         type="email"
                         name="email"
@@ -77,7 +76,7 @@ function Auth() {
                         className="form-control form-control-lg"
                       />
                     </fieldset>
-                    <fieldset className="form-group">
+                    <fieldset className="form-group mb-10">
                       <Field
                         type="password"
                         name="password"
@@ -88,8 +87,7 @@ function Auth() {
                     <div style={{ textAlign: "center" }}>
                       <button
                         type="submit"
-                        className="btn btn-lg btn-primary"
-                        style={{ backgroundColor: "#243635", border: "none", color: "#FCFBF9", marginTop: "10px" }}
+                        className="btn btn-lg hover:bg-[#475756] bg-[#243635] border-none text-[#FCFBF9] mt-2 rounded-full"
                       >
                         Sign {isRegister ? "up" : "in"}
                       </button>

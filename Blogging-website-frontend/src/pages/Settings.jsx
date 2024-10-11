@@ -25,9 +25,12 @@ function Settings() {
   async function onSubmit(values, { setErrors }) {
     //console.log("values:", values);
     try {
-      const { data } = await axios.put(`https://blogging-website-5l8x.onrender.com/api/user`, {
-        user: values,
-      });
+      const { data } = await axios.put(
+        `https://blogging-website-5l8x.onrender.com/api/user`,
+        {
+          user: values,
+        }
+      );
 
       const updatedUsername = data?.user?.username;
 
@@ -59,14 +62,16 @@ function Settings() {
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center" style={{color: "#475756", marginBottom: "30px", marginTop: "60px"}}>Your Settings</h1>
+            <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-16">
+              Your Settings
+            </h1>
 
             <Formik
               initialValues={{
-                image: currentUser?.user?.image ||'',
-                username: currentUser?.user?.username || '',
-                bio: currentUser?.user?.bio || '',
-                email: currentUser?.user?.email || '',
+                image: currentUser?.user?.image || "",
+                username: currentUser?.user?.username || "",
+                bio: currentUser?.user?.bio || "",
+                email: currentUser?.user?.email || "",
                 password: "",
               }}
               onSubmit={onSubmit}
@@ -122,11 +127,10 @@ function Settings() {
                         />
                       </fieldset>
 
-                      <div style={{ textAlign: "center" }}>
+                      <div className="text-center">
                         <button
                           type="submit"
-                          className="btn btn-m btn-primary pill-xs-right"
-                          style={{ backgroundColor: "#243635", important: true , border: "none" , color: "#FCFBF9" , padding: "15px", width: "250px", }}
+                          className="bg-[#243635] text-[#FCFBF9] text-xl border-none px-16 py-4 m-2 rounded-full"
                         >
                           Update
                         </button>
@@ -134,7 +138,7 @@ function Settings() {
                     </fieldset>
                   </Form>
                   <hr />
-                  <div style={{ textAlign: "center" }}>
+                  <div className="text-center">
                     <button
                       onClick={() => {
                         logout();
@@ -142,8 +146,7 @@ function Settings() {
                         navigate("/");
                       }}
                       type="button"
-                      className="btn btn-m"
-                      style={{ backgroundColor: "#FF4C4C", important: true , border: "none", color: "#FCFBF9", padding: "15px" , width: "250px" ,}}
+                      className="bg-[#FF4C4C] text-[#FCFBF9] text-xl border-none px-16 py-4 m-2 rounded-full"
                     >
                       Logout
                     </button>
