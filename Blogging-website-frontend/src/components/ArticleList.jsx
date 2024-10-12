@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 function ArticleList() {
   const { articles } = useArticlesQuery();
   const [page, setPage] = useState(1);
-  const articlesPerPage = 5; // Customize how many articles per page
+  const articlesPerPage = 10; // Customize how many articles per page
 
   // Initialize AOS on component mount
   useEffect(() => {
@@ -43,7 +43,7 @@ function ArticleList() {
           data-aos="fade-up"
           data-aos-duration="1500"
           data-aos-easing="ease-in-out"
-          data-aos-delay={`${index * 10}`} // Optional: adds delay to stagger animations
+          data-aos-delay={`${index * 100}`} // Optional: adds delay to stagger animations
         >
           <ArticlePreview article={article} />
         </div>
