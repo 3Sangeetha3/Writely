@@ -1,33 +1,35 @@
-import React from 'react'
-import './TagsInput.css'
+import React from "react";
 
 function TagsInput({ field, form }) {
-
   return (
     <>
       <input
-        onKeyDown={(/** @type {import('react').KeyboardEvent<HTMLInputElement>} */ e) => {
-          // @ts-ignore
-          const { value } = e.target
+        onKeyDown={(
+          /** @type {import('react').KeyboardEvent<HTMLInputElement>} */ e
+        ) => {
+          const { value } = e.target;
 
-          if (e.key === 'Enter') {
-            e.preventDefault()
+          if (e.key === "Enter") {
+            e.preventDefault();
 
-            form.setFieldValue(field.name, [...field.value, value])
+            form.setFieldValue(field.name, [...field.value, value]);
 
-            // @ts-ignore
-            e.target.value = ''
+            e.target.value = "";
           }
         }}
         type="text"
-        className="form-control"
+        className="form-control p-2 border rounded-md"
         placeholder="Enter tags"
       />
-      <div className="tag-list">
+      <div className="flex flex-wrap mt-2">
         {field?.value?.map((tag, index) => (
-          <span key={index} className="tag-pill tag-default p-6" style={{backgroundColor: "#5E6C6B", textAlign: 'center', padding: '8px', marginTop: '10px'}}>
+          <span
+            key={index}
+            className="flex items-center bg-[#5E6C6B] text-white text-sm rounded-full px-3 py-1 m-0.5"
+          >
+            {tag}
             <i
-              className="ion-close-round tag-icon p-6"
+              className="ion-close-round cursor-pointer text-white"
               onClick={() =>
                 form.setFieldValue(
                   field.name,
@@ -35,12 +37,11 @@ function TagsInput({ field, form }) {
                 )
               }
             />
-            {tag}
           </span>
         ))}
       </div>
     </>
-  )
+  );
 }
 
-export default TagsInput
+export default TagsInput;
