@@ -20,7 +20,7 @@ function Navbar() {
         <ul className="flex space-x-10">
           <li className="text-2xl">
             <button
-              className="text-gray-600 no-underline cursor-pointer hover:text-[#475756]"
+              className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
               onClick={() => handleNavigation("/")}
             >
               Home
@@ -30,7 +30,7 @@ function Navbar() {
             <>
               <li className="text-2xl">
                 <button
-                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756]"
+                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
                   onClick={() => handleNavigation("/editor")}
                 >
                   New Post
@@ -38,7 +38,7 @@ function Navbar() {
               </li>
               <li className="text-2xl">
                 <button
-                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756]"
+                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
                   onClick={() => handleNavigation("/settings")}
                 >
                   Settings
@@ -46,7 +46,7 @@ function Navbar() {
               </li>
               <li className="text-2xl">
                 <button
-                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756]"
+                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
                   onClick={() => handleNavigation(`/profile/${authUser?.username}`)}
                 >
                   👋🏻 {authUser?.username}
@@ -58,7 +58,7 @@ function Navbar() {
             <>
               <li className="text-2xl">
                 <button
-                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] font-semibold"
+                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
                   onClick={() => handleNavigation("/register")}
                 >
                   SignUp
@@ -66,7 +66,7 @@ function Navbar() {
               </li>
               <li className="text-2xl">
                 <button
-                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] font-semibold"
+                  className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
                   onClick={() => handleNavigation("/login")}
                 >
                   Sign in
