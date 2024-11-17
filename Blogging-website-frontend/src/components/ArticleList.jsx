@@ -40,10 +40,10 @@ function ArticleList() {
       {paginatedArticles.map((article, index) => (
         <div
           key={article.slug}
-          data-aos="zoom-out-up"
-          data-aos-duration="1500"
+          data-aos="fade-up"
+          data-aos-duration="800"
           data-aos-easing="ease-in-out"
-          data-aos-delay={`${index * 10}`} // Optional: adds delay to stagger animations
+          //data-aos-delay={`${index * 5}`} // Optional: adds delay to stagger animations
         >
           <ArticlePreview article={article} />
         </div>
