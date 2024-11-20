@@ -15,7 +15,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-[#FCFBF9] p-3 m-3">
+    <nav className="fixed top-0 left-0 w-full bg-[#FCFBF9] p-3 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4">
         <div className="flex items-center cursor-pointer" onClick={() => handleNavigation("/")}>
           <img src={Logo} alt="Writely Logo" className="w-44 h-auto" />

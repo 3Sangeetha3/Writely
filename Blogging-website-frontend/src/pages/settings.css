@@ -1,15 +1,26 @@
 .settings-page {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  margin-top: 30px;
+  padding-top: 0;
 }
 
 .container.page {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; 
   width: 100%;
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+.grid {
+  gap: 4rem;
 }
 
 .col-md-6 {
@@ -24,5 +35,4 @@
 
 .settings-svg {
   max-width: 100%;
-  height: auto;
 }
