@@ -25,10 +25,12 @@ function ArticleList() {
     return <p className="article-preview">No articles are here... yet.</p>;
   }
 
+  const sortedArticles = articles?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   // Calculate the start and end index for the articles to display
   const startIndex = (page - 1) * articlesPerPage;
   const endIndex = startIndex + articlesPerPage;
-  const paginatedArticles = articles.slice(startIndex, endIndex);
+  const paginatedArticles = sortedArticles.slice(startIndex, endIndex);
 
   // Handle page change
   const handlePageChange = (event, value) => {
