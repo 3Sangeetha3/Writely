@@ -1,71 +1,58 @@
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css"; // Import AOS styles
 import { Formik, Field, Form } from "formik";
-import React from "react";
 import { useAuth, useUserQuery } from "../hooks";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { FormErrors } from "../components";
-import { FaBorderNone } from "react-icons/fa";
+import SettingsPageImage from "../assets/settings_page.svg";
+import "./settings.css";
 
 function Settings() {
   const { logout } = useAuth();
   const { isCurrentUserLoading, currentUser, currentUserError } =
     useUserQuery();
-
   const queryClient = useQueryClient();
-
   const navigate = useNavigate();
 
-  // console.log("Settings", {
-  //   isCurrentUserLoading,
-  //   currentUser,
-  //   currentUserError,
-  // });
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Animation duration (optional)
+      easing: "ease-in-out", // Animation easing (optional)
+      once: true, // Animate once when scrolled into view (optional)
+    });
+  }, []);
 
   async function onSubmit(values, { setErrors }) {
-    //console.log("values:", values);
     try {
       const { data } = await axios.put(
         `https://blogging-website-5l8x.onrender.com/api/user`,
-        {
-          user: values,
-        }
+        { user: values }
       );
 
       const updatedUsername = data?.user?.username;
-
       logout(data?.user);
-
       queryClient.invalidateQueries(`/profiles/${updatedUsername}`);
       queryClient.invalidateQueries(`/user`);
-
       navigate(`/login`);
     } catch (error) {
       const { status, data } = error.response;
-
       if (status === 422) {
         setErrors(data.errors);
       }
     }
   }
 
-  // if (isCurrentUserLoading) {
-  //   return <div>Loading...</div>; // Show a loading message while fetching user data
-  // }
-
-  // if (currentUserError) {
-  //   return <div>Error loading user data</div>; // Show an error message if there's an error fetching user data
-  // }
-
   return (
-    <div className="settings-page">
-      <div className="container page">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-16">
-              Your Settings
-            </h1>
-
+    <div className="settings-page" data-aos="fade-up">
+      <div className="container mx-auto">
+        <h1 className="text-center text-4xl font-bold text-[#475756] mb-8">
+          Settings
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left Column - Settings Form */}
+          <div className="md:pr-8" data-aos="fade-right">
             <Formik
               initialValues={{
                 image: currentUser?.user?.image || "",
@@ -79,58 +66,56 @@ function Settings() {
             >
               {({ isSubmitting }) => (
                 <>
-                  {/* <FormErrors /> */}
                   <Form>
                     <fieldset disabled={isSubmitting}>
-                      <fieldset className="form-group">
-                        <Field
-                          type="text"
-                          name="image"
-                          placeholder="URL of profile pic"
-                          className="form-control form-control-lg"
-                        />
-                      </fieldset>
-                      <fieldset className="form-group">
-                        <Field
-                          type="text"
-                          name="username"
-                          placeholder="Your Name"
-                          className="form-control form-control-lg"
-                        />
-                      </fieldset>
+                      <div className="space-y-2">
+                        <div data-aos="fade-up">
+                          <Field
+                            type="text"
+                            name="image"
+                            placeholder="URL of profile pic"
+                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                          />
+                        </div>
+                        <div data-aos="fade-up">
+                          <Field
+                            type="text"
+                            name="username"
+                            placeholder="Your Name"
+                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                          />
+                        </div>
+                        <div data-aos="fade-up">
+                          <Field
+                            as="textarea"
+                            name="bio"
+                            rows={8}
+                            placeholder="Short bio about you"
+                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                          />
+                        </div>
+                        <div data-aos="fade-up">
+                          <Field
+                            type="text"
+                            name="email"
+                            placeholder="Email"
+                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                          />
+                        </div>
+                        <div data-aos="fade-up">
+                          <Field
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                          />
+                        </div>
+                      </div>
 
-                      <fieldset className="form-group">
-                        <Field
-                          as="textarea"
-                          name="bio"
-                          rows={8}
-                          placeholder="Short bio about you"
-                          className="form-control form-control-lg"
-                        />
-                      </fieldset>
-
-                      <fieldset className="form-group">
-                        <Field
-                          type="text"
-                          name="email"
-                          placeholder="Email"
-                          className="form-control form-control-lg"
-                        />
-                      </fieldset>
-
-                      <fieldset className="form-group">
-                        <Field
-                          type="password"
-                          name="password"
-                          placeholder="Password"
-                          className="form-control form-control-lg"
-                        />
-                      </fieldset>
-
-                      <div className="text-center">
+                      <div className="text-center m-4">
                         <button
                           type="submit"
-                          className="bg-[#243635] text-[#FCFBF9] text-xl border-none px-16 py-4 m-2 rounded-full"
+                          className="bg-[#243635] text-[#FCFBF9] text-xl px-16 py-4 m-2 rounded-full"
                         >
                           Update
                         </button>
@@ -138,15 +123,14 @@ function Settings() {
                     </fieldset>
                   </Form>
                   <hr />
-                  <div className="text-center">
+                  <div className="text-center m-4">
                     <button
                       onClick={() => {
                         logout();
-
                         navigate("/");
                       }}
                       type="button"
-                      className="bg-[#FF4C4C] text-[#FCFBF9] text-xl border-none px-16 py-4 m-2 rounded-full"
+                      className="bg-[#FF4C4C] text-[#FCFBF9] text-xl px-16 py-4 m-2 rounded-full"
                     >
                       Logout
                     </button>
@@ -154,6 +138,17 @@ function Settings() {
                 </>
               )}
             </Formik>
+          </div>
+
+          {/* Right Column - SVG Image */}
+          <div className="md:pl-8" data-aos="fade-left">
+            <div className="flex justify-center items-center mt-10">
+              <img
+                src={SettingsPageImage}
+                alt="Settings Illustration"
+                className="w-full max-w-md"
+              />
+            </div>
           </div>
         </div>
       </div>
