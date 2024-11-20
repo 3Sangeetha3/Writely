@@ -3,6 +3,7 @@ import React from "react";
 import { ArticleList, PopularTags } from "../components";
 import { useArticlesQuery, useAuth } from "../hooks";
 import './Home.css';
+import bannerImage from "../assets/banner.png";
 
 const initialFilters = { tag: "", offset: null, feed: false };
 
@@ -32,7 +33,7 @@ function Home() {
 
   return (
     <div className="container home-page">
-      <div className="banner" style={{ backgroundColor: "#243635", important: true, borderRadius: '25px' }}>
+      <div className="banner" style={{ backgroundImage: `url(${bannerImage})`, important: true, borderRadius: '25px' }}>
         <div className="container" style={{ padding: '40px'}}>
           <h1 className="logo-font">Blogging</h1>
           <p>A place to share your knowledge.</p>
