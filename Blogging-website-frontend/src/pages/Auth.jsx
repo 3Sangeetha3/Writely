@@ -113,7 +113,7 @@ function Auth() {
               <img
                 src={AuthPageImage}
                 alt="Authentication Illustration"
-                className="w-full max-w-md"
+                className="w-full max-w-5xl h-auto"
               />
             </div>
           </div>
