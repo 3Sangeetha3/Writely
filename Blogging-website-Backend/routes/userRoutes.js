@@ -3,16 +3,17 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const articlesController = require('../controllers/articlesController');
+const validateDetails = require("../middleware/userValidators");
 
 const verifyJWT = require("../middleware/verifyJWT");
 
 //authentication
 // /api/users/login
-router.post('/users/login', userController.userLogin);
+router.post('/users/login', validateDetails.loginValidationRules, validateDetails.validate ,userController.userLogin);
 
 
 // /api/users
-router.post('/users', userController.registerUser );
+router.post('/users',validateDetails.registerValidationRules, validateDetails.validate,  userController.registerUser );
 
 //get the current user
 router.get('/user',verifyJWT, userController.getCurrentUser);

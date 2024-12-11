@@ -92,7 +92,7 @@ const {user}  = req.body;
 
   // Create the token
   const token = jwt.sign(
-    { user: { id: loginUser.id, email: loginUser.email, password: loginUser.password } },
+    { user: { id: loginUser.id, email: loginUser.email} },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "7d" }
   );

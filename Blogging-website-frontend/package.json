@@ -28,7 +28,8 @@
     "react-icons": "^5.2.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.24.1",
-    "valtio": "^1.13.2"
+    "valtio": "^1.13.2",
+    "yup": "^1.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

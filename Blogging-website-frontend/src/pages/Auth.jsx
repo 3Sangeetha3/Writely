@@ -5,7 +5,8 @@ import axios from "axios";
 import { useAuth } from "../hooks";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import AuthPageImage from "../assets/auth_page.svg"; // Placeholder for the image
+import AuthPageImage from "../assets/auth_page.svg";
+import * as Yup from "yup";
 
 function Auth() {
   const isRegister = useMatch("/register");
@@ -20,6 +21,25 @@ function Auth() {
     });
   }, []);
 
+  const passwordValidation = Yup.string()
+  .min(6, "Minimum 6 characters")
+  .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+  .matches(/[a-z]/, "Must contain at least one lowercase letter")
+  .matches(/[0-9]/, "Must contain at least one number")
+  .matches(/[!@#$%^&*(),.?":{}|<>_]/, "Must contain at least one special character")
+  .required("Required");
+
+  const loginValidationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: passwordValidation,
+  });
+
+  const registerValidationSchema = Yup.object({
+    username: Yup.string().min(3, "Minimum 3 characters").required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: passwordValidation,
+  });
+
   async function onSubmit(values, actions) {
     try {
       const { data } = await axios.post(
@@ -30,8 +50,14 @@ function Auth() {
       navigate("/");
     } catch (error) {
       const { status, data } = error.response;
-      if (status === 422) {
-        actions.setErrors(data.errors);
+      if (status === 422 && data.errors) {
+        const serverErrors = {};
+        data.errors.foeEach((err) => {
+          const fieldName = err.param.split("."[1]);
+          serverErrors[fieldName] = err.msg;
+        })
+
+        actions.setErrors(serverErrors);
       }
     }
   }
@@ -50,9 +76,14 @@ function Auth() {
           <div className="mt-28 md:pr-8" data-aos="fade-right">
             <Formik
               onSubmit={onSubmit}
-              initialValues={isRegister ? registerInitialValues : loginInitialValues}
+              initialValues={
+                isRegister ? registerInitialValues : loginInitialValues
+              }
+              validationSchema={
+                isRegister ? registerValidationSchema : loginValidationSchema
+              }
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, errors, touched }) => (
                 <Form>
                   <fieldset disabled={isSubmitting}>
                     <div className="space-y-4">
@@ -62,8 +93,17 @@ function Auth() {
                             type="text"
                             name="username"
                             placeholder="Your Name"
-                            className="form-control form-control-lg w-full p-4 border rounded-md"
+                            className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                              errors.username && touched.username
+                                ? "border-red-500"
+                                : ""
+                            }`}
                           />
+                          {errors.username && touched.username && (
+                            <div className="text-red-500">
+                              {errors.username}
+                            </div>
+                          )}
                         </div>
                       )}
                       <div data-aos="fade-up">
@@ -71,16 +111,30 @@ function Auth() {
                           type="email"
                           name="email"
                           placeholder="Email"
-                          className="form-control form-control-lg w-full p-4 border rounded-md"
+                          className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                            errors.email && touched.email
+                              ? "border-red-500"
+                              : ""
+                          }`}
                         />
+                        {errors.email && touched.email && (
+                          <div className="text-red-500">{errors.email}</div>
+                        )}
                       </div>
                       <div data-aos="fade-up">
                         <Field
                           type="password"
                           name="password"
                           placeholder="Password"
-                          className="form-control form-control-lg w-full p-4 border rounded-md"
+                          className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                            errors.password && touched.password
+                              ? "border-red-500"
+                              : ""
+                          }`}
                         />
+                        {errors.password && touched.password && (
+                          <div className="text-red-500">{errors.password}</div>
+                        )}
                       </div>
                     </div>
 
@@ -96,13 +150,15 @@ function Auth() {
                 </Form>
               )}
             </Formik>
-            <hr className="mb-3"/>
+            <hr className="mb-3" />
             <div className="text-center mt-4">
               <Link
                 to={isRegister ? "/login" : "/register"}
                 className="text-[#5e6c6b] hover:text-[#5E6C6B]"
               >
-                {isRegister ? `Already have an account? Login` : `Don't have an account? SignUp`}
+                {isRegister
+                  ? `Already have an account? Login`
+                  : `Don't have an account? SignUp`}
               </Link>
             </div>
           </div>
