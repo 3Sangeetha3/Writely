@@ -22,17 +22,3 @@ h1 {
 .grid {
   gap: 4rem;
 }
-
-/* .col-md-6 {
-  flex: 0 0 48%;
-} */
-
-.svg-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.settings-svg {
-  max-width: 100%;
-}

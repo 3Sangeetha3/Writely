@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
-import "aos/dist/aos.css"; // Import AOS styles
+import "aos/dist/aos.css";
 import { Formik, Field, Form } from "formik";
 import { useAuth, useUserQuery } from "../hooks";
 import axios from "axios";
@@ -18,9 +18,9 @@ function Settings() {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Animation duration (optional)
-      easing: "ease-in-out", // Animation easing (optional)
-      once: true, // Animate once when scrolled into view (optional)
+      duration: 1000, 
+      easing: "ease-in-out",
+      once: true, 
     });
   }, []);
 
