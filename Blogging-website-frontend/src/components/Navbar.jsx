@@ -26,7 +26,7 @@ function Navbar() {
               className="text-gray-600 no-underline cursor-pointer hover:text-[#475756] hover:bg-[#E6E8E5] transition duration-300 p-2 rounded font-semibold"
               onClick={() => handleNavigation("/")}
             >
-              <img src={HomeIcon} alt="Home icon" className="w-8 h-8" />
+              <img src={HomeIcon} alt="Home icon" className="w-[34px] h-[34px]" />
             </button>
           </li>
           {isAuth && (
