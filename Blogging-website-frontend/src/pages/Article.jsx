@@ -14,7 +14,7 @@ const [loading, setLoading] = useState(true);
 
 const getArticleBySlug = async (slug) => {
   try {
-    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
+    const { data } = await axios.get(`http://localhost:3000/api/articles/${slug}`);
    // console.log("getArticleBySlug response", data);
     setArticle(data.article);
   } catch (error) {

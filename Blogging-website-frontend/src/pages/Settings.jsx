@@ -27,7 +27,7 @@ function Settings() {
   async function onSubmit(values, { setErrors }) {
     try {
       const { data } = await axios.put(
-        `https://blogging-website-5l8x.onrender.com/api/user`,
+        `http://localhost:3000/api/user`,
         { user: values }
       );
 

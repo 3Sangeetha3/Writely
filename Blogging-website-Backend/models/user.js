@@ -27,6 +27,13 @@ const userSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  verified: {
+    type: Boolean, 
+    default: false,
+  },
+  verificationToken:{
+    type: String
+  }
 });
 
 userSchema.methods.generateAcessToken = function () {
@@ -36,6 +43,7 @@ userSchema.methods.generateAcessToken = function () {
         id: this._id,
         email: this.email,
         password: this.password,
+        verified: this.verified,
       },
     },
     process.env.ACCESS_TOKEN_SECRET,

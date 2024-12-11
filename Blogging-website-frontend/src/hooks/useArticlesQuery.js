@@ -21,7 +21,7 @@ function useArticlesQuery() {
       'Authorization': `Token ${token}`,  // Add the Authorization header with the token from useAuth
     };
 
-    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/feed`, {
+    const { data } = await axios.get(`http://localhost:3000/api/articles/feed`, {
       headers: headers,
     });
     return data;

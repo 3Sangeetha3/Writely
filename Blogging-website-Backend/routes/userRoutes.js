@@ -28,5 +28,8 @@ router.put('/user',verifyJWT, userController.updateUser);
 
 router.get('/api/articles/feed', verifyJWT, articlesController.feedArticles);
 
+// Email Verification Route
+router.get('/verify', userController.verifyEmail);
+
 
 module.exports = router;
