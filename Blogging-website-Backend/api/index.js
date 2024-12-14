@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 // Handle preflight requests for all routes
 app.options('*', cors(corsOptions)); // Add this line here
 
-
+app.get("/", (req, res) => res.send("API Working"));
 
 // console.log(PORT)
 
