@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const deleteCommentApi = async ({ slug, commentId }) => {
-    const { data } = await axios.delete(`http://localhost:3000/api/articles/${slug}/comments/${commentId}`);
+    const { data } = await axios.delete(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}/comments/${commentId}`);
     return data;
 };
 

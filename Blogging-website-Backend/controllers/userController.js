@@ -149,7 +149,7 @@ const registerUser = async (req, res) => {
       },
     });
 
-    const verificationLink = `http://localhost:3000/api/verify?token=${verificationToken}`;
+    const verificationLink = `https://blogging-website-5l8x.onrender.com/api/verify?token=${verificationToken}`;
     await transporter.sendMail({
       from: '"Writely" Writely41@gmail.com',
       to: user.email,

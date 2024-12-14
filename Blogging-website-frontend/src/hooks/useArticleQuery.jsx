@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const getArticleBySlug = async (slug) => {
-    const {data} = await axios.get(`http://localhost:3000/api/articles/${slug}`);
+    const {data} = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
 
     //console.log("getCurrentUser", { data });
 

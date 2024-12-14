@@ -43,7 +43,7 @@ function Auth() {
   async function onSubmit(values, actions) {
     try {
       const { data } = await axios.post(
-        `http://localhost:3000/api/users${isRegister ? "" : "/login"}`,
+        `https://blogging-website-5l8x.onrender.com/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
       login(data.user);

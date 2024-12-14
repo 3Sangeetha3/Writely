@@ -8,7 +8,7 @@ const getArticleBySlug = async (slug) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   const { data } = await axios.get(
-    `http://localhost:3000/api/articles/${slug}`,
+    `https://blogging-website-5l8x.onrender.com/api/articles/${slug}`,
     { headers } // Include headers in the request
   );
 
