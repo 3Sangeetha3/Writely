@@ -5,18 +5,17 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
 const getCurrentUser = async (req, res) => {
-  //after authentication, email, password and hashed password and that we need to store in the request 
+  //after authentication, email, password and hashed password and that we need to store in the request
 
   const email = req.userEmail;
- //console.log('email', {email});
+  //console.log('email', {email});
 
-  const user = await User.findOne({email}).exec();
-  if(!user){
-    return res.status(404).json({message: "User Not Found"});
+  const user = await User.findOne({ email }).exec();
+  if (!user) {
+    return res.status(404).json({ message: "User Not Found" });
   }
-  return res.status(200).json({user: user.toUserResponse()});
-
-}
+  return res.status(200).json({ user: user.toUserResponse() });
+};
 
 const verifyEmail = async (req, res) => {
   const { token } = req.query;
@@ -29,14 +28,19 @@ const verifyEmail = async (req, res) => {
   try {
     const user = await User.findOne({ verificationToken: token }).exec();
     //console.log('User fetched:', user);
-    
+
     if (!user) {
       // Check if the user is already verified by querying their email
-      const alreadyVerifiedUser = await User.findOne({ verified: true, verificationToken: undefined }).exec();
+      const alreadyVerifiedUser = await User.findOne({
+        verified: true,
+        verificationToken: undefined,
+      }).exec();
       if (alreadyVerifiedUser) {
         return res.status(200).json({ message: "Email is already verified." });
       }
-      return res.status(404).json({ message: "Invalid token or user not found." });
+      return res
+        .status(404)
+        .json({ message: "Invalid token or user not found." });
     }
 
     if (user.verified) {
@@ -55,48 +59,49 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-
 const userLogin = async (req, res) => {
-const {user}  = req.body;
+  const { user } = req.body;
 
   //check if the user exists
-  if (!user || !user.email || !user.password ) {
+  if (!user || !user.email || !user.password) {
     return res.status(400).json({
-      message: "Please enter all the fields"
+      message: "Please enter all the fields",
     });
   }
 
   //since email is unique query and find out that user
   const loginUser = await User.findOne({
-    email: user.email
+    email: user.email,
   }).exec();
 
   if (!loginUser) {
     return res.status(404).json({
-      message: "User Not Found"
+      message: "User Not Found",
     });
   }
 
   //If the email verified
   if (!loginUser.verified) {
-    return res.status(403).json({ message: "Please verify your email to log in." });
+    return res
+      .status(403)
+      .json({ message: "Please verify your email to log in." });
   }
 
-  //if the password matches 
-  const match  = await bcrypt.compare(user.password, loginUser.password);
-  if(!match) {
+  //if the password matches
+  const match = await bcrypt.compare(user.password, loginUser.password);
+  if (!match) {
     return res.status(401).json({
-      message: "Unauthorized: Wrong password"
+      message: "Unauthorized: Wrong password",
     });
   }
 
   // Create the token
   const token = jwt.sign(
-    { user: { id: loginUser.id, email: loginUser.email} },
+    { user: { id: loginUser.id, email: loginUser.email } },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
- 
+
   res.status(200).json({
     user: loginUser.toUserResponse(),
     token,
@@ -107,7 +112,7 @@ const registerUser = async (req, res) => {
   //logic to register the user
   // console.log('registering the user')
 
-  const {user} = req.body;
+  const { user } = req.body;
 
   //check if the data exists
 
@@ -144,7 +149,7 @@ const registerUser = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL, 
+        user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
       },
     });
@@ -154,12 +159,66 @@ const registerUser = async (req, res) => {
       from: '"Writely" Writely41@gmail.com',
       to: user.email,
       subject: "Email Verification",
-      html: `<p>Welcome ${user.username},</p>
-              <p>Please verify your email by clicking the link below:</p>
-              <a href="${verificationLink}">Verify Email</a>`
+      html: `<div style="font-family: Arial, sans-serif; background-color: #FCFBF9; color: #001514; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
+        <div style="text-align: center;">
+          <a href="https://imgbb.com/"><img src="https://i.ibb.co/JjQDW1B/logo.png" alt="logo" style="width: 60px; height: auto;   " ></a>
+          <h1 style="color: #243635; font-size: 26px;">Welcome to Writely, ${user.username}!</h1>
+        </div>
+      
+        <div style="background-color:#A8AFAF; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <p style="color: #243635; font-size: 16px; line-height: 1.6; text-align: center;">
+            Please verify your email address to activate your account and get started. Click the button below to complete the process.
+          </p>
+          <div>
+            <img src="https://i.ibb.co/NVpYnSD/secured-shopping-and-delivery-2.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
+          </div>
+      
+          <div style="text-align: center; margin: 20px 0;">
+            <a href="${verificationLink}" style="display: inline-block; background-color: #001514; color: #E0E3E3; text-decoration: none; font-size: 16px; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;">
+              Verify Email
+            </a>
+          </div>
+      
+          <p style="color: #475756; font-size: 14px; text-align: center;">
+            If you did not create an account, please ignore this email.
+          </p>
+        </div>
+      
+        <footer style="margin-top: 20px; text-align: center; color: #475756; font-size: 12px;">
+          <p>© 2024 Writely. All rights reserved.</p>
+      
+          <table align="center" style="margin: 0 auto; text-align: center;">
+            <tr>
+              <td style="padding: 0 7px;">
+                <a href="https://facebook.com" target="_blank" title="Follow us on Facebook">
+                  <img 
+                    src="https://i.ibb.co/xHmw5Pq/facebook-1.png" 
+                    alt="Facebook Icon" 
+                    style="width: 30px; height: 30px; display: block;" 
+                  />
+                </a>
+              </td>
+              <td style="padding: 0 7px;">
+                <a href="https://instagram.com" target="_blank" title="Follow us on Instagram">
+                  <img 
+                    src="https://i.ibb.co/Qkyyz84/instagram.png" 
+                    alt="Instagram Icon" 
+                    style="width: 30px; height: 30px; display: block;" 
+                  />
+                </a>
+              </td>
+            </tr>
+        </table>
+        </footer>
+      </div>`,
     });
 
-    res.status(201).json({ message: "Registration successful! Check your email for verification.", token: {verificationToken} });
+    res
+      .status(201)
+      .json({
+        message: "Registration successful! Check your email for verification.",
+        token: { verificationToken },
+      });
   } catch (error) {
     res.status(500).json({ message: "Error registering user", error });
   }
@@ -180,62 +239,60 @@ const registerUser = async (req, res) => {
   // }
 
   //console.log('data', {data});
-//   res.status(200).json({ createdUser });
+  //   res.status(200).json({ createdUser });
 };
 
-const updateUser = async (req,res) => {
+const updateUser = async (req, res) => {
+  const { user } = req.body;
 
-  const {user} = req.body;
-
-  if(!user){
-    return res.status(400).json({message: "Required a User object"});
+  if (!user) {
+    return res.status(400).json({ message: "Required a User object" });
   }
 
   const email = req.userEmail;
 
-  const target = await User.findOne({email}).exec();
+  const target = await User.findOne({ email }).exec();
 
-  if(user.email){
+  if (user.email) {
     target.email = user.email;
   }
 
-  if(user.username){
+  if (user.username) {
     target.username = user.username;
   }
 
-  if(user.password){
-    const hashedPass = await bcrypt.hash(user.password,10);
+  if (user.password) {
+    const hashedPass = await bcrypt.hash(user.password, 10);
     target.password = hashedPass;
   }
 
-  if(typeof user.image !== 'undefined'){
+  if (typeof user.image !== "undefined") {
     target.image = user.image;
   }
 
-  if(typeof user.bio !== 'undefined'){
+  if (typeof user.bio !== "undefined") {
     target.bio = user.bio;
   }
 
   await target.save();
   return res.status(200).json({
-    user: target.toUserResponse()
+    user: target.toUserResponse(),
   });
-
-}
+};
 
 const updateProfile = async (req, res) => {
   const { bio, image } = req.body;
-  
+
   try {
     const email = req.userEmail;
     const user = await User.findOne({ email }).exec();
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     await user.updateProfile(bio, image); // Calling the method to update profile
-    
+
     return res.status(200).json({
       user: user.toUserResponse(), // Return the updated user object
     });
@@ -245,15 +302,11 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
-
-
 module.exports = {
   registerUser,
   userLogin,
   getCurrentUser,
   updateUser,
   updateProfile,
-  verifyEmail
+  verifyEmail,
 };
-
