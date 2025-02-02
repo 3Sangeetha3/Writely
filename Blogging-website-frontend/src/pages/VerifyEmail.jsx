@@ -23,7 +23,7 @@ const VerifyEmail = () => {
     const verify = async () => {
       try {
         //backend API call to verify email
-        const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+        const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
         const response = await axios.get(`${VITE_API_URL}/api/verify-email?token=${token}`);
 
         const { token: jwtToken } = response.data;

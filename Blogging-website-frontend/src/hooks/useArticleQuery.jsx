@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const getArticleBySlug = async (slug) => {
-    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     const {data} = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
 
     //console.log("getCurrentUser", { data });

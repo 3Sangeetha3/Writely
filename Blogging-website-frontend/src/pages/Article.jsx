@@ -14,7 +14,7 @@ const [loading, setLoading] = useState(true);
 
 const getArticleBySlug = async (slug) => {
   try {
-    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     const { data } = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
    // console.log("getArticleBySlug response", data);
     setArticle(data.article);

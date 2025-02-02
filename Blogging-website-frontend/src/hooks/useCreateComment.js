@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const createCommentApi = async (values) => {
     //console.log("creteArticle", { values });
-    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     const { data } = await axios.post(
         `${VITE_API_URL}/api/articles/${values.slug}/comments`,
         { ...values.values }
