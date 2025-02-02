@@ -9,7 +9,12 @@ function getAuthUser() {
   const jwt = window.localStorage.getItem("jwtToken");
 
   if (!jwt) return {};
-  return JSON.parse(atob(jwt));
+  try {
+    return JSON.parse(atob(jwt));
+  } catch (error) {
+    console.error("Invalid JWT token:", error);
+    return {};
+  }
 }
 //proxy object
 const state = proxy({

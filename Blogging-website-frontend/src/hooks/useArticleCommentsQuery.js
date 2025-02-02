@@ -4,8 +4,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const getArticleComments = async (slug) => {
+  const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
   const { data } = await axios.get(
-    `https://blogging-website-5l8x.onrender.com/api/articles/${slug}/comments`
+    `${VITE_API_URL}/api/articles/${slug}/comments`
   );
 
   return data;

@@ -14,7 +14,8 @@ const [loading, setLoading] = useState(true);
 
 const getArticleBySlug = async (slug) => {
   try {
-    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}`);
+    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const { data } = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
    // console.log("getArticleBySlug response", data);
     setArticle(data.article);
   } catch (error) {

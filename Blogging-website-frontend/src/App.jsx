@@ -5,6 +5,7 @@ import { Article, Auth, Editor, Home, Settings, Profile } from "./pages";
 import axios from "axios";
 import { Navbar } from "./components";
 import { AuthRoute, GuestRoute } from "./components";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   useEffect(() => {
@@ -48,7 +49,7 @@ function App() {
             <Route path="/profile/:username" element={<AuthRoute />}>
               <Route path="/profile/:username" element={<Profile />} />
             </Route>
-
+            <Route path="/verify-email" element={<VerifyEmail />} />
           </Routes>
         </main>
       </div>

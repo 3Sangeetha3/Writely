@@ -42,8 +42,9 @@ function Auth() {
 
   async function onSubmit(values, actions) {
     try {
+      const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
       const { data } = await axios.post(
-        `https://blogging-website-5l8x.onrender.com/api/users${isRegister ? "" : "/login"}`,
+        `${VITE_API_URL}/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
       login(data.user);

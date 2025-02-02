@@ -21,7 +21,8 @@ function useArticlesQuery() {
       'Authorization': `Token ${token}`,  // Add the Authorization header with the token from useAuth
     };
 
-    const { data } = await axios.get(`https://blogging-website-5l8x.onrender.com/api/articles/feed`, {
+    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const { data } = await axios.get(`${VITE_API_URL}/api/articles/feed`, {
       headers: headers,
     });
     return data;

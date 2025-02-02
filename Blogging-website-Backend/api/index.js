@@ -5,13 +5,14 @@ const cors = require("cors");
 const corsOptions = require("../config/corsOptions");
 const connectDB = require("../config/dbConnect");
 const verifyToken = require('../middleware/verifyJWT')
+const morgan = require("morgan");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 connectDB();
 
-
+app.use(morgan("dev"));
 app.use(express.json()); //middleware to parse json
 //user routes => /api/users and /api/user
 app.use(cors(corsOptions));

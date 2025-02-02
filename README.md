@@ -99,7 +99,7 @@ To install BLOGGING-WEBSITE, follow these steps:
     ```bash
     npm run dev
     ```
-   This command will start the backend server, and you can access the backend of BLOGGING-WEBSITE by navigating to https://blogging-website-5l8x.onrender.com
+   This command will start the backend server, and you can access the backend of BLOGGING-WEBSITE by navigating to http://localhost:3000
 
 ---
 ## Environment Variables

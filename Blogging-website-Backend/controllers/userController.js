@@ -52,10 +52,19 @@ const verifyEmail = async (req, res) => {
     user.verificationToken = undefined; //removing the token after verification;
     await user.save();
 
-    res.status(200).json({ message: "Email verified successfully!" });
+    const accessToken = jwt.sign(
+      { user: { id: user.id, email: user.email } },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+    res.status(200).json({ 
+      message: "Email verified successfully!",
+      token: accessToken 
+    });
+    
   } catch (error) {
     //console.error('Error verifying email:', error);
-    res.status(500).json({ message: "Error verifying email.", error });
+    res.status(500).json({ message: "Error verifying email.", error});
   }
 };
 
@@ -111,11 +120,10 @@ const userLogin = async (req, res) => {
 const registerUser = async (req, res) => {
   //logic to register the user
   // console.log('registering the user')
-
+  const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
   const { user } = req.body;
 
   //check if the data exists
-
   //console.log('user-email: ', user.email);
 
   if (!user || !user.email || !user.password || !user.username) {
@@ -154,7 +162,8 @@ const registerUser = async (req, res) => {
       },
     });
 
-    const verificationLink = `https://blogging-website-5l8x.onrender.com/api/verify?token=${verificationToken}`;
+    
+    const verificationLink = `${FRONTEND_URL}/verify-email?token=${verificationToken}`;
     await transporter.sendMail({
       from: '"Writely" Writely41@gmail.com',
       to: user.email,

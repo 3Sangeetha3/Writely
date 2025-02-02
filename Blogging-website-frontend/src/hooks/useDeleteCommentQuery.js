@@ -4,7 +4,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const deleteCommentApi = async ({ slug, commentId }) => {
-    const { data } = await axios.delete(`https://blogging-website-5l8x.onrender.com/api/articles/${slug}/comments/${commentId}`);
+    const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+    const { data } = await axios.delete(`${VITE_API_URL}/api/articles/${slug}/comments/${commentId}`);
     return data;
 };
 

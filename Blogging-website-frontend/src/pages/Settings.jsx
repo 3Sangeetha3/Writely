@@ -26,8 +26,9 @@ function Settings() {
 
   async function onSubmit(values, { setErrors }) {
     try {
+      const VITE_API_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
       const { data } = await axios.put(
-        `https://blogging-website-5l8x.onrender.com/api/user`,
+        `${VITE_API_URL}/api/user`,
         { user: values }
       );
 
