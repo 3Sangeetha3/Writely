@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Writely Blogging Website 👋</h1>
+<h1 align="center">Welcome to Writely (Blogging Website)👋</h1>
 
 [![wakatime](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908.svg)](https://wakatime.com/badge/user/018d8a5a-cab1-4ae5-8c4a-50cef4948510/project/0c780a41-1f8b-4729-9422-d23507e75908)
 
@@ -25,7 +25,7 @@
 Here’s an overview of the main pages of Blogging-Website:
 
 ### Home Page
-- **URL**: [https://writely.3sangeetha3.me/](https://writely.3sangeetha3.me/)
+- **URL**: [https://blogging-website-git-main-3sangeetha3s-projects.vercel.app/](https://blogging-website-git-main-3sangeetha3s-projects.vercel.app/)
 - Displays:
   - List of tags
   - List of articles pulled from either Feed, Global, or by Tag
@@ -35,6 +35,7 @@ Here’s an overview of the main pages of Blogging-Website:
 - **Sign In URL**: `/#/login`
 - **Sign Up URL**: `/#/register`
 - User authentication using JWT (JSON Web Tokens), where the token is stored in `localStorage`.
+- Allows users to verify their Email by sending the verification link.
 
 ### Settings Page
 - **URL**: `/#/settings`
@@ -97,7 +98,7 @@ To install BLOGGING-WEBSITE, follow these steps:
    - Start the backend:
   
     ```bash
-    npm run dev
+    npm run server
     ```
    This command will start the backend server, and you can access the backend of BLOGGING-WEBSITE by navigating to http://localhost:3000
 
