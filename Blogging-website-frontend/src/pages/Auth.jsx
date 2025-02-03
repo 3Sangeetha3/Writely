@@ -53,12 +53,16 @@ function Auth() {
       const { status, data } = error.response;
       if (status === 422 && data.errors) {
         const serverErrors = {};
-        data.errors.foeEach((err) => {
-          const fieldName = err.param.split("."[1]);
+        data.errors.forEach((err) => {
+          const parts = err.param.split('.');
+          const fieldName = parts[parts.length - 1];
           serverErrors[fieldName] = err.msg;
         })
 
         actions.setErrors(serverErrors);
+      }
+      else {
+        console.error("An error occurred:", error);
       }
     }
   }
