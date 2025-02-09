@@ -6,6 +6,7 @@ import axios from "axios";
 import { Navbar } from "./components";
 import { AuthRoute, GuestRoute } from "./components";
 import VerifyEmail from "./pages/VerifyEmail";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   useEffect(() => {
@@ -52,6 +53,10 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
           </Routes>
         </main>
+        <Toaster 
+          position="top-right" 
+          containerStyle={{ marginTop: "4rem" }} 
+        />
       </div>
     </Router>
   );

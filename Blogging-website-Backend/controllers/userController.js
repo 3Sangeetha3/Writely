@@ -132,6 +132,20 @@ const registerUser = async (req, res) => {
     });
   }
 
+  // Check if a user with the given email already exists
+  const existingUser = await User.findOne({ email: user.email });
+  if (existingUser) {
+    // If user exists but is not verified, inform the user to verify their email
+    if (!existingUser.verified) {
+      return res.status(403).json({
+        message: "Please verify your email to complete registration.",
+      });
+    }
+    // If the user exists and is verified, inform that the email is already in use
+    return res.status(409).json({
+      message: "Email is already registered.",
+    });
+  }
   //hash the password => hashing + salt (unique string)
 
   const hashedpass = await bcrypt.hash(user.password, 10); //10 => salt rounds

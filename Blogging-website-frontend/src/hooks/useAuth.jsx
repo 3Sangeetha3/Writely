@@ -13,6 +13,7 @@ function getAuthUser() {
     return JSON.parse(atob(jwt));
   } catch (error) {
     console.error("Invalid JWT token:", error);
+    window.localStorage.removeItem("jwtToken");
     return {};
   }
 }

@@ -7,6 +7,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import AuthPageImage from "../assets/auth_page.svg";
 import * as Yup from "yup";
+import { toast } from "react-hot-toast";
 
 function Auth() {
   const isRegister = useMatch("/register");
@@ -47,22 +48,109 @@ function Auth() {
         `${VITE_API_URL}/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
+      if (isRegister) {
+        // toast.success("Please verify your email. Check your inbox", {
+        //   position: "top-right",
+        // });
+
+        toast.custom((t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src="https://cdn.iconscout.com/icon/free/png-256/free-google-mail-logo-icon-download-in-svg-png-gif-file-formats--gmail-productivity-apps-pack-logos-icons-8630400.png"
+                    alt=""
+                  />
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-lg font-medium text-[#475756]">
+                    Please verify your email!
+                  </p>
+                  <p className="mt-1 text-sm text-[#A8AFAF]">
+                    Check your inbox. We have sent a verification email.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-[#243635] hover:bg-[#475756] hover:text-white hover:border-[#475756] focus:outline-none focus:ring-2 focus:ring-[#475756] transition duration-200 ease-in-out"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ));
+      }
       login(data.user);
       navigate("/");
     } catch (error) {
       const { status, data } = error.response;
-      if (status === 422 && data.errors) {
+      if(status && data && data.message){
+        if(data.message.toLowerCase().includes("email")){
+          // toast.error("Please verify your email. Check your inbox", {
+          //   position: "top-right",
+          // });
+          toast.custom((t) => (
+            <div
+              className={`${
+                t.visible ? "animate-enter" : "animate-leave"
+              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+            >
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src="https://cdn.iconscout.com/icon/free/png-256/free-google-mail-logo-icon-download-in-svg-png-gif-file-formats--gmail-productivity-apps-pack-logos-icons-8630400.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-lg font-medium text-[#475756]">
+                      Please verify your email!
+                    </p>
+                    <p className="mt-1 text-sm text-[#A8AFAF]">
+                      Check your inbox. We have sent a verification email.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-[#243635] hover:bg-[#475756] hover:text-white hover:border-[#475756] focus:outline-none focus:ring-2 focus:ring-[#475756] transition duration-200 ease-in-out"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          ));
+        }
+        else {
+          toast.error(data.message, { position: "top-right" });
+        }
+      } else if (status === 422 && data.errors) {
         const serverErrors = {};
         data.errors.forEach((err) => {
           const parts = err.param.split('.');
           const fieldName = parts[parts.length - 1];
           serverErrors[fieldName] = err.msg;
-        })
-
+        });
         actions.setErrors(serverErrors);
       }
       else {
-        console.error("An error occurred:", error);
+        // console.error("An error occurred:", error);
+        toast.error("An error occurred. Please try again.", {
+          position: "top-right",
+        });
       }
     }
   }

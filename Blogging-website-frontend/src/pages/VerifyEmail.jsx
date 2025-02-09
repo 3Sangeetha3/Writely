@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../hooks";
+import { toast } from "react-hot-toast";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ const VerifyEmail = () => {
 
         const { token: jwtToken } = response.data;
         login({ token: jwtToken });
+        toast.success("Email has been verified, redirecting to homepage", {
+          position: "top-right",
+        });
         setMessage("Email verified successfully! Redirecting to home page...");
 
         //Redirecting to homepage after short delay
@@ -36,6 +40,7 @@ const VerifyEmail = () => {
         }, 2000);
       }catch (error) {
         console.error("Error verifying email:", error.message);
+        toast.error("Error in verifying the email", { position: "top-right" });
         setMessage("Email verification failed. Please try again.");
       }
       
