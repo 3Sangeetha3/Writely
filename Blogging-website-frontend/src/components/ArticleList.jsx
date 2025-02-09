@@ -5,9 +5,10 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import Skeleton from "@mui/material/Skeleton";
 
 function ArticleList() {
-  const { articles } = useArticlesQuery();
+  const { articles, isArticlesLoading } = useArticlesQuery();
   const [page, setPage] = useState(1);
   const articlesPerPage = 10; // Customize how many articles per page
 
@@ -20,12 +21,110 @@ function ArticleList() {
     });
   }, []);
 
+  if (isArticlesLoading) {
+    return (
+      <div className="article-list">
+        {Array.from(new Array(articlesPerPage)).map((_, index) => (
+          <div
+            key={index}
+            style={{ marginBottom: "1.5rem" }}
+            data-aos="fade-up"
+          >
+            {/* Profile Image & Author Info */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Skeleton
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ bgcolor: "#E0E3E3" }}
+              />
+              <div>
+                <Skeleton
+                  variant="text"
+                  width={100}
+                  height={15}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={80}
+                  height={12}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+              </div>
+            </div>
+
+            {/* Title */}
+            <Skeleton
+              variant="text"
+              width="80%"
+              height={30}
+              sx={{ bgcolor: "#E0E3E3", marginTop: 1 }}
+            />
+
+            {/* Subtitle */}
+            <Skeleton
+              variant="text"
+              width="50%"
+              height={20}
+              sx={{ bgcolor: "#E0E3E3" }}
+            />
+
+            {/* Read More & Tags in One Line */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "8px",
+              }}
+            >
+              {/* Read More */}
+              <Skeleton
+                variant="text"
+                width={100}
+                height={15}
+                sx={{ bgcolor: "#E0E3E3" }}
+              />
+
+              {/* Tags */}
+              <div style={{ display: "flex", gap: "8px" }}>
+                <Skeleton
+                  variant="rounded"
+                  width={40}
+                  height={20}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={50}
+                  height={20}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+              </div>
+            </div>
+
+            {/* Right-Aligned Divider Line */}
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={1}
+              sx={{ bgcolor: "#E0E3E3", marginY: 2, marginLeft: "auto" }}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   // Check if articles are available
   if (!articles || articles.length === 0) {
     return <p className="article-preview">No articles are here... yet.</p>;
   }
 
-  const sortedArticles = articles?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const sortedArticles = articles?.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
   // Calculate the start and end index for the articles to display
   const startIndex = (page - 1) * articlesPerPage;
