@@ -49,7 +49,7 @@ function Article() {
               variant="text"
               width="80%"
               height={80}
-              sx={{ bgcolor: "#E0E3E3", borderRadius: '8px', marginBottom: 1 }}
+              sx={{ bgcolor: "#E0E3E3", borderRadius: "8px", marginBottom: 1 }}
             />
             {/* Profile Image & Author Info */}
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -77,33 +77,34 @@ function Article() {
           </div>
         </div>
         <div className="container page">
-        <div className="col-md-12">
-          {/* Description */}
-          <Skeleton
-            variant="text"
-            width="100%"
-            height={50}
-            sx={{ bgcolor: "#EOE3E3" }}
-          />
-          
-          {/* body */}
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={300}
-            sx={{ bgcolor: "#EOE3E3", borderRadius: '12px' }}
-          />
+          <div className="col-md-12">
+            {/* Description */}
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={50}
+              sx={{ bgcolor: "#EOE3E3" }}
+            />
+
+            {/* body */}
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={300}
+              sx={{ bgcolor: "#EOE3E3", borderRadius: "12px" }}
+            />
           </div>
 
           {/* Right-Aligned Divider Line */}
           <Skeleton
-              variant="rectangular"
-              width="100%"
-              height={1}
-              sx={{ bgcolor: "#E0E3E3", marginY: 2, marginLeft: "auto" }}
-            />
+            variant="rectangular"
+            width="100%"
+            height={1}
+            sx={{ bgcolor: "#E0E3E3", marginY: 2, marginLeft: "auto" }}
+          />
         </div>
-        <div className="article-actions"
+        <div
+          className="article-actions"
           style={{
             display: "flex",
             justifyContent: "center",
@@ -113,27 +114,60 @@ function Article() {
         >
           {/* Profile Image & Author Info */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <Skeleton
+              variant="circular"
+              width={40}
+              height={40}
+              sx={{ bgcolor: "#E0E3E3" }}
+            />
+            <div>
               <Skeleton
-                variant="circular"
-                width={40}
-                height={40}
+                variant="text"
+                width={100}
+                height={15}
                 sx={{ bgcolor: "#E0E3E3" }}
               />
-              <div>
-                <Skeleton
-                  variant="text"
-                  width={100}
-                  height={15}
-                  sx={{ bgcolor: "#E0E3E3" }}
-                />
-                <Skeleton
-                  variant="text"
-                  width={80}
-                  height={12}
-                  sx={{ bgcolor: "#E0E3E3" }}
-                />
-              </div>
+              <Skeleton
+                variant="text"
+                width={80}
+                height={12}
+                sx={{ bgcolor: "#E0E3E3" }}
+              />
             </div>
+          </div>
+        </div>
+        {/* comments skeleton loading */}
+        <div className="row">
+          <div className="col-xs-12 col-md-8 offeset-md-2">
+            
+              {Array.from(new Array(3)).map((_, index) => (
+                <div
+                  key={index}
+                  className="card"
+                  style={{ marginBottom: "1rem", padding: "1rem" }}
+                >
+                  <div className="card-block">
+                    <Skeleton variant="text" width="90%" height={20} />
+                    <Skeleton variant="text" width="100%" height={20} />
+                    <Skeleton variant="text" width="80%" height={20} />
+                  </div>
+                  <div
+                    className="card-footer"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      marginTop: "0.5rem",
+                    }}
+                  >
+                    <Skeleton variant="circular" width={30} height={30} />
+                    <Skeleton variant="text" width="20%" height={20} />
+                    <Skeleton variant="text" width="15%" height={20} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          
         </div>
       </div>
     );
