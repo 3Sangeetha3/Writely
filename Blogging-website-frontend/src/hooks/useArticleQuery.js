@@ -31,7 +31,7 @@ const {
   } = useQuery({
     queryKey: ["article", slug], // Include slug in the query key
     queryFn: () => getArticleBySlug(slug), // Pass slug to the query function
-    enabled: !!slug || !!article?.slug, // Only run when slug is available
+    enabled: !!slug, // Only run when slug is available
     refetchOnWindowFocus: true,
     staleTime: 0,
     cacheTime: 0,
