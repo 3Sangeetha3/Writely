@@ -57,14 +57,13 @@ const verifyEmail = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
-    res.status(200).json({ 
+    res.status(200).json({
       message: "Email verified successfully!",
-      token: accessToken 
+      token: accessToken,
     });
-    
   } catch (error) {
     //console.error('Error verifying email:', error);
-    res.status(500).json({ message: "Error verifying email.", error});
+    res.status(500).json({ message: "Error verifying email.", error });
   }
 };
 
@@ -167,82 +166,88 @@ const registerUser = async (req, res) => {
   try {
     const createdUser = await User.create(userObject);
 
-    // Send verification email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
-    
-    const verificationLink = `${FRONTEND_URL}/verify-email?token=${verificationToken}`;
-    await transporter.sendMail({
-      from: '"Writely" Writely41@gmail.com',
-      to: user.email,
-      subject: "Email Verification",
-      html: `<div style="font-family: Arial, sans-serif; background-color: #FCFBF9; color: #001514; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
-        <div style="text-align: center;">
-          <a href="https://imgbb.com/"><img src="https://i.ibb.co/JjQDW1B/logo.png" alt="logo" style="width: 60px; height: auto;   " ></a>
-          <h1 style="color: #243635; font-size: 26px;">Welcome to Writely, ${user.username}!</h1>
-        </div>
-      
-        <div style="background-color:#A8AFAF; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <p style="color: #243635; font-size: 16px; line-height: 1.6; text-align: center;">
-            Please verify your email address to activate your account and get started. Click the button below to complete the process.
-          </p>
-          <div>
-            <img src="https://i.ibb.co/NVpYnSD/secured-shopping-and-delivery-2.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
-          </div>
-      
-          <div style="text-align: center; margin: 20px 0;">
-            <a href="${verificationLink}" style="display: inline-block; background-color: #001514; color: #E0E3E3; text-decoration: none; font-size: 16px; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;">
-              Verify Email
-            </a>
-          </div>
-      
-          <p style="color: #475756; font-size: 14px; text-align: center;">
-            If you did not create an account, please ignore this email.
-          </p>
-        </div>
-      
-        <footer style="margin-top: 20px; text-align: center; color: #475756; font-size: 12px;">
-          <p>© 2024 Writely. All rights reserved.</p>
-      
-          <table align="center" style="margin: 0 auto; text-align: center;">
-            <tr>
-              <td style="padding: 0 7px;">
-                <a href="https://facebook.com" target="_blank" title="Follow us on Facebook">
-                  <img 
-                    src="https://i.ibb.co/xHmw5Pq/facebook-1.png" 
-                    alt="Facebook Icon" 
-                    style="width: 30px; height: 30px; display: block;" 
-                  />
-                </a>
-              </td>
-              <td style="padding: 0 7px;">
-                <a href="https://instagram.com" target="_blank" title="Follow us on Instagram">
-                  <img 
-                    src="https://i.ibb.co/Qkyyz84/instagram.png" 
-                    alt="Instagram Icon" 
-                    style="width: 30px; height: 30px; display: block;" 
-                  />
-                </a>
-              </td>
-            </tr>
-        </table>
-        </footer>
-      </div>`,
-    });
-
-    res
-      .status(201)
-      .json({
-        message: "Registration successful! Check your email for verification.",
-        token: { verificationToken },
+    try {
+      // Send verification email
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD,
+        },
       });
+
+      const verificationLink = `${FRONTEND_URL}/verify-email?token=${verificationToken}`;
+      await transporter.sendMail({
+        from: '"Writely" Writely41@gmail.com',
+        to: user.email,
+        subject: "Email Verification",
+        html: `<div style="font-family: Arial, sans-serif; background-color: #FCFBF9; color: #001514; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
+          <div style="text-align: center;">
+            <a href="https://imgbb.com/"><img src="https://i.ibb.co/JjQDW1B/logo.png" alt="logo" style="width: 60px; height: auto;   " ></a>
+            <h1 style="color: #243635; font-size: 26px;">Welcome to Writely, ${user.username}!</h1>
+          </div>
+        
+          <div style="background-color:#A8AFAF; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <p style="color: #243635; font-size: 16px; line-height: 1.6; text-align: center;">
+              Please verify your email address to activate your account and get started. Click the button below to complete the process.
+            </p>
+            <div>
+              <img src="https://i.ibb.co/NVpYnSD/secured-shopping-and-delivery-2.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
+            </div>
+        
+            <div style="text-align: center; margin: 20px 0;">
+              <a href="${verificationLink}" style="display: inline-block; background-color: #001514; color: #E0E3E3; text-decoration: none; font-size: 16px; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;">
+                Verify Email
+              </a>
+            </div>
+        
+            <p style="color: #475756; font-size: 14px; text-align: center;">
+              If you did not create an account, please ignore this email.
+            </p>
+          </div>
+        
+          <footer style="margin-top: 20px; text-align: center; color: #475756; font-size: 12px;">
+            <p>© 2024 Writely. All rights reserved.</p>
+        
+            <table align="center" style="margin: 0 auto; text-align: center;">
+              <tr>
+                <td style="padding: 0 7px;">
+                  <a href="https://facebook.com" target="_blank" title="Follow us on Facebook">
+                    <img 
+                      src="https://i.ibb.co/xHmw5Pq/facebook-1.png" 
+                      alt="Facebook Icon" 
+                      style="width: 30px; height: 30px; display: block;" 
+                    />
+                  </a>
+                </td>
+                <td style="padding: 0 7px;">
+                  <a href="https://instagram.com" target="_blank" title="Follow us on Instagram">
+                    <img 
+                      src="https://i.ibb.co/Qkyyz84/instagram.png" 
+                      alt="Instagram Icon" 
+                      style="width: 30px; height: 30px; display: block;" 
+                    />
+                  </a>
+                </td>
+              </tr>
+          </table>
+          </footer>
+        </div>`,
+      });
+    } catch (mailError) {
+      console.error("Error sending verification email:", mailError);
+      // Optionally, you might still want to let the registration succeed
+      // and instruct the user to request a new verification email later.
+      //resend email
+    }
+    res.status(201).json({
+      message: "Registration successful! Check your email for verification.",
+      token: { verificationToken },
+    });
   } catch (error) {
+    console.error("Error during registration:", error);
     res.status(500).json({ message: "Error registering user", error });
   }
 
