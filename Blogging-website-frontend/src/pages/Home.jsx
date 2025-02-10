@@ -33,7 +33,7 @@ function Home() {
 
   return (
     <div className="container home-page">
-      <div className="banner" style={{ backgroundImage: `url(${bannerImage})`, important: true, borderRadius: '25px' }}>
+      <div className="banner" style={{backgroundColor: '#A8AFAF',backgroundImage: `url(${bannerImage})`, important: true, borderRadius: '25px' }}>
         <div className="container" style={{ padding: '40px'}}>
           <h1 className="logo-font">Blogging</h1>
           <p>A place to share your knowledge.</p>

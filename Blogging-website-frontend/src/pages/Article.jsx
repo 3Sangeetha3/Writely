@@ -1,75 +1,188 @@
-import React, { useEffect, useState } from 'react'
-import { ArticleComments, ArticleMeta } from '../components'
-import { useArticleQuery } from '../hooks'
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { ArticleComments, ArticleMeta } from "../components";
+import { useArticleQuery } from "../hooks";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Skeleton from "@mui/material/Skeleton";
+
 function Article() {
-//   const { data } = useArticleQuery()
-//   const { title, description, body } = data.article
-const [article, setArticle] = useState([]);
-const { slug } = useParams();
-const [loading, setLoading] = useState(true);
+  //   const { data } = useArticleQuery()
+  //   const { title, description, body } = data.article
+  // const [article, setArticle] = useState([]);
+  const { slug } = useParams();
+  const { article, isArticleLoading, ArticleError } = useArticleQuery();
+  // const [loading, setLoading] = useState(true);
 
-//console.log('article',article)
+  //console.log('article',article)
 
-const getArticleBySlug = async (slug) => {
-  try {
-    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-    const { data } = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
-   // console.log("getArticleBySlug response", data);
-    setArticle(data.article);
-  } catch (error) {
-    console.error("Error fetching article:", error);
+  // const getArticleBySlug = async (slug) => {
+  //   try {
+  //     const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  //     const { data } = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
+  //    // console.log("getArticleBySlug response", data);
+  //     setArticle(data.article);
+  //   } catch (error) {
+  //     console.error("Error fetching article:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!slug) return;
+  //   const fetchArticle = async () => {
+  //     setLoading(true);
+  //     await getArticleBySlug(slug);
+  //     setLoading(false);
+  //   };
+  //   fetchArticle();
+  // }, [slug]);
+
+  if (isArticleLoading) {
+    return (
+      <div className="container article-page">
+        <div
+          className="banner"
+          style={{ backgroundColor: "#243635", borderRadius: "25px" }}
+        >
+          <div className="container" style={{ margin: "25px" }}>
+            {/* Title */}
+            <Skeleton
+              variant="text"
+              width="80%"
+              height={80}
+              sx={{ bgcolor: "#E0E3E3", borderRadius: '8px', marginBottom: 1 }}
+            />
+            {/* Profile Image & Author Info */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Skeleton
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ bgcolor: "#E0E3E3" }}
+              />
+              <div>
+                <Skeleton
+                  variant="text"
+                  width={100}
+                  height={15}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={80}
+                  height={12}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container page">
+        <div className="col-md-12">
+          {/* Description */}
+          <Skeleton
+            variant="text"
+            width="100%"
+            height={50}
+            sx={{ bgcolor: "#EOE3E3" }}
+          />
+          
+          {/* body */}
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={300}
+            sx={{ bgcolor: "#EOE3E3", borderRadius: '12px' }}
+          />
+          </div>
+
+          {/* Right-Aligned Divider Line */}
+          <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={1}
+              sx={{ bgcolor: "#E0E3E3", marginY: 2, marginLeft: "auto" }}
+            />
+        </div>
+        <div className="article-actions"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "1rem",
+          }}
+        >
+          {/* Profile Image & Author Info */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Skeleton
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ bgcolor: "#E0E3E3" }}
+              />
+              <div>
+                <Skeleton
+                  variant="text"
+                  width={100}
+                  height={15}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={80}
+                  height={12}
+                  sx={{ bgcolor: "#E0E3E3" }}
+                />
+              </div>
+            </div>
+        </div>
+      </div>
+    );
   }
-};
 
-useEffect(() => {
-  if (!slug) return;
-  const fetchArticle = async () => {
-    setLoading(true);
-    await getArticleBySlug(slug);
-    setLoading(false);
-  };
-  fetchArticle();
-}, [slug]);
+  if (ArticleError) {
+    return <div>Error loading article: {articleError.message}</div>;
+  }
 
-if (loading) {
-  return <div>Loading...</div>;
-}
-
-if (!article) {
-  return <div>Article not found.</div>;
-}
+  if (!article) {
+    return <div>Article not found.</div>;
+  }
 
   return (
     <div className="container article-page">
-      <div className="banner" style={{ backgroundColor: "#243635", important: true, borderRadius: '25px'}}>
+      <div
+        className="banner"
+        style={{
+          backgroundColor: "#243635",
+          important: true,
+          borderRadius: "25px",
+        }}
+      >
         <div className="container" style={{ margin: "25px" }}>
-          <h1>{article?.title}</h1>
-          <ArticleMeta author={article?.author} createdAt={article?.createdAt} />
+          <h1>{article.title}</h1>
+          <ArticleMeta author={article.author} createdAt={article.createdAt} />
         </div>
       </div>
       <div className="container page">
         <div className="row article-content">
           <div className="col-md-12">
-            <p>{article?.description}</p>
-            <p>{article?.body}</p>
+            <p>{article.description}</p>
+            <p>{article.body}</p>
           </div>
         </div>
         <hr />
         <div className="article-actions">
-          <ArticleMeta author={article?.author} createdAt={article?.createdAt} />
+          <ArticleMeta author={article.author} createdAt={article.createdAt} />
         </div>
         <div className="row">
-        {/* ArticleComments  */}
-          <div className='col-xs-12 col-md-8 offeset-md-2'>
-          <ArticleComments article={article} />
+          {/* ArticleComments  */}
+          <div className="col-xs-12 col-md-8 offeset-md-2">
+            <ArticleComments article={article} />
             {/* <ArticleComments /> */}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Article
+export default Article;
