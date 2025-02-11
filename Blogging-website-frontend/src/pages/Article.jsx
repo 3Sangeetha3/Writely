@@ -4,6 +4,7 @@ import { useArticleQuery } from "../hooks";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Skeleton from "@mui/material/Skeleton";
+import DOMPurify from "dompurify";
 
 function Article() {
   //   const { data } = useArticleQuery()
@@ -180,6 +181,9 @@ function Article() {
   if (!article) {
     return <div>Article not found.</div>;
   }
+  
+  // Sanitize the HTML content before rendering it
+  const sanitizedHTML = DOMPurify.sanitize(article.body);
 
   return (
     <div className="container article-page">
@@ -200,7 +204,8 @@ function Article() {
         <div className="row article-content">
           <div className="col-md-12">
             <p>{article.description}</p>
-            <p>{article.body}</p>
+            {/* <p>{article.body}</p> */}
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
           </div>
         </div>
         <hr />

@@ -9,6 +9,7 @@ import PostImage from "../assets/Post.svg";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Editor.css';
+import { JoditField } from "../components";
 
 function Editor() {
   const navigate = useNavigate();
@@ -49,9 +50,9 @@ function Editor() {
     <div className="editor-page" data-aos="fade-up">
       <div className="container mx-auto">
         <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-16">New post</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="">
           {/* Left Column - Article Form */}
-          <div className="md:pr-8" data-aos="fade-right">
+          <div className="lg:pr-8" data-aos="fade-right">
             <Formik
               onSubmit={onSubmit}
               initialValues={{
@@ -87,7 +88,8 @@ function Editor() {
                         <fieldset className="form-group">
                           <Field
                             name="body"
-                            as="textarea"
+                            // as="textarea"
+                            component={JoditField} 
                             className="form-control w-full p-4 border rounded-md"
                             rows={8}
                             placeholder="Write your article (in markdown)"
@@ -113,7 +115,7 @@ function Editor() {
           </div>
 
           {/* Right Column - Illustration */}
-          <div className="md:pl-8" data-aos="fade-left">
+          {/* <div className="md:pl-8" data-aos="fade-left">
             <div className="flex justify-center items-center">
               <img
                 src={PostImage}
@@ -121,7 +123,7 @@ function Editor() {
                 className="w-full max-w-md"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
