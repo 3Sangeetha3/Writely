@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { useArticleQuery } from '../hooks'
 import ArticleMeta from './ArticleMeta'
+import DOMPurify from "dompurify";
+
 
 function ArticlePreview({ article }) {
   if (!article) return null;
@@ -13,7 +15,13 @@ function ArticlePreview({ article }) {
   const handleReadMoreClick = () => {
     setIsExpanded(!isExpanded);
   };
-  const previewBody = body.length > 100 ? `${body.slice(0, 100)}...` : body;
+  // Sanitize the body HTML to prevent XSS attacks since using dangerouslySetInnerHTML
+  const sanitizedHTML = DOMPurify.sanitize(body);
+
+  const tempElement = document.createElement("div");
+  tempElement.innerHTML = sanitizedHTML;
+  const textContent = tempElement.textContent || tempElement.innerText || "";
+  const previewBody = textContent.length > 100 ? `${textContent.slice(0, 100)}...` : textContent;
 
   return (
     <div className="article-preview" key={slug}>
@@ -21,7 +29,7 @@ function ArticlePreview({ article }) {
 
       <Link to={`/article/${slug}`} className="preview-link">
         <h1>{title}</h1>
-        <p>{isExpanded ? body : previewBody}</p>
+        <p>{isExpanded ? textContent : previewBody}</p>
         <span onClick={handleReadMoreClick} className="read-more">
           {isExpanded ? 'Show less' : 'Read more...'}
         </span>

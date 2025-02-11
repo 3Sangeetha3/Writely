@@ -30,5 +30,5 @@ export default function useCreateArticle() {
     onError: (err) => alert(err.message),
   });
 
-  return { isCreating, creteArticle: createArticle };
+  return { isCreating, createArticle };
 }

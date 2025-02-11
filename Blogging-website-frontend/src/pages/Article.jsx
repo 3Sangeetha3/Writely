@@ -182,7 +182,7 @@ function Article() {
     return <div>Article not found.</div>;
   }
   
-  // Sanitize the HTML content before rendering it
+  // Sanitize the body HTML to prevent XSS attacks since using dangerouslySetInnerHTML
   const sanitizedHTML = DOMPurify.sanitize(article.body);
 
   return (
