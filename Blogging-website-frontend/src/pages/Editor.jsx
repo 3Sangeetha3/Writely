@@ -49,7 +49,7 @@ function Editor() {
   return (
     <div className="editor-page" data-aos="fade-up">
       <div className="container mx-auto">
-        <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-16">New post</h1>
+        <h1 className="text-center text-4xl font-bold text-[#475756] mb-8 mt-8">New post</h1>
         <div className="">
           {/* Left Column - Article Form */}
           <div className="lg:pr-8" data-aos="fade-right">
@@ -92,7 +92,7 @@ function Editor() {
                             component={JoditField} 
                             className="form-control w-full p-4 border rounded-md"
                             rows={8}
-                            placeholder="Write your article (in markdown)"
+                            placeholder="Start typing your article..."
                           />
                         </fieldset>
                         <fieldset className="form-group">
