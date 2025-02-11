@@ -7,6 +7,7 @@ const JoditField = ({ field, form, ...props }) => {
   const config = useMemo(() => ({
     readonly: false,
     placeholder: props.placeholder || 'Start typing your article...',
+    height: "400px",
   }), [props.placeholder]);
 
   return (
@@ -18,10 +19,6 @@ const JoditField = ({ field, form, ...props }) => {
       onBlur={(newContent) => {
         form.setFieldValue(field.name, newContent);
       }}
-    //   onChange={(newContent) => {
-    //     // Optionally, you can update onChange too:
-    //     // form.setFieldValue(field.name, newContent);
-    //   }}
     />
   );
 };
