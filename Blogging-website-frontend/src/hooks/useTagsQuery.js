@@ -4,7 +4,7 @@ import React from "react";
 import axios from 'axios';
 
 const getAllTags = async () => {
-  const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
   const {data} = await axios.get(`${VITE_API_URL}/api/tags`);
 
 //   console.log("getCurrentUser", { data });

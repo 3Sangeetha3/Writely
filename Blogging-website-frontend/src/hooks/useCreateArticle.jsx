@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const creteArticle = async (values) => {
     //console.log("creteArticle", { values });
-    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
     const { data } = await axios.post(
         `${VITE_API_URL}/api/articles`,
         { article: {...values.values} }

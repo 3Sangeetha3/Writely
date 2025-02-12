@@ -6,7 +6,7 @@ import axios from 'axios'
 const getArticleBySlug = async (slug) => {
   const token = localStorage.getItem('authToken'); // Retrieve token from storage
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
-  const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
   const { data } = await axios.get(
     `${VITE_API_URL}/api/articles/${slug}`,
     { headers } // Include headers in the request

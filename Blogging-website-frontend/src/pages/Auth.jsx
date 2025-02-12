@@ -43,7 +43,7 @@ function Auth() {
 
   async function onSubmit(values, actions) {
     try {
-      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
       const { data } = await axios.post(
         `${VITE_API_URL}/api/users${isRegister ? "" : "/login"}`,
         { user: values }

@@ -26,7 +26,7 @@ function Settings() {
 
   async function onSubmit(values, { setErrors }) {
     try {
-      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
       const { data } = await axios.put(
         `${VITE_API_URL}/api/user`,
         { user: values }
