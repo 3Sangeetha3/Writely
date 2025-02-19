@@ -23,12 +23,15 @@ function Auth() {
   }, []);
 
   const passwordValidation = Yup.string()
-  .min(6, "Minimum 6 characters")
-  .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-  .matches(/[a-z]/, "Must contain at least one lowercase letter")
-  .matches(/[0-9]/, "Must contain at least one number")
-  .matches(/[!@#$%^&*(),.?":{}|<>_]/, "Must contain at least one special character")
-  .required("Required");
+    .min(6, "Minimum 6 characters")
+    .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+    .matches(/[a-z]/, "Must contain at least one lowercase letter")
+    .matches(/[0-9]/, "Must contain at least one number")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>_]/,
+      "Must contain at least one special character"
+    )
+    .required("Required");
 
   const loginValidationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -43,16 +46,12 @@ function Auth() {
 
   async function onSubmit(values, actions) {
     try {
-      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
+      const VITE_API_URL = import.meta.env.VITE_BACKEND_URL;
       const { data } = await axios.post(
         `${VITE_API_URL}/api/users${isRegister ? "" : "/login"}`,
         { user: values }
       );
       if (isRegister) {
-        // toast.success("Please verify your email. Check your inbox", {
-        //   position: "top-right",
-        // });
-
         toast.custom((t) => (
           <div
             className={`${
@@ -93,11 +92,8 @@ function Auth() {
       navigate("/");
     } catch (error) {
       const { status, data } = error.response;
-      if(status && data && data.message){
-        if(data.message.toLowerCase().includes("email")){
-          // toast.error("Please verify your email. Check your inbox", {
-          //   position: "top-right",
-          // });
+      if (status && data && data.message) {
+        if (data.message.toLowerCase().includes("email")) {
           toast.custom((t) => (
             <div
               className={`${
@@ -133,21 +129,18 @@ function Auth() {
               </div>
             </div>
           ));
-        }
-        else {
+        } else {
           toast.error(data.message, { position: "top-right" });
         }
       } else if (status === 422 && data.errors) {
         const serverErrors = {};
         data.errors.forEach((err) => {
-          const parts = err.param.split('.');
+          const parts = err.param.split(".");
           const fieldName = parts[parts.length - 1];
           serverErrors[fieldName] = err.msg;
         });
         actions.setErrors(serverErrors);
-      }
-      else {
-        // console.error("An error occurred:", error);
+      } else {
         toast.error("An error occurred. Please try again.", {
           position: "top-right",
         });
@@ -161,12 +154,22 @@ function Auth() {
   return (
     <div className="auth-page" data-aos="fade-up">
       <div className="container mx-auto">
-        <h1 className="text-center text-4xl font-bold text-[#475756] m-8">
+        <h1 className="text-center text-[40px] font-semibold text-[#475756] m-8">
           Sign {isRegister ? "up" : "in"}
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left Column - Form */}
-          <div className="mt-28 md:pr-8" data-aos="fade-right">
+          {/* Left Column: Header & Form */}
+          <div className="md:pr-8" data-aos="fade-right">
+            {/* Header */}
+            <div className="mb-8 text-center">
+              <h2 className="text-[32px] text-[#475756] font-medium font-['Roboto Serif']">
+                Your details
+              </h2>
+              <p className="text-sm text-[#243635]/80 font-light font-['Roboto Serif']">
+                Please provide your Name, Email and Password.
+              </p>
+            </div>
+            {/* Formik Form */}
             <Formik
               onSubmit={onSubmit}
               initialValues={
@@ -179,58 +182,138 @@ function Auth() {
               {({ isSubmitting, errors, touched }) => (
                 <Form>
                   <fieldset disabled={isSubmitting}>
-                    <div className="space-y-4">
+                    <div
+                      className="w-[449px] h-[229px] relative mx-auto"
+                      data-aos="fade-up"
+                    >
                       {isRegister && (
-                        <div data-aos="fade-up">
+                        // UserName field
+                        <div className="w-[449px] h-[69px] left-0 top-0 absolute">
+                          <div
+                            data-svg-wrapper
+                            className="left-0 top-[10px] absolute"
+                          >
+                            <svg
+                              width="451"
+                              height="61"
+                              viewBox="0 0 451 61"
+                              fill="none"
+                            >
+                              <path
+                                d="M51 1H38.125H25.75H9C4.58172 1 1 4.58172 1 9V52C1 56.4183 4.58172 60 9 60H442C446.418 60 450 56.4183 450 52V9C450 4.58172 446.418 1 442 1H225.5H135.5"
+                                stroke="black"
+                                strokeOpacity="0.25"
+                              />
+                            </svg>
+                          </div>
+                          <div className="left-[50px] top-0 absolute text-[#243635] text-base font-normal font-['Roboto Serif']">
+                            UserName
+                          </div>
                           <Field
                             type="text"
                             name="username"
-                            placeholder="Your Name"
-                            className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                            placeholder="Enter your UserName"
+                            className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
                               errors.username && touched.username
                                 ? "border-red-500"
                                 : ""
                             }`}
                           />
                           {errors.username && touched.username && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 absolute left-[50px] top-[60px]">
                               {errors.username}
                             </div>
                           )}
                         </div>
                       )}
-                      <div data-aos="fade-up">
+
+                      {/* Email field */}
+                      <div
+                        className={`w-[449px] h-[69px] absolute ${
+                          isRegister ? "top-[85px]" : "top-0"
+                        }`}
+                      >
+                        <div
+                          data-svg-wrapper
+                          className="left-0 top-[10px] absolute"
+                        >
+                          <svg
+                            width="451"
+                            height="61"
+                            viewBox="0 0 451 61"
+                            fill="none"
+                          >
+                            <path
+                              d="M51 1H38.125H25.75H9C4.58172 1 1 4.58172 1 9V52C1 56.4183 4.58172 60 9 60H442C446.418 60 450 56.4183 450 52V9C450 4.58172 446.418 1 442 1H225.5H97"
+                              stroke="black"
+                              strokeOpacity="0.25"
+                            />
+                          </svg>
+                        </div>
+                        <div className="left-[50px] top-0 absolute text-[#243635] text-base font-normal font-['Roboto Serif']">
+                          Email
+                        </div>
                         <Field
                           type="email"
                           name="email"
-                          placeholder="Email"
-                          className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                          placeholder="Enter your Email"
+                          className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
                             errors.email && touched.email
                               ? "border-red-500"
                               : ""
                           }`}
                         />
                         {errors.email && touched.email && (
-                          <div className="text-red-500">{errors.email}</div>
+                          <div className="text-red-500 absolute left-[50px] top-[60px]">
+                            {errors.email}
+                          </div>
                         )}
                       </div>
-                      <div data-aos="fade-up">
+
+                      {/* Password field */}
+                      <div
+                        className={`w-[449px] h-[69px] absolute ${
+                          isRegister ? "top-[160px]" : "top-[85px]"
+                        }`}
+                      >
+                        <div
+                          data-svg-wrapper
+                          className="left-0 top-[10px] absolute"
+                        >
+                          <svg
+                            width="451"
+                            height="61"
+                            viewBox="0 0 451 61"
+                            fill="none"
+                          >
+                            <path
+                              d="M51 1H38.125H25.75H9C4.58172 1 1 4.58172 1 9V52C1 56.4183 4.58172 60 9 60H442C446.418 60 450 56.4183 450 52V9C450 4.58172 446.418 1 442 1H225.5H128"
+                              stroke="black"
+                              strokeOpacity="0.25"
+                            />
+                          </svg>
+                        </div>
+                        <div className="left-[50px] top-0 absolute text-[#243635] text-base font-normal font-['Roboto Serif']">
+                          Password
+                        </div>
                         <Field
                           type="password"
                           name="password"
-                          placeholder="Password"
-                          className={`form-control form-control-lg w-full p-4 border rounded-md ${
+                          placeholder="Enter your Password"
+                          className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
                             errors.password && touched.password
                               ? "border-red-500"
                               : ""
                           }`}
                         />
                         {errors.password && touched.password && (
-                          <div className="text-red-500">{errors.password}</div>
+                          <div className="text-red-500 absolute left-[50px] top-[60px]">
+                            {errors.password}
+                          </div>
                         )}
                       </div>
                     </div>
-
+                    {/* Submit Button */}
                     <div className="text-center m-4">
                       <button
                         type="submit"
@@ -243,6 +326,7 @@ function Auth() {
                 </Form>
               )}
             </Formik>
+
             <hr className="mb-3" />
             <div className="text-center mt-4">
               <Link
