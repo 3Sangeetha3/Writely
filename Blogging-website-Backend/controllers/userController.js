@@ -185,7 +185,7 @@ const registerUser = async (req, res) => {
         subject: "Email Verification",
         html: `<div style="font-family: Arial, sans-serif; background-color: #FCFBF9; color: #001514; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
           <div style="text-align: center;">
-            <a href="https://imgbb.com/"><img src="https://i.ibb.co/JjQDW1B/logo.png" alt="logo" style="width: 60px; height: auto;   " ></a>
+            <a href="https://i.ibb.co/60b6GRxC/blog-comment.png"><img src="https://i.ibb.co/60b6GRxC/blog-comment.png" alt="logo" style="width: 60px; height: auto;   " ></a>
             <h1 style="color: #243635; font-size: 26px;">Welcome to Writely, ${user.username}!</h1>
           </div>
         
@@ -194,7 +194,7 @@ const registerUser = async (req, res) => {
               Please verify your email address to activate your account and get started. Click the button below to complete the process.
             </p>
             <div>
-              <img src="https://i.ibb.co/NVpYnSD/secured-shopping-and-delivery-2.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
+              <img src="https://i.ibb.co/jPRKLJqy/secured-shopping-and-delivery.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
             </div>
         
             <div style="text-align: center; margin: 20px 0;">
@@ -216,7 +216,7 @@ const registerUser = async (req, res) => {
                 <td style="padding: 0 7px;">
                   <a href="https://facebook.com" target="_blank" title="Follow us on Facebook">
                     <img 
-                      src="https://i.ibb.co/xHmw5Pq/facebook-1.png" 
+                      src="https://i.ibb.co/DDgwymd0/facebook.png" 
                       alt="Facebook Icon" 
                       style="width: 30px; height: 30px; display: block;" 
                     />
@@ -225,7 +225,7 @@ const registerUser = async (req, res) => {
                 <td style="padding: 0 7px;">
                   <a href="https://instagram.com" target="_blank" title="Follow us on Instagram">
                     <img 
-                      src="https://i.ibb.co/Qkyyz84/instagram.png" 
+                      src="https://i.ibb.co/ymbs9ywJ/instagram.png" 
                       alt="Instagram Icon" 
                       style="width: 30px; height: 30px; display: block;" 
                     />
