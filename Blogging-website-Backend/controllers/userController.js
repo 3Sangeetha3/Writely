@@ -194,7 +194,7 @@ const registerUser = async (req, res) => {
               Please verify your email address to activate your account and get started. Click the button below to complete the process.
             </p>
             <div>
-              <img src="https://i.ibb.co/jPRKLJqy/secured-shopping-and-delivery.png"  alt="verify Email image" style="width: 600px; height: auto; display: inline-block; "/>
+              <img src="https://i.ibb.co/jPRKLJqy/secured-shopping-and-delivery.png"  alt="verify Email image" style="width: 600px; height: auto; margin: 0; display: block; "/>
             </div>
         
             <div style="text-align: center; margin: 20px 0;">
