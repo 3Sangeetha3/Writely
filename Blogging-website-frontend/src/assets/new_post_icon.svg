@@ -2,7 +2,7 @@
   <path fill="url(#paint0_linear_1233_4266)" fill-rule="evenodd" d="M18 8C18 8.55228 18.4477 9 19 9C19.5523 9 20 8.55228 20 8V6H22C22.5523 6 23 5.55228 23 5C23 4.44772 22.5523 4 22 4H20V2C20 1.44772 19.5523 1 19 1C18.4477 1 18 1.44772 18 2V4H16C15.4477 4 15 4.44772 15 5C15 5.55228 15.4477 6 16 6H18V8ZM4 5C3.44772 5 3 5.44772 3 6V20C3 20.5523 3.44772 21 4 21H18C18.5523 21 19 20.5523 19 20V10.5C19 9.94772 19.4477 9.5 20 9.5C20.5523 9.5 21 9.94772 21 10.5V20C21 21.6569 19.6569 23 18 23H4C2.34315 23 1 21.6569 1 20V6C1 4.34315 2.34315 3 4 3H13.5C14.0523 3 14.5 3.44772 14.5 4C14.5 4.55228 14.0523 5 13.5 5H4Z" clip-rule="evenodd"></path>
   <defs>
     <linearGradient id="paint0_linear_1233_4266" x1="12" x2="12" y1="1" y2="23" gradientUnits="userSpaceOnUse">
-      <!-- <stop stop-color="#f8f8f8" class="stopColor57eaea svgShape"></stop> -->
+      <stop stop-color="#57eae1" class="stopColor57eaea svgShape"></stop>
       <stop offset="1" stop-color="#475756" class="stopColor2bc9ff svgShape"></stop>
     </linearGradient>
   </defs>
