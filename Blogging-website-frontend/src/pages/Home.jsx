@@ -41,8 +41,11 @@ function Home() {
       </div>
       <div className="container page">
         <div className="row">
-          <div className="col-md-9">
+          <div className="container">
             <div className="feed-toggle">
+              <div className="container">
+                <PopularTags />
+              </div>
               <ul className="nav nav-pills">
                 {isAuth && (
                   <li className="nav-item">
@@ -61,9 +64,6 @@ function Home() {
               </ul>
             </div>
             <ArticleList />
-          </div>
-          <div className="col-md-3">
-            <PopularTags />
           </div>
         </div>
       </div>
