@@ -300,7 +300,7 @@ const updateUser = async (req, res) => {
     target.password = hashedPass;
   }
 
-  if (typeof user.image !== "undefined") {
+  if (typeof user.image === "string" && user.image.trim().length > 0) {
     target.image = user.image;
   }
 

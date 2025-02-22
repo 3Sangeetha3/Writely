@@ -69,7 +69,7 @@ userSchema.methods.updateProfile = function (bio, image) {
   if (bio !== undefined) {
     this.bio = bio;
   }
-  if (image !== undefined) {
+  if (image !== undefined && image.trim().length > 0) {
     this.image = image;
   }
   return this.save(); // This returns a promise to ensure that the update is saved to the database.
