@@ -57,7 +57,7 @@ function Home() {
        {/* Page Content */}
        <div className="page" style={{ marginTop: "2rem" }}>
         {/* Popular Tags */}
-        <div className="feed-toggle" style={{ marginBottom: "1.5rem" }}>
+        <div className="feed-toggle" style={{}}>
           {/* Popular Tags at the top */}
           <PopularTags onTagClick={onTagClick} />
 
