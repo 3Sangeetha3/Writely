@@ -57,11 +57,11 @@ function Home() {
        {/* Page Content */}
        <div className="page" style={{ marginTop: "2rem" }}>
         {/* Popular Tags */}
-        <div className="feed-toggle" style={{}}>
+        <div className="feed-toggle" style={{ marginBottom: "1.5rem" }}>
           {/* Popular Tags at the top */}
           <PopularTags onTagClick={onTagClick} />
 
-          {/* (Optional) Feed buttons */}
+          {/* Feed buttons */}
           <ul className="nav nav-pills">
             {isAuth && (
               <li className="nav-item">
