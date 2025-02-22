@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const { getRandomAvatar } = require("../helpers/defaultAvatars");
 
 const getCurrentUser = async (req, res) => {
   //after authentication, email, password and hashed password and that we need to store in the request
@@ -152,12 +153,17 @@ const registerUser = async (req, res) => {
 
   const verificationToken = crypto.randomBytes(32).toString("hex");
 
+  const selectedAvatar =
+    typeof user.image === "string" && user.image.trim().length > 0
+      ? user.image
+      : getRandomAvatar();
+
   const userObject = {
     username: user.username,
     email: user.email,
     password: hashedpass,
     verificationToken,
-    // image: user.image,
+    image: selectedAvatar,
     // bio: user.bio
   };
 
