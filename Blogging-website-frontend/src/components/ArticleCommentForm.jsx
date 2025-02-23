@@ -1,34 +1,30 @@
-import { Field, Formik,Form } from "formik";
+import { Field, Formik, Form } from "formik";
 import React from "react";
 import useCreateComment from "../hooks/useCreateComment";
 import { useParams } from "react-router-dom";
 
 function ArticleCommentForm() {
-    const {slug} = useParams();
-    const { isCreatingComment, createComment } = useCreateComment();
+  const { createComment, isLoading: isCreatingComment } = useCreateComment();
 
-    async function onSubmit({body}, {resetForm}){
-            //send the data to create comment api
-            createComment({values:{
-                comment: {
-                    body
-                }
-            }, slug})
-        resetForm();
-    }
+  async function onSubmit({ body }, { resetForm }) {
+    //send the data to create comment api
+    createComment({ commentData: { body } });
+    resetForm();
+  }
   return (
     <Formik onSubmit={onSubmit} initialValues={{ body: "" }}>
       {({ isSubmitting }) => (
         <>
           {/* <FormErrors /> */}
           <Form className="card comment-form">
-            <div className="card-block" 
+            <div
+              className="card-block"
               style={{
                 display: "flex",
-                justifyContent: "center",  // Center horizontally
-                alignItems: "center",       // Center vertically (optional)
-                flexDirection: "column",    // Stack items vertically
-                padding: "20px",            // Add some padding for spacing
+                justifyContent: "center", 
+                alignItems: "center", 
+                flexDirection: "column",
+                padding: "20px", 
               }}
             >
               <Field
@@ -40,23 +36,28 @@ function ArticleCommentForm() {
               />
             </div>
 
-            <div className="card-footer" style={{
+            <div
+              className="card-footer"
+              style={{
                 backgroundColor: "#edefef",
                 display: "flex",
-                justifyContent: "center", // Center horizontally
-                alignItems: "center",      // Center vertically (if needed)
+                justifyContent: "center",
+                alignItems: "center", 
               }}
             >
-              
-                <button
-                  disabled={isSubmitting}
-                  type="submit"
-                  className="btn btn-sm btn-primary pull-xs-right"
-                  style={{ backgroundColor: "#243635", border: "none", color: "#FCFBF9", margin: '10px' }}
-                >
-                  Post Comment
-                </button>
-              
+              <button
+                disabled={isSubmitting}
+                type="submit"
+                className="btn btn-sm btn-primary pull-xs-right"
+                style={{
+                  backgroundColor: "#243635",
+                  border: "none",
+                  color: "#FCFBF9",
+                  margin: "10px",
+                }}
+              >
+                Post Comment
+              </button>
             </div>
           </Form>
         </>

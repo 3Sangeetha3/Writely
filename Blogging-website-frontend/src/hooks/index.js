@@ -7,4 +7,4 @@ export {default as useCreateArticle} from './useCreateArticle';
 export {default as useTagsQuery} from './useTagsQuery';
 export {default as useArticleCommentsQuery} from './useArticleCommentsQuery';
 export {default as useCreateComment} from './useCreateComment';
-export {default as useDeleteCommentQuery} from "./useDeleteCommentQuery"
+export {default as useDeleteComment} from "./useDeleteComment"

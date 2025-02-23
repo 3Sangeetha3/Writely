@@ -1,14 +1,13 @@
 import React from 'react'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const createCommentApi = async (values) => {
-    //console.log("creteArticle", { values });
+const createCommentApi = async ({ slug, commentData }) => {
     const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
     const { data } = await axios.post(
-        `${VITE_API_URL}/api/articles/${values.slug}/comments`,
-        { ...values.values }
+        `${VITE_API_URL}/api/articles/${slug}/comments`,
+        { comment: commentData }
       );
 
       //console.log("createCommentApi", { data });
@@ -18,15 +17,17 @@ const createCommentApi = async (values) => {
 
 export default function useCreateComment() {
   const queryClient = useQueryClient();
+  const { slug } = useParams();
   const navigate = useNavigate();
 
 
   const { mutate: createComment, isLoading: isCreatingComment } = useMutation({
-    mutationFn: createCommentApi,
+    mutationFn: ({commentData}) => createCommentApi({slug, commentData}),
     onSuccess: () => {
-      alert("New comment successfully created");
+      // alert("New comment successfully created");
+      // Invalidate the comments query to update the list automatically
       queryClient.invalidateQueries({ queryKey: ["articleComments"] });
-      navigate('/');
+      // navigate('/');
     },
     onError: (err) => alert(err.message),
   });
