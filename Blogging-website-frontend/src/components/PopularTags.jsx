@@ -121,6 +121,7 @@ function PopularTags({ onTagClick }) {
               return (
                 <span
                   key={tag}
+                  onClick={() => onTagClick(tag)}
                   className={`snap-center whitespace-nowrap cursor-pointer px-5 py-2 text-gray-800 text-sm font-medium rounded-md m-0.5 ${bgColor} hover:bg-opacity-80 transition`}
                 >
                   {tag}

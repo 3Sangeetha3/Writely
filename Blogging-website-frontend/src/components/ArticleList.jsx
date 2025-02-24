@@ -7,8 +7,8 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 
-function ArticleList() {
-  const { articles, isArticlesLoading } = useArticlesQuery();
+function ArticleList({tag}) {
+  const { articles, isArticlesLoading } = useArticlesQuery(tag);
   const [page, setPage] = useState(1);
   const articlesPerPage = 10; // Customize how many articles per page
 

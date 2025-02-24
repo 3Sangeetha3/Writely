@@ -13,7 +13,7 @@ function Home() {
     ...initialFilters,
     feed: isAuth,
   });
-  const { isArticlesLoading, articles, ArticlesError } = useArticlesQuery();
+  const { isArticlesLoading, articles, ArticlesError } = useArticlesQuery(filters);
 
   React.useEffect(() => {
     setFilters({ ...initialFilters, feed: isAuth });
@@ -33,10 +33,10 @@ function Home() {
 
   return (
     <div className="container home-page"
-        style={{
-          maxWidth: "1220px",
-          margin: "0 auto",
-        }}
+      style={{
+        maxWidth: "1220px",
+        margin: "0 auto",
+      }}
     >
       <div
         className="banner"
@@ -54,34 +54,57 @@ function Home() {
           <p>A place to share your knowledge.</p>
         </div>
       </div>
-       {/* Page Content */}
-       <div className="page" style={{ marginTop: "2rem" }}>
+
+      {/* Page Content */}
+      <div className="page" style={{ marginTop: "2rem" }}>
         {/* Popular Tags */}
-        <div className="feed-toggle" style={{}}>
-          {/* Popular Tags at the top */}
+        <div className="feed-toggle">
           <PopularTags onTagClick={onTagClick} />
 
           {/* Feed buttons */}
-          <ul className="nav nav-pills">
+          <div className="flex gap-2 mb-4">
             {isAuth && (
-              <li className="nav-item">
-                <button
-                  onClick={onFeedClick}
-                  type="button"
-                  className={classNames("feed-button", {
-                    "feed-button-active": filters.feed,
-                    "feed-button-inactive": !filters.feed,
-                  })}
-                >
-                  Your Feed
-                </button>
-              </li>
+              <button
+                onClick={onFeedClick}
+                className={classNames(
+                  "px-4 py-2 rounded",
+                  {
+                    "bg-[#001519] text-white": filters.feed,
+                    "bg-gray-200 text-gray-700": !filters.feed && !filters.tag
+                  }
+                )}
+              >
+                Your Feed
+              </button>
             )}
-          </ul>
+
+            {/* {!filters.tag && (
+              <button
+                onClick={onGlobalFeedClick}
+                className={classNames(
+                  "px-4 py-2 rounded",
+                  {
+                    "bg-[#001519] text-white": !filters.feed && !filters.tag,
+                    "bg-gray-200 text-gray-700": filters.feed
+                  }
+                )}
+              >
+                Global Feed
+              </button>
+            )} */}
+
+            {filters.tag && (
+              <button
+                className="px-4 py-2 rounded bg-[#475756] text-white"
+              >
+                #{filters.tag}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Articles */}
-        <ArticleList />
+        <ArticleList tag={filters.tag} feed={filters.feed} />
       </div>
     </div>
   );

@@ -1,47 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from 'axios';
-import useAuth from './useAuth';  // Import the useAuth hook
+import axios from "axios";
+import useAuth from "./useAuth";
 
-function useArticlesQuery() {
-  const { authUser, isAuth } = useAuth();  // Get authUser and isAuth from useAuth
-  
-  // Get the JWT token from authUser
+function useArticlesQuery(tag) {
+  const { authUser, isAuth } = useAuth();
   const token = authUser?.token;
 
-  // API call to fetch all articles
-  const getAllArticles = async () => {
+  const fetchArticles = async () => {
     if (!token) {
       throw new Error("Token is missing. Cannot fetch articles.");
     }
-
-    //console.log('token: ', token);
-
     const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${token}`,  // Add the Authorization header with the token from useAuth
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
     };
+    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL;
+    let url = "";
+    // If a tag is provided, fetch articles filtered by that tag
+    if (tag) {
+      url = `${VITE_API_URL}/api/articles?tag=${tag}`;
+    } else {
+      url = `${VITE_API_URL}/api/articles/feed`;
+    }
+    const { data } = await axios.get(url, { headers });
+    // Adjust based on the response structure:
+    return data.articles ? data.articles : data;
+  };
 
-    const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
-    const { data } = await axios.get(`${VITE_API_URL}/api/articles/feed`, {
-      headers: headers,
+  const { isLoading: isArticlesLoading, data: articles, error: ArticlesError } =
+    useQuery({
+      queryKey: ["articles", tag],
+      queryFn: fetchArticles,
+      enabled: isAuth,
+      refetchOnWindowFocus: true,
+      staleTime: 0,
+      cacheTime: 0,
     });
-    return data;
-  };
 
-  const { isLoading: isArticlesLoading, data: articles, error: ArticlesError } = useQuery({
-    queryKey: ["articles"],
-    queryFn: getAllArticles,
-    enabled: isAuth,  // Only enable the query if the user is authenticated
-    refetchOnWindowFocus: true,
-    staleTime: 0,
-    cacheTime: 0,
-  });
-
-  return {
-    isArticlesLoading,
-    articles,
-    ArticlesError,
-  };
+  return { isArticlesLoading, articles, ArticlesError };
 }
 
 export default useArticlesQuery;
