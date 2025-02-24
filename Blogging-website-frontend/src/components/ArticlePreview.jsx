@@ -21,7 +21,7 @@ function ArticlePreview({ article }) {
   const tempElement = document.createElement("div");
   tempElement.innerHTML = sanitizedHTML;
   const textContent = tempElement.textContent || tempElement.innerText || "";
-  const previewBody = textContent.length > 100 ? `${textContent.slice(0, 100)}...` : textContent;
+  const previewBody = textContent.length > 300 ? `${textContent.slice(0, 300)}...` : textContent;
 
   return (
     <div className="article-preview" key={slug}>
