@@ -14,7 +14,7 @@ function ArticleMeta({ author, createdAt }) {
       <div className="article-meta">
         <div className="flex items-center">
           <img
-            className="p-[2px] rounded-full mr-2 ring-2 ring-[#475756]"
+            className="p-[2px] rounded-full mr-2 ring-2 ring-[#475756] hover:ring-[#53C7C0] transition duration-300"
             style={{
               width: "48px",
               height: "48px",
@@ -25,7 +25,7 @@ function ArticleMeta({ author, createdAt }) {
             alt="Anonymous user"
           />
           <div className="info">
-            <span className="text-md font-semibold">Anonymous</span>
+            <span className="text-md font-semibold hover:text-[#53C7C0] hover:underline transition duration-300">Anonymous</span>
           </div>
         </div>
       </div>
