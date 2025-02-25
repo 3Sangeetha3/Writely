@@ -120,7 +120,7 @@ const userLogin = async (req, res) => {
 const registerUser = async (req, res) => {
   //logic to register the user
   // console.log('registering the user')
-  const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+  const FRONTEND_URL = process.env.FRONTEND_URL;
   const { user } = req.body;
 
   //check if the data exists
