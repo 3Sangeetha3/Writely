@@ -4,7 +4,8 @@ import { useAuth } from "../hooks";
 
 function ArticleMeta({ author, createdAt }) {
   const { authUser } = useAuth();
-  const defaultAvatar  = "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
+  const defaultAvatar =
+    "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
 
   const displayImage = author?.image || defaultAvatar;
   const displayName = author?.username || "Anonymous";
@@ -25,7 +26,23 @@ function ArticleMeta({ author, createdAt }) {
             alt="Anonymous user"
           />
           <div className="info">
-            <span className="text-md font-semibold hover:text-[#53C7C0] hover:underline transition duration-300">Anonymous</span>
+            <span className="text-md font-semibold hover:text-[#53C7C0] hover:underline transition duration-300">
+              Anonymous
+            </span>
+            <span
+              className="date text-sm text-gray-500"
+              style={{
+                fontSize: "0.875rem",
+                lineHeight: "1.25rem",
+                color: "#718096",
+              }}
+            >
+              {new Date(createdAt).toLocaleDateString(undefined, {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
           </div>
         </div>
       </div>
@@ -57,18 +74,18 @@ function ArticleMeta({ author, createdAt }) {
         >
           {displayName}
         </Link>
-        <span 
+        <span
           className="date text-sm text-gray-500"
           style={{
-            fontSize: '0.875rem',
-            lineHeight: '1.25rem',
-            color: '#718096',
+            fontSize: "0.875rem",
+            lineHeight: "1.25rem",
+            color: "#718096",
           }}
         >
           {new Date(createdAt).toLocaleDateString(undefined, {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
+            month: "long",
+            day: "numeric",
+            year: "numeric",
           })}
         </span>
       </div>
