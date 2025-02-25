@@ -1,113 +1,75 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
-const User = require("./user");
-const slugify = require("slugify");
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const slugify = require('slugify');
+const User = require('./user');
 
-// Define the schema for articles
-const articleSchema = new mongoose.Schema(
-  {
-    slug: {
-      type: String,
-      unique: true,
-      lowercase: true,
-      index: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    body: {
-      type: String,
-      required: true,
-    },
-    tagList: [
-      {
-        type: String,
-      },
-    ],
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    favoritesCount: {
-      type: Number,
-      default: 0,
-    },
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
-  },
-  {
-    timestamps: true,
+const ArticleSchema = new mongoose.Schema({
+  slug: { type: String, lowercase: true, unique: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  body: { type: String, required: true },
+  tagList: [{ type: String }],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  // Add favorites count
+  favoritesCount: { type: Number, default: 0 }
+}, { timestamps: true });
+
+ArticleSchema.plugin(uniqueValidator);
+
+// Generate slug from title
+ArticleSchema.pre('validate', function(next) {
+  if (!this.slug) {
+    this.slug = slugify(this.title, { lower: true }) + '-' + 
+                (Math.random() * Math.pow(36, 6) | 0).toString(36);
   }
-);
-
-articleSchema.plugin(uniqueValidator);
-
-// Middleware to run before saving the article
-articleSchema.pre('save', function(next){
-    this.slug = slugify(this.title, {lower:true, replacement:'-'});
-    next();
+  next();
 });
 
-// Method to generate the article response
-articleSchema.methods.toArticleResponse = async function (user) {
-  const authorObj = await User.findById(this.author).exec();
-
-  if (!authorObj) {
-    // Handle the case where the author is not found
+// Update the toArticleResponse method to include favorite status
+ArticleSchema.methods.toArticleResponse = async function(user) {
+  const authorDetails = typeof this.author === 'object' 
+    ? this.author 
+    : await User.findById(this.author).exec();
+    
+  // If no authorized user or author details not found
+  if (!authorDetails) {
     return {
       slug: this.slug,
       title: this.title,
       description: this.description,
       body: this.body,
+      tagList: this.tagList,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      favourited: false,
-      favouritesCount: this.favouritesCount,
       author: {
-        username: "Unknown",
-        bio: "",
-        image: "",
-        following: false
-      },
+        username: 'unknown',
+        bio: '',
+        image: '',
+      }
     };
   }
-
+  
+  // Handle case when user is provided
+  const userDoc = typeof user === 'object' && user 
+    ? user 
+    : user 
+      ? await User.findById(user).exec() 
+      : null;
+  
   return {
     slug: this.slug,
     title: this.title,
     description: this.description,
     body: this.body,
+    tagList: this.tagList,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
-    favourited: false,
-    favouritesCount: this.favouritesCount,
-    author: authorObj.toProfileJSON(user),
+    author: {
+      username: authorDetails.username,
+      bio: authorDetails.bio || '',
+      image: authorDetails.image || '',
+    }
   };
 };
 
-// Method to add a comment to the article
-articleSchema.methods.addComment = async function (commentId) {
-  if (this.comments.indexOf(commentId) === -1) {
-    this.comments.push(commentId);
-  }
-  return this.save();
-};
-
-// Method to remove a comment from the article
-articleSchema.methods.removeComment = async function (commentId) {
-  if (this.comments.indexOf(commentId) !== -1) {
-    this.comments.remove(commentId);
-  }
-  return this.save();
-};
-
-module.exports = mongoose.model("Article", articleSchema);
+module.exports = mongoose.model('Article', ArticleSchema);

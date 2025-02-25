@@ -32,5 +32,8 @@ router.get('/api/articles/feed', verifyJWT, articlesController.feedArticles);
 // Email Verification Route
 router.get('/verifyemail', userController.verifyEmail);
 
+// profile routes
+router.get('/profiles/:username', userController.getProfileByUsername);
+
 
 module.exports = router;

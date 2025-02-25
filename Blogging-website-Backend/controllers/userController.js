@@ -339,6 +339,26 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const getProfileByUsername = async (req, res) => {
+  const { username } = req.params;
+  
+  try {
+    const user = await User.findOne({ username }).exec();
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    // Return the profile data
+    return res.status(200).json({
+      profile: user.toProfileJSON()
+    });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   registerUser,
   userLogin,
@@ -346,4 +366,5 @@ module.exports = {
   updateUser,
   updateProfile,
   verifyEmail,
+  getProfileByUsername,
 };

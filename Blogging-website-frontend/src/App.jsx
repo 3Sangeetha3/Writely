@@ -7,6 +7,7 @@ import { Navbar } from "./components";
 import { AuthRoute, GuestRoute } from "./components";
 import VerifyEmail from "./pages/VerifyEmail";
 import { Toaster } from "react-hot-toast";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   useEffect(() => {
@@ -47,9 +48,10 @@ function App() {
             <Route path="/editor/:slug" element={<h1>Editor </h1>} />
             <Route path="/article/:slug" element={<Article/>} />
             {/* <Route path="/profile/:username" element={<Profile />} /> */}
-            <Route path="/profile/:username" element={<AuthRoute />}>
-              <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/profile" element={<AuthRoute />}>
+              <Route path="/profile" element={<Profile />} />
             </Route>
+              <Route path="/profile/:username" element={<UserProfile/>} />
             <Route path="/verify-email" element={<VerifyEmail />} />
           </Routes>
         </main>
