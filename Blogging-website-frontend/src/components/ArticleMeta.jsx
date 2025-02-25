@@ -6,6 +6,9 @@ function ArticleMeta({ author, createdAt }) {
   const { authUser } = useAuth();
   const defaultAvatar  = "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
 
+  const displayImage = author?.image || defaultAvatar;
+  const displayName = author?.username || "Anonymous";
+
   if (!author) {
     return (
       <div className="article-meta">
@@ -43,8 +46,8 @@ function ArticleMeta({ author, createdAt }) {
             objectPosition: "center",
             borderRadius: "50%",
           }}
-          src={author.image}
-          alt={`${author.username} image`}
+          src={displayImage}
+          alt={`${displayName} image`}
         />
       </Link>
       <div className="info">
@@ -52,7 +55,7 @@ function ArticleMeta({ author, createdAt }) {
           to={`/profile/${author?.username}`}
           className="text-md font-semibold hover:text-[#53C7C0] hover:underline transition duration-300"
         >
-          {author?.username}
+          {displayName}
         </Link>
         <span 
           className="date text-sm text-gray-500"
