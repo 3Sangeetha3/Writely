@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema({
   },
   verificationToken:{
     type: String
+  },
+  pronouns: {
+    type: String,
+    enum: ['he', 'she', 'other'],
+    default: 'other'
   }
 });
 

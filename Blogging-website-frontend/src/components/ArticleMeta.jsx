@@ -4,8 +4,30 @@ import { useAuth } from "../hooks";
 
 function ArticleMeta({ author, createdAt }) {
   const { authUser } = useAuth();
+  const defaultAvatar  = "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
 
-  if (!author) return null; // Prevent rendering if author is undefined
+  if (!author) {
+    return (
+      <div className="article-meta">
+        <div className="flex items-center">
+          <img
+            className="p-[2px] rounded-full mr-2 ring-2 ring-[#475756]"
+            style={{
+              width: "48px",
+              height: "48px",
+              objectFit: "cover",
+              borderRadius: "50%",
+            }}
+            src={defaultAvatar}
+            alt="Anonymous user"
+          />
+          <div className="info">
+            <span className="text-md font-semibold">Anonymous</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const canUpdate = authUser?.username === author?.username;
 
@@ -21,7 +43,7 @@ function ArticleMeta({ author, createdAt }) {
             objectPosition: "center",
             borderRadius: "50%",
           }}
-          src={author.image || '/default-avatar.png'}
+          src={author.image}
           alt={`${author.username} image`}
         />
       </Link>

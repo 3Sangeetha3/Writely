@@ -156,13 +156,14 @@ const registerUser = async (req, res) => {
   const selectedAvatar =
     typeof user.image === "string" && user.image.trim().length > 0
       ? user.image
-      : getRandomAvatar();
+      : getRandomAvatar(user.pronouns);
 
   const userObject = {
     username: user.username,
     email: user.email,
     password: hashedpass,
     verificationToken,
+    pronouns: user.pronouns,
     image: selectedAvatar,
     // bio: user.bio
   };

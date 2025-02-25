@@ -38,10 +38,14 @@ function Auth() {
     password: passwordValidation,
   });
 
+  // Use the same field name ("pronouns") in both validation and the Field component.
   const registerValidationSchema = Yup.object({
     username: Yup.string().min(3, "Minimum 3 characters").required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     password: passwordValidation,
+    pronouns: Yup.string()
+      .required("Required")
+      .oneOf(["he", "she", "other"], "Please select a valid option"),
   });
 
   async function onSubmit(values, actions) {
@@ -149,7 +153,12 @@ function Auth() {
   }
 
   const loginInitialValues = { email: "", password: "" };
-  const registerInitialValues = { username: "", email: "", password: "" };
+  const registerInitialValues = {
+    username: "",
+    email: "",
+    password: "",
+    pronouns: "other",
+  };
 
   return (
     <div className="auth-page" data-aos="fade-up">
@@ -172,9 +181,7 @@ function Auth() {
             {/* Formik Form */}
             <Formik
               onSubmit={onSubmit}
-              initialValues={
-                isRegister ? registerInitialValues : loginInitialValues
-              }
+              initialValues={isRegister ? registerInitialValues : loginInitialValues}
               validationSchema={
                 isRegister ? registerValidationSchema : loginValidationSchema
               }
@@ -182,17 +189,17 @@ function Auth() {
               {({ isSubmitting, errors, touched }) => (
                 <Form>
                   <fieldset disabled={isSubmitting}>
+                    {/* Adjust container height based on mode */}
                     <div
-                      className="w-[449px] h-[229px] relative mx-auto"
+                      className={`w-[449px] ${
+                        isRegister ? "h-[324px]" : "h-[229px]"
+                      } relative mx-auto`}
                       data-aos="fade-up"
                     >
                       {isRegister && (
-                        // UserName field
+                        // Username field
                         <div className="w-[449px] h-[69px] left-0 top-0 absolute">
-                          <div
-                            data-svg-wrapper
-                            className="left-0 top-[10px] absolute"
-                          >
+                          <div data-svg-wrapper className="left-0 top-[10px] absolute">
                             <svg
                               width="451"
                               height="61"
@@ -227,16 +234,54 @@ function Auth() {
                         </div>
                       )}
 
+                      {isRegister && (
+                        // Pronouns field (rendered only in register mode)
+                        <div className="w-[449px] h-[69px] left-0 top-[85px] absolute">
+                          <div data-svg-wrapper className="left-0 top-[10px] absolute">
+                            <svg
+                              width="451"
+                              height="61"
+                              viewBox="0 0 451 61"
+                              fill="none"
+                            >
+                              <path
+                                d="M51 1H38.125H25.75H9C4.58172 1 1 4.58172 1 9V52C1 56.4183 4.58172 60 9 60H442C446.418 60 450 56.4183 450 52V9C450 4.58172 446.418 1 442 1H225.5H135.5"
+                                stroke="black"
+                                strokeOpacity="0.25"
+                              />
+                            </svg>
+                          </div>
+                          <div className="left-[50px] top-0 absolute text-[#243635] text-base font-normal font-['Roboto Serif']">
+                            Pronouns
+                          </div>
+                          <Field
+                            as="select"
+                            name="pronouns"
+                            className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
+                              errors.pronouns && touched.pronouns
+                                ? "border-red-500"
+                                : ""
+                            }`}
+                          >
+                            <option className="" value="he">He</option>
+                            <option className="" value="she">She</option>
+                            <option className="" value="other">Prefer not to say</option>
+                          </Field>
+                          {errors.pronouns && touched.pronouns && (
+                            <div className="text-red-500 absolute left-[50px] top-[60px]">
+                              {errors.pronouns}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       {/* Email field */}
                       <div
                         className={`w-[449px] h-[69px] absolute ${
-                          isRegister ? "top-[85px]" : "top-0"
+                          isRegister ? "top-[170px]" : "top-0"
                         }`}
                       >
-                        <div
-                          data-svg-wrapper
-                          className="left-0 top-[10px] absolute"
-                        >
+                        <div data-svg-wrapper className="left-0 top-[10px] absolute">
                           <svg
                             width="451"
                             height="61"
@@ -258,9 +303,7 @@ function Auth() {
                           name="email"
                           placeholder="Enter your Email"
                           className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
-                            errors.email && touched.email
-                              ? "border-red-500"
-                              : ""
+                            errors.email && touched.email ? "border-red-500" : ""
                           }`}
                         />
                         {errors.email && touched.email && (
@@ -273,13 +316,10 @@ function Auth() {
                       {/* Password field */}
                       <div
                         className={`w-[449px] h-[69px] absolute ${
-                          isRegister ? "top-[160px]" : "top-[85px]"
+                          isRegister ? "top-[255px]" : "top-[85px]"
                         }`}
                       >
-                        <div
-                          data-svg-wrapper
-                          className="left-0 top-[10px] absolute"
-                        >
+                        <div data-svg-wrapper className="left-0 top-[10px] absolute">
                           <svg
                             width="451"
                             height="61"
@@ -301,9 +341,7 @@ function Auth() {
                           name="password"
                           placeholder="Enter your Password"
                           className={`left-[50px] top-[28px] absolute text-[#243635]/50 text-xl font-light font-['Roboto Serif'] bg-transparent outline-none w-[350px] ${
-                            errors.password && touched.password
-                              ? "border-red-500"
-                              : ""
+                            errors.password && touched.password ? "border-red-500" : ""
                           }`}
                         />
                         {errors.password && touched.password && (
@@ -334,8 +372,8 @@ function Auth() {
                 className="text-[#5e6c6b] hover:text-[#5E6C6B]"
               >
                 {isRegister
-                  ? `Already have an account? Login`
-                  : `Don't have an account? SignUp`}
+                  ? "Already have an account? Login"
+                  : "Don't have an account? SignUp"}
               </Link>
             </div>
           </div>
