@@ -196,16 +196,18 @@ function Article() {
         }}
       >
         <div className="container" style={{ margin: "25px" }}>
-          <h1>{article.title}</h1>
+          <h1 className="p-4">{article.title}</h1>
           <ArticleMeta author={article.author} createdAt={article.createdAt} />
         </div>
       </div>
       <div className="container page">
-        <div className="row article-content">
-          <div className="col-md-12">
-            <p>{article.description}</p>
+        <div className="row article-content my-6">
+          <div className="container max-w-screen-lg bg-neutral-100 p-4 rounded-lg">
+            {/* <p className="px-16 pt-12 ">{article.description}</p> */}
+            <div className="px-16 pt-12 py-6 text-2xl font-medium" >{ article.description }</div>
+            <hr className="mx-16 mb-3 bg-black" />
             {/* <p>{article.body}</p> */}
-            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+            <div className="px-16" dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
           </div>
         </div>
         <hr />

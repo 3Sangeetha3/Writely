@@ -18,7 +18,7 @@ function ArticleComments() {
       // console.log("articleComments: ", articleComments);
 
       // comments skeleton loading
-      if (isArticleCommentsLoading) {
+      if (articleComments && isArticleCommentsLoading) {
         return (
           <div className='card'>
             <div className="card-block">
