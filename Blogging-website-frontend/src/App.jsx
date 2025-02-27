@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Article, Auth, Editor, Home, Settings, Profile } from "./pages";
+import { Article, Auth, Editor, Home, Settings} from "./pages";
 import axios from "axios";
 import { Navbar } from "./components";
 import { AuthRoute, GuestRoute } from "./components";
@@ -49,7 +49,7 @@ function App() {
             <Route path="/article/:slug" element={<Article/>} />
             {/* <Route path="/profile/:username" element={<Profile />} /> */}
             <Route path="/profile" element={<AuthRoute />}>
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Route>
               <Route path="/profile/:username" element={<UserProfile/>} />
             <Route path="/verify-email" element={<VerifyEmail />} />

@@ -1,13 +1,15 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { IS_AUTHENTICATED } from "../constants";
-import { useAuth } from "../hooks";
+// AuthRoute.jsx
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUserQuery } from '../hooks';
 
-function AuthRoute() {
-  const isAuth = useAuth;
+const AuthRoute = () => {
+  const { isCurrentUserLoading, currentUser } = useUserQuery();
 
-  if (!isAuth) return <Navigate to="/" />;
+  if (isCurrentUserLoading) return <div>Loading...</div>;
+  if (!currentUser?.user) return <Navigate to="/login" />;
+
   return <Outlet />;
-}
+};
 
 export default AuthRoute;

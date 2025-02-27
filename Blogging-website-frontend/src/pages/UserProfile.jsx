@@ -2,9 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useProfileQuery, useAuth } from '../hooks';
 import "./Profile.css";
+import { useNavigate } from 'react-router-dom';
 
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const { username } = useParams();
   const { isProfileLoading, profile, profileError } = useProfileQuery();
   const { authUser } = useAuth();
@@ -33,7 +35,10 @@ const UserProfile = () => {
           <h4 className="mt-2 text-2xl font-bold">{profile.username}</h4>
           <p className="text-gray-600 mt-2 text-center max-w-md">{profile.bio || 'No bio available'}</p>
           {isCurrentUser ? (
-            <button className="mt-4 px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition">
+            <button 
+              className="mt-4 px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition"
+              onClick = {() => navigate('/settings')}
+            >
               Edit Profile
             </button>
           ) : (
