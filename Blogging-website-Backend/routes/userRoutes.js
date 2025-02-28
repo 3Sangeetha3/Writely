@@ -4,6 +4,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const articlesController = require('../controllers/articlesController');
 const validateDetails = require("../middleware/userValidators");
+const upload = require("../middleware/multer");
 
 const verifyJWT = require("../middleware/verifyJWT");
 
@@ -25,7 +26,7 @@ router.get('/user',verifyJWT, userController.getCurrentUser);
 
 
 //update the user
-router.put('/user',verifyJWT, userController.updateUser);
+router.put('/user',verifyJWT,upload.single("imageFile"), userController.updateUser);
 
 router.get('/api/articles/feed', verifyJWT, articlesController.feedArticles);
 

@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { getRandomAvatar } = require("../helpers/defaultAvatars");
+const cloudinary = require("../utils/cloudinary");
+const fs = require("fs");
 
 const getCurrentUser = async (req, res) => {
   //after authentication, email, password and hashed password and that we need to store in the request
@@ -280,41 +282,87 @@ const registerUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { user } = req.body;
+  try {
+    // Parse the user data from the form-data
+    let userData = typeof req.body.user === "string" ? JSON.parse(req.body.user) : req.body.user;
+    // If parsing returns a string again, try parsing one more time (defensive)
+    if (typeof userData === "string") {
+      try {
+        userData = JSON.parse(userData);
+      } catch (error) {
+        return res.status(400).json({ message: "Invalid JSON format in user field." });
+      }
+    }
 
-  if (!user) {
-    return res.status(400).json({ message: "Required a User object" });
+    // Find the target user using the provided email
+    const target = await User.findOne({ email: userData.email }).exec();
+    if (!target) {
+      return res.status(404).json({
+        message: `User with email ${userData.email} not found to update.`,
+      });
+    }
+
+    // If a new file was uploaded, process it with Cloudinary
+    if (req.file) {
+      // Delete previous Cloudinary image if it exists and is from Cloudinary
+      if (target.image && target.image.includes("res.cloudinary.com")) {
+        try {
+          // Example URL: https://res.cloudinary.com/ds1ceummz/image/upload/v1612345678/profile_images/abc123.jpg
+          const parts = target.image.split("/");
+          const folderIndex = parts.findIndex((part) => part === "profile_images");
+          if (folderIndex !== -1 && parts.length > folderIndex + 1) {
+            let publicIdWithExt = parts[folderIndex] + "/" + parts[folderIndex + 1];
+            // Remove the extension from publicId
+            const dotIndex = publicIdWithExt.lastIndexOf(".");
+            if (dotIndex !== -1) {
+              publicIdWithExt = publicIdWithExt.substring(0, dotIndex);
+            }
+            await cloudinary.uploader.destroy(publicIdWithExt);
+          }
+        } catch (delError) {
+          console.error("Error deleting previous image:", delError);
+        }
+      }
+
+      // Upload the new image to Cloudinary
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "profile_images",
+      });
+      // Override the image URL with the new Cloudinary URL
+      userData.image = uploadedImage.secure_url;
+      // Delete the local file after uploading to Cloudinary
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error("File deletion error:", err);
+      });
+    }
+
+    // Update the target user's fields
+    if (userData.username) {
+      target.username = userData.username;
+    }
+    if (userData.email) {
+      target.email = userData.email;
+    }
+    if (userData.password) {
+      const hashedPass = await bcrypt.hash(userData.password, 10);
+      target.password = hashedPass;
+    }
+    if (typeof userData.bio !== "undefined") {
+      target.bio = userData.bio;
+    }
+    if (typeof userData.image === "string" && userData.image.trim().length > 0) {
+      target.image = userData.image;
+    }
+
+    await target.save();
+    return res.status(200).json({
+      user: target.toUserResponse(),
+      message: { message: "Profile updated successfully" },
+    });
+  } catch (error) {
+    console.error("Error while updating the details: ", error);
+    return res.status(500).json({ message: "Error updating user details." });
   }
-
-  const email = req.userEmail;
-
-  const target = await User.findOne({ email }).exec();
-
-  if (user.email) {
-    target.email = user.email;
-  }
-
-  if (user.username) {
-    target.username = user.username;
-  }
-
-  if (user.password) {
-    const hashedPass = await bcrypt.hash(user.password, 10);
-    target.password = hashedPass;
-  }
-
-  if (typeof user.image === "string" && user.image.trim().length > 0) {
-    target.image = user.image;
-  }
-
-  if (typeof user.bio !== "undefined") {
-    target.bio = user.bio;
-  }
-
-  await target.save();
-  return res.status(200).json({
-    user: target.toUserResponse(),
-  });
 };
 
 const updateProfile = async (req, res) => {
@@ -341,17 +389,17 @@ const updateProfile = async (req, res) => {
 
 const getProfileByUsername = async (req, res) => {
   const { username } = req.params;
-  
+
   try {
     const user = await User.findOne({ username }).exec();
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     // Return the profile data
     return res.status(200).json({
-      profile: user.toProfileJSON()
+      profile: user.toProfileJSON(),
     });
   } catch (error) {
     console.error("Error fetching profile:", error);
