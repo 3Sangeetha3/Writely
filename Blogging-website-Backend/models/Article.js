@@ -11,7 +11,8 @@ const ArticleSchema = new mongoose.Schema({
   tagList: [{ type: String }],
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   // Add favorites count
-  favoritesCount: { type: Number, default: 0 }
+  favoritesCount: { type: Number, default: 0 },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 }, { timestamps: true });
 
 ArticleSchema.plugin(uniqueValidator);
@@ -25,12 +26,27 @@ ArticleSchema.pre('validate', function(next) {
   next();
 });
 
+ArticleSchema.methods.addComment = function(commentId) {
+  if(this.comments === undefined) {
+    this.comments = [];
+  }
+  this.comments.push(commentId);
+  return this.save();
+};
+
+ArticleSchema.methods.removeComment = function(commentId) {
+  if(this.comments === undefined) {
+    this.comments = [];
+  }
+  this.comments.pull(commentId);
+  return this.save();
+};
+
 // Update the toArticleResponse method to include favorite status
 ArticleSchema.methods.toArticleResponse = async function(user) {
   const authorDetails = typeof this.author === 'object' 
     ? this.author 
     : await User.findById(this.author).exec();
-    
   // If no authorized user or author details not found
   if (!authorDetails) {
     return {

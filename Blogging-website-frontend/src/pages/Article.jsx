@@ -175,7 +175,7 @@ function Article() {
   }
 
   if (ArticleError) {
-    return <div>Error loading article: {articleError.message}</div>;
+    return <div>Error loading article: {ArticleError.message}</div>;
   }
 
   if (!article) {

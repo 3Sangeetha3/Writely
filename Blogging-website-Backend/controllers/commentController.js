@@ -41,40 +41,47 @@ const addCommentsToArticle = async (req, res) => {
 };
 
 const getCommentsFromArticle = async (req, res) => {
+  const { slug } = req.params;
 
-  const {slug}  = req.params;
+  const article = await Article.findOne({ slug }).exec();
 
-  const article = await Article.findOne({slug}).exec();
-
-  if(!article){
+  if (!article) {
     return res.status(401).json({
       message: "Article Not Found",
     });
-  };
+  }
+
+  if (!article.comments || !Array.isArray(article.comments)) {
+    return res.status(200).json({
+      comments: [],
+    });
+  }
 
   const loggedin = req.loggedin;
 
-  if(loggedin){
+  if (loggedin) {
     const loginUser = await User.findById(req.userId).exec();
 
     return res.status(200).json({
-      comments: await Promise.all(article.comments.map(async (commentId) => {
-        const commentObj = await Comment.findById(commentId).exec();
-        return await commentObj.toCommentResponse(loginUser);
-      })),
+      comments: await Promise.all(
+        article.comments.map(async (commentId) => {
+          const commentObj = await Comment.findById(commentId).exec();
+          return commentObj
+            ? await commentObj.toCommentResponse(loginUser)
+            : null;
+        })
+      ),
     });
-  }else{
-
+  } else {
     return res.status(200).json({
-      comments: await Promise.all(article.comments.map(async (commentId) => {
-        const commentObj = await Comment.findById(commentId).exec();
-
-        const temp  = commentObj.toCommentResponse(false)
-        return temp;
-      })),
+      comments: (await Promise.all(
+        article.comments.map(async (commentId) => {
+          const commentObj = await Comment.findById(commentId).exec();
+          return commentObj ? await commentObj.toCommentResponse(false) : null;
+        })
+      )).filter(comment => comment !== null)
     });
   }
-  
 };
 const deleteComment = async (req, res) => {
   const userId = req.userId;
