@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks";
 import { Link } from "react-router-dom";
-import { Trash2, Calendar} from "lucide-react";
+import { Trash2, Calendar } from "lucide-react";
 import useDeleteComment from "../hooks/useDeleteComment";
 import TrashBin from "../assets/TrashBin.svg";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function ArticleComment({ comment }) {
   const { author, body, createdAt, id } = comment;
@@ -11,6 +13,14 @@ function ArticleComment({ comment }) {
   const { mutate: deleteComment, isLoading: isDeletingComment } = useDeleteComment();
   const canDelete = author?.username === authUser?.username;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
 
   const handleDelete = () => {
     if (canDelete) {
@@ -30,16 +40,19 @@ function ArticleComment({ comment }) {
   return (
     <div className="p-4 hover:bg-gray-50 transition-colors">
       <div className="mb-3">
-        <p className="text-gray-700">{body}</p>
+        <p className="text-gray-700 leading-relaxed">{body}</p>
       </div>
       {id && (
         <div className="flex justify-between items-center mt-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#53C7C0] bg-opacity-20 flex items-center justify-center text-[#243635] font-bold">
+            <div className="w-8 h-8 rounded-full bg-[#53C7C0] bg-opacity-20 flex items-center justify-center text-[#243635] font-bold shadow-sm">
               {author.username.charAt(0).toUpperCase()}
             </div>
             <div>
-              <Link to={`/profile/${author.username}`} className="font-medium text-[#243635] hover:text-[#53C7C0] transition-colors">
+              <Link 
+                to={`/profile/${author.username}`} 
+                className="font-medium text-[#243635] hover:text-[#53C7C0] transition-colors"
+              >
                 {author.username}
               </Link>
               <div className="flex items-center text-xs text-gray-500 mt-0.5">
