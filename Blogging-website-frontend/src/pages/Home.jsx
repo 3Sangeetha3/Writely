@@ -13,7 +13,6 @@ function Home() {
     ...initialFilters,
     feed: isAuth,
   });
-  const { isArticlesLoading, articles, ArticlesError } = useArticlesQuery(filters);
 
   React.useEffect(() => {
     setFilters({ ...initialFilters, feed: isAuth });
@@ -32,7 +31,8 @@ function Home() {
   }
 
   return (
-    <div className="container home-page"
+    <div
+      className="container home-page"
       style={{
         maxWidth: "1220px",
         margin: "0 auto",
@@ -46,7 +46,7 @@ function Home() {
           important: true,
           borderRadius: "25px",
           width: "100%",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         <div className="" style={{ padding: "40px" }}>
@@ -66,37 +66,28 @@ function Home() {
             {isAuth && (
               <button
                 onClick={onFeedClick}
-                className={classNames(
-                  "px-4 py-2 rounded",
-                  {
-                    "bg-[#001519] text-white": filters.feed,
-                    "bg-gray-200 text-gray-700": !filters.feed && !filters.tag
-                  }
-                )}
+                className={classNames("px-4 py-2 rounded", {
+                  "bg-[#001519] text-white": filters.feed,
+                  "bg-gray-200 text-gray-700": !filters.feed,
+                })}
               >
                 Your Feed
               </button>
             )}
-
-            {/* {!filters.tag && (
+            {!isAuth && (
               <button
                 onClick={onGlobalFeedClick}
-                className={classNames(
-                  "px-4 py-2 rounded",
-                  {
-                    "bg-[#001519] text-white": !filters.feed && !filters.tag,
-                    "bg-gray-200 text-gray-700": filters.feed
-                  }
-                )}
+                className={classNames("px-4 py-2 rounded", {
+                  "bg-[#001519] text-white": !filters.feed,
+                  "bg-gray-200 text-gray-700": filters.feed,
+                })}
               >
                 Global Feed
               </button>
-            )} */}
+            )}
 
             {filters.tag && (
-              <button
-                className="px-4 py-2 rounded bg-[#475756] text-white"
-              >
+              <button className="px-4 py-2 rounded bg-[#475756] text-white">
                 #{filters.tag}
               </button>
             )}

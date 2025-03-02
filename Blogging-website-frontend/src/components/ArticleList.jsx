@@ -7,8 +7,8 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 
-function ArticleList({tag}) {
-  const { articles, isArticlesLoading } = useArticlesQuery(tag);
+function ArticleList({ tag }) {
+  const { articles, isArticlesLoading, ArticlesError } = useArticlesQuery(tag);
   const [page, setPage] = useState(1);
   const articlesPerPage = 10; // Customize how many articles per page
 
@@ -30,7 +30,7 @@ function ArticleList({tag}) {
             style={{ marginBottom: "1.5rem" }}
             data-aos="fade-up"
           >
-            {/* Profile Image & Author Info */}
+            {/* Skeleton loading UI */}
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Skeleton
                 variant="circular"
@@ -54,7 +54,6 @@ function ArticleList({tag}) {
               </div>
             </div>
 
-            {/* Title */}
             <Skeleton
               variant="text"
               width="80%"
@@ -62,7 +61,6 @@ function ArticleList({tag}) {
               sx={{ bgcolor: "#E0E3E3", marginTop: 1 }}
             />
 
-            {/* Subtitle */}
             <Skeleton
               variant="text"
               width="50%"
@@ -70,7 +68,6 @@ function ArticleList({tag}) {
               sx={{ bgcolor: "#E0E3E3" }}
             />
 
-            {/* Read More & Tags in One Line */}
             <div
               style={{
                 display: "flex",
@@ -79,7 +76,6 @@ function ArticleList({tag}) {
                 marginBottom: "8px",
               }}
             >
-              {/* Read More */}
               <Skeleton
                 variant="text"
                 width={100}
@@ -87,7 +83,6 @@ function ArticleList({tag}) {
                 sx={{ bgcolor: "#E0E3E3" }}
               />
 
-              {/* Tags */}
               <div style={{ display: "flex", gap: "8px" }}>
                 <Skeleton
                   variant="rounded"
@@ -104,7 +99,6 @@ function ArticleList({tag}) {
               </div>
             </div>
 
-            {/* Right-Aligned Divider Line */}
             <Skeleton
               variant="rectangular"
               width="100%"
@@ -114,6 +108,15 @@ function ArticleList({tag}) {
           </div>
         ))}
       </div>
+    );
+  }
+
+  // Display error message if there's an error
+  if (ArticlesError) {
+    return (
+      <p className="article-preview">
+        Error loading articles. Please try again later.
+      </p>
     );
   }
 
@@ -144,7 +147,6 @@ function ArticleList({tag}) {
           data-aos="fade-up"
           data-aos-duration="800"
           data-aos-easing="ease-in-out"
-          //data-aos-delay={`${index * 5}`} // Optional: adds delay to stagger animations
         >
           <ArticlePreview article={article} />
         </div>
