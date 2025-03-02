@@ -46,6 +46,7 @@ const getArticleWithSlug = async (req, res) => {
   try {
     const article = await Article.findOne({ slug })
       .populate("author", "username bio image")
+      .populate("comments")
       .sort({ createdAt: -1 })
       .exec();
 
