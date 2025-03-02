@@ -1,59 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ArticleComments, ArticleMeta } from "../components";
 import { useArticleQuery } from "../hooks";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Skeleton from "@mui/material/Skeleton";
 import DOMPurify from "dompurify";
+import { Calendar, Clock, MessagesSquare, MessageSquare } from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Article() {
-  //   const { data } = useArticleQuery()
-  //   const { title, description, body } = data.article
-  // const [article, setArticle] = useState([]);
   const { slug } = useParams();
   const { article, isArticleLoading, ArticleError } = useArticleQuery();
-  // const [loading, setLoading] = useState(true);
-
-  //console.log('article',article)
-
-  // const getArticleBySlug = async (slug) => {
-  //   try {
-  //     const VITE_API_URL = import.meta.env.VITE_BACKEND_URL ;
-  //     const { data } = await axios.get(`${VITE_API_URL}/api/articles/${slug}`);
-  //    // console.log("getArticleBySlug response", data);
-  //     setArticle(data.article);
-  //   } catch (error) {
-  //     console.error("Error fetching article:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!slug) return;
-  //   const fetchArticle = async () => {
-  //     setLoading(true);
-  //     await getArticleBySlug(slug);
-  //     setLoading(false);
-  //   };
-  //   fetchArticle();
-  // }, [slug]);
 
   if (isArticleLoading) {
     return (
-      <div className="container article-page">
-        <div
-          className="banner"
-          style={{ backgroundColor: "#243635", borderRadius: "25px" }}
-        >
-          <div className="container" style={{ margin: "25px" }}>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="banner bg-[#243635] rounded-xl shadow-lg overflow-hidden">
+          <div className="p-8 flex flex-col items-center justify-center">
             {/* Title */}
             <Skeleton
               variant="text"
               width="80%"
               height={80}
-              sx={{ bgcolor: "#E0E3E3", borderRadius: "8px", marginBottom: 1 }}
+              sx={{
+                bgcolor: "#E0E3E3",
+                borderRadius: "8px",
+                marginBottom: 16,
+              }}
             />
             {/* Profile Image & Author Info */}
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div className="flex items-center gap-3 mt-4">
               <Skeleton
                 variant="circular"
                 width={40}
@@ -77,149 +53,115 @@ function Article() {
             </div>
           </div>
         </div>
-        <div className="container page">
-          <div className="col-md-12">
-            {/* Description */}
-            <Skeleton
-              variant="text"
-              width="100%"
-              height={50}
-              sx={{ bgcolor: "#EOE3E3" }}
-            />
-
-            {/* body */}
-            <Skeleton
-              variant="rectangular"
-              width="100%"
-              height={300}
-              sx={{ bgcolor: "#EOE3E3", borderRadius: "12px" }}
-            />
-          </div>
-
-          {/* Right-Aligned Divider Line */}
+        <div className="mt-8">
+          <Skeleton
+            variant="text"
+            width="100%"
+            height={50}
+            sx={{ bgcolor: "#EOE3E3" }}
+          />
           <Skeleton
             variant="rectangular"
             width="100%"
-            height={1}
-            sx={{ bgcolor: "#E0E3E3", marginY: 2, marginLeft: "auto" }}
+            height={300}
+            sx={{
+              bgcolor: "#EOE3E3",
+              borderRadius: "12px",
+              marginTop: 16,
+            }}
           />
-        </div>
-        <div
-          className="article-actions"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "1rem",
-          }}
-        >
-          {/* Profile Image & Author Info */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Skeleton
-              variant="circular"
-              width={40}
-              height={40}
-              sx={{ bgcolor: "#E0E3E3" }}
-            />
-            <div>
-              <Skeleton
-                variant="text"
-                width={100}
-                height={15}
-                sx={{ bgcolor: "#E0E3E3" }}
-              />
-              <Skeleton
-                variant="text"
-                width={80}
-                height={12}
-                sx={{ bgcolor: "#E0E3E3" }}
-              />
-            </div>
-          </div>
-        </div>
-        {/* comments skeleton loading */}
-        <div className="row">
-          <div className="col-xs-12 col-md-8 offeset-md-2">
-            
-              {Array.from(new Array(3)).map((_, index) => (
-                <div
-                  key={index}
-                  className="card"
-                  style={{ marginBottom: "1rem", padding: "1rem" }}
-                >
-                  <div className="card-block">
-                    <Skeleton variant="text" width="90%" height={20} />
-                    <Skeleton variant="text" width="100%" height={20} />
-                    <Skeleton variant="text" width="80%" height={20} />
-                  </div>
-                  <div
-                    className="card-footer"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    <Skeleton variant="circular" width={30} height={30} />
-                    <Skeleton variant="text" width="20%" height={20} />
-                    <Skeleton variant="text" width="15%" height={20} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          
         </div>
       </div>
     );
   }
 
   if (ArticleError) {
-    return <div>Error loading article: {ArticleError.message}</div>;
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div
+          className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg text-center"
+        >
+          Error loading article: {ArticleError.message}
+        </div>
+      </div>
+    );
   }
 
   if (!article) {
-    return <div>Article not found.</div>;
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div
+          className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-4 rounded-lg text-center"
+        >
+          Article not found.
+        </div>
+      </div>
+    );
   }
-  
-  // Sanitize the body HTML to prevent XSS attacks since using dangerouslySetInnerHTML
+
+  // Sanitize the body HTML to prevent XSS attacks
   const sanitizedHTML = DOMPurify.sanitize(article.body);
 
   return (
-    <div className="container article-page">
-      <div
-        className="banner"
-        style={{
-          backgroundColor: "#243635",
-          important: true,
-          borderRadius: "25px",
-        }}
-      >
-        <div className="container" style={{ margin: "25px" }}>
-          <h1 className="p-4">{article.title}</h1>
-          <ArticleMeta author={article.author} createdAt={article.createdAt} />
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Banner Section */}
+      <div className="banner shadow-lg transition-shadow duration-300 bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl overflow-hidden">
+        <div className="p-8 flex flex-col items-center justify-center">
+          {/* Title */}
+          <h1 className="text-4xl font-bold text-white leading-tight text-center">
+            {article.title}
+          </h1>
+          {/* Author Meta */}
+          <div className="mt-4">
+            <ArticleMeta
+              author={article.author}
+              createdAt={article.createdAt}
+            />
+          </div>
+          {/* Date, Reading Time & Comments Count */}
+          <div className="flex items-center gap-6 mt-6 text-gray-300 text-sm">
+            <div className="flex items-center gap-2">
+              <Calendar size={16} />
+              <span>{new Date(article.createdAt).toLocaleDateString()}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} />
+              <span>{Math.ceil(article.body.length / 1000)} min read</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MessageSquare size={16} />
+              <span>{article.commentsCount || 0} comments</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="container page">
-        <div className="row article-content my-6">
-          <div className="container max-w-screen-lg bg-neutral-100 p-4 rounded-lg">
-            {/* <p className="px-16 pt-12 ">{article.description}</p> */}
-            <div className="px-16 pt-12 py-6 text-2xl font-medium" >{ article.description }</div>
-            <hr className="mx-16 mb-3 bg-black" />
-            {/* <p>{article.body}</p> */}
-            <div className="px-16" dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+
+      {/* Article Content Section */}
+      <div className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="px-16 py-8">
+          <div className="text-2xl font-medium text-[#243635] mb-6 leading-relaxed text-center">
+            {article.description}
+          </div>
+          <hr className="border-t border-gray-200 mb-6" />
+          <div className="prose prose-lg max-w-none article-body">
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
           </div>
         </div>
-        <hr />
-        <div className="article-actions">
-          <ArticleMeta author={article.author} createdAt={article.createdAt} />
+      </div>
+
+      {/* Article Meta */}
+      <div className="flex justify-center items-center m-8">
+        <ArticleMeta author={article.author} createdAt={article.createdAt} />
+      </div>
+
+      {/* Comments Section */}
+      <div className="mt-8">
+        <div className="flex items-center gap-3 mx-2 mb-4 justify-start">
+          <MessagesSquare size={32} className="text-[#53C7C0]" />
+          <h3 className="text-2xl font-semibold text-[#243635]">Comments</h3>
         </div>
-        <div className="row">
-          {/* ArticleComments  */}
-          <div className="col-xs-12 col-md-8 offeset-md-2">
-            <ArticleComments article={article} />
-            {/* <ArticleComments /> */}
-          </div>
+        <div className="bg-[#FCFBF9] rounded-xl shadow-lg overflow-hidden">
+          <ArticleComments article={article} />
         </div>
       </div>
     </div>

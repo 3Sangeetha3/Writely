@@ -1,66 +1,49 @@
 import { Field, Formik, Form } from "formik";
 import React from "react";
 import useCreateComment from "../hooks/useCreateComment";
-import { useParams } from "react-router-dom";
+import { Send } from "lucide-react";
 
 function ArticleCommentForm() {
   const { createComment, isLoading: isCreatingComment } = useCreateComment();
 
   async function onSubmit({ body }, { resetForm }) {
-    //send the data to create comment api
     createComment({ commentData: { body } });
     resetForm();
   }
+
   return (
     <Formik onSubmit={onSubmit} initialValues={{ body: "" }}>
       {({ isSubmitting }) => (
-        <>
-          {/* <FormErrors /> */}
-          <Form className="card comment-form">
-            <div
-              className="card-block"
-              style={{
-                display: "flex",
-                justifyContent: "center", 
-                alignItems: "center", 
-                flexDirection: "column",
-                padding: "20px", 
-              }}
+        <Form className="w-full">
+          <div className="mb-3">
+            <Field
+              as="textarea"
+              required
+              name="body"
+              placeholder="Share your thoughts..."
+              className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53C7C0] focus:border-transparent transition-all resize-none min-h-[100px]"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              disabled={isSubmitting || isCreatingComment}
+              type="submit"
+              className="bg-[#53C7C0] hover:bg-[#45b1aa] text-white font-medium px-5 py-2 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Field
-                as="textarea"
-                required
-                name="body"
-                placeholder="Write a comment..."
-                className="form-control form-control-lg"
-              />
-            </div>
-
-            <div
-              className="card-footer"
-              style={{
-                backgroundColor: "#edefef",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center", 
-              }}
-            >
-              <button
-                disabled={isSubmitting}
-                type="submit"
-                className="btn btn-sm btn-primary pull-xs-right"
-                style={{
-                  backgroundColor: "#243635",
-                  border: "none",
-                  color: "#FCFBF9",
-                  margin: "10px",
-                }}
-              >
-                Post Comment
-              </button>
-            </div>
-          </Form>
-        </>
+              {isCreatingComment ? (
+                <>
+                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                  <span>Posting...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={16} />
+                  <span>Post Comment</span>
+                </>
+              )}
+            </button>
+          </div>
+        </Form>
       )}
     </Formik>
   );
