@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const { getRandomAvatar } = require("../helpers/defaultAvatars");
 const cloudinary = require("../utils/cloudinary");
 const fs = require("fs");
+const Article = require("../models/Article");
 
 const getCurrentUser = async (req, res) => {
   //after authentication, email, password and hashed password and that we need to store in the request
@@ -389,17 +390,21 @@ const updateProfile = async (req, res) => {
 
 const getProfileByUsername = async (req, res) => {
   const { username } = req.params;
-
   try {
     const user = await User.findOne({ username }).exec();
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User does not exist" });
     }
 
+    const userId = user._id;
+    // console.log("user id", userId);
+    const articles = await Article.find({author: userId}).exec();
+    
     // Return the profile data
     return res.status(200).json({
       profile: user.toProfileJSON(),
+      articles: articles,
     });
   } catch (error) {
     console.error("Error fetching profile:", error);

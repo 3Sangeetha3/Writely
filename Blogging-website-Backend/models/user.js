@@ -64,9 +64,9 @@ userSchema.methods.toUserResponse = function () {
   return {
     username: this.username,
     email: this.email,
-    token: this.generateAcessToken(),
+    // token: this.generateAcessToken(),
     image: this.image,
-    bio: this.bio
+    userId: this._id
   };
 };
 

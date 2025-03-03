@@ -11,3 +11,4 @@ export {default as ArticleComments} from './ArticleComments';
 export {default as ArticleComment} from './ArticleComment';
 export {default as ArticleCommentForm} from './ArticleCommentForm';
 export {default as JoditField} from './JoditField';
+export {default as UserNotFoundUI} from './UserNotFoundUI'

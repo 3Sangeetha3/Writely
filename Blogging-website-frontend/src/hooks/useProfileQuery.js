@@ -7,12 +7,16 @@ const getProfileByUsername = async (username) => {
   const token = localStorage.getItem('authToken');
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
   
-  const { data } = await axios.get(
-    `${VITE_API_URL}/api/profiles/${username}`,
-    { headers }
-  );
-  
-  return data;
+  try {
+    const { data } = await axios.get(
+      `${VITE_API_URL}/api/profiles/${username}`,
+      { headers }
+    );
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 function useProfileQuery() {
@@ -26,14 +30,17 @@ function useProfileQuery() {
     queryKey: ['profile', username],
     queryFn: () => getProfileByUsername(username),
     enabled: !!username,
-    refetchOnWindowFocus: true,
-    staleTime: 0,
-    cacheTime: 0,
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 60000,
+    cacheTime: 300000,
   });
+  console.log(profileData);
   
   return {
     isProfileLoading,
-    profile: profileData?.profile,
+    profile: profileData?.profile, //User profile data
+    articles: profileData?.articles, //Articles created by the user
     profileError,
   };
 }
