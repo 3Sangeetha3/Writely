@@ -32,10 +32,9 @@ function Home() {
 
   return (
     <div
-      className="container home-page"
+      className="container mt-28 home-page"
       style={{
         maxWidth: "1220px",
-        margin: "0 auto",
       }}
     >
       <div
