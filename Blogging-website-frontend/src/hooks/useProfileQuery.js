@@ -35,7 +35,7 @@ function useProfileQuery() {
     staleTime: 60000,
     cacheTime: 300000,
   });
-  console.log(profileData);
+  // console.log(profileData);
   
   return {
     isProfileLoading,

@@ -113,7 +113,7 @@ function Settings() {
 
   return (
     <div
-      className="settings-page bg-[#F8F9FA] py-3"
+      className="mt-24 bg-[#F8F9FA] py-3 overflow-y-hidden"
       data-aos="fade-up"
     >
       <div className="container mx-auto px-2 max-w-5xl py-2">

@@ -400,6 +400,8 @@ const getProfileByUsername = async (req, res) => {
     const userId = user._id;
     // console.log("user id", userId);
     const articles = await Article.find({author: userId}).exec();
+    // const user_bio = user.bio;
+    // console.log("bio", user_bio);
     
     // Return the profile data
     return res.status(200).json({
