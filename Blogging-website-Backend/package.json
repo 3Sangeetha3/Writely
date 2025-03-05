@@ -4,7 +4,6 @@
   "github-username": "3sangeetha3",
   "version": "1.0.0",
   "main": "api/index.js",
-  "build": "npm run build",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node api/index.js",
