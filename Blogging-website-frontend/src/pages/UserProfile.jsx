@@ -6,7 +6,7 @@ import {
   User,
   Calendar,
   FileText,
-  Pen ,
+  Pen,
   Edit3,
   UserX,
 } from "lucide-react";
@@ -19,37 +19,35 @@ import { UserNotFoundUI } from "../components";
 const UserProfile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const { isProfileLoading, profile, articles, profileError } =
-    useProfileQuery();
+  const { isProfileLoading, profile, articles, profileError } = useProfileQuery();
   const { authUser } = useAuth();
   const isCurrentUser = authUser?.username === username;
-  const defaultAvatar =
-    "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
+  const defaultAvatar = "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
 
+  // Initialize AOS on component mount
   useEffect(() => {
     AOS.init({
       duration: 800,
       easing: "ease-in-out",
-      once: true,
+      once: true, // Animations happen only once
     });
   }, []);
 
-  // Check for "user not found" error by message content or 404 status
-  if (
-    profileError &&
-    (profileError.message === "User not found" ||
-      profileError.response?.status === 404 ||
-      profileError.message.includes("not found"))
-  ) {
+  // Error handling for profile not found
+  if (profileError && (profileError.message === "User not found" || profileError.response?.status === 404 || profileError.message.includes("not found"))) {
     return <UserNotFoundUI />;
   }
 
-  // For other profile errors
+  // General profile error handling
   if (profileError) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA] min-h-screen flex items-center justify-center">
+      <div 
+        className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA] min-h-screen flex items-center justify-center"
+        data-aos="fade-in"
+      >
         <div
           className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-lg p-10 text-center"
+          data-aos="zoom-in"
         >
           <div className="w-20 h-20 rounded-full bg-red-50 mx-auto flex items-center justify-center mb-6">
             <UserX size={32} className="text-red-500" />
@@ -68,17 +66,15 @@ const UserProfile = () => {
     );
   }
 
-  // If profile is loaded but is null/undefined (another form of "not found")
-  if (!isProfileLoading && !profile) {
-    return <UserNotFoundUI />;
-  }
-
-  // Loading state
+  // Loading state with skeleton UI and animations
   if (isProfileLoading) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA]">
         {/* Header Section Skeleton */}
-        <div className="bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl shadow-lg overflow-hidden p-8">
+        <div 
+          className="bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl shadow-lg overflow-hidden p-8"
+          data-aos="fade-down"
+        >
           <div className="flex flex-col md:flex-row items-center gap-6">
             <Skeleton
               variant="circular"
@@ -110,7 +106,10 @@ const UserProfile = () => {
         </div>
 
         {/* Articles Section Skeleton */}
-        <div className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden p-8">
+        <div 
+          className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden p-8"
+          data-aos="fade-up"
+        >
           <Skeleton
             variant="text"
             width={180}
@@ -146,19 +145,26 @@ const UserProfile = () => {
     );
   }
 
-  // Successfully loaded profile
+  // Successfully loaded profile with enhanced animations
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA]">
+    <div className="max-w-6xl mt-28 mx-auto px-4 py-8 bg-[#F8F9FA]">
       {/* Profile Header Section */}
       <div
         className="bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl shadow-lg overflow-hidden transition-transform hover:shadow-xl"
-        data-aos="fade-up"
+        data-aos="fade-down"
+        data-aos-duration="800"
       >
         <div className="p-8">
           <div className="flex flex-col md:flex-row items-center gap-6">
             {/* Profile Image */}
-            <div className="relative group">
-              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#53C7C0] shadow-md bg-white">
+            <div 
+              className="relative group"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+            >
+              <div 
+                className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#53C7C0] shadow-md bg-white transition-transform group-hover:scale-105"
+              >
                 {profile.image ? (
                   <img
                     src={profile.image || defaultAvatar}
@@ -173,16 +179,20 @@ const UserProfile = () => {
               </div>
               {isCurrentUser && (
                 <button
-                  className="absolute bottom-0 right-0 bg-[#53C7C0] p-2 rounded-full shadow-md"
+                  className="absolute bottom-0 right-0 bg-[#53C7C0] p-2 rounded-full shadow-md hover:bg-[#45b1aa] transition"
                   onClick={() => navigate("/settings")}
                 >
                   <Pen size={16} className="text-white" />
                 </button>
               )}
             </div>
-
+            
             {/* Profile Information */}
-            <div className="flex-1 text-center md:text-left">
+            <div 
+              className="flex-1 text-center md:text-left"
+              data-aos="fade-left"
+              data-aos-delay="500"
+            >
               <h1 className="text-3xl font-bold text-white mb-2">
                 {profile.username}
               </h1>
@@ -200,7 +210,7 @@ const UserProfile = () => {
               <p className="text-gray-200 max-w-2xl">
                 {profile.bio || "No bio available"}
               </p>
-
+              
               {/* Action Buttons */}
               <div className="mt-4">
                 {isCurrentUser ? (
@@ -226,29 +236,34 @@ const UserProfile = () => {
       <div
         className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden transition-shadow hover:shadow-xl p-8"
         data-aos="fade-up"
-        data-aos-delay="200"
+        data-aos-duration="800"
       >
-        <div className="flex items-center gap-3 mb-6">
+        <div 
+          className="flex items-center gap-3 mb-6"
+          data-aos="slide-right"
+        >
           <FileText size={24} className="text-[#53C7C0]" />
           <h2 className="text-2xl font-bold text-[#243635]">
             Articles by {profile.username}
           </h2>
         </div>
-
         <div className="space-y-4">
           {articles?.length === 0 ? (
-            <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-100">
+            <div 
+              className="text-center py-8 bg-gray-50 rounded-lg border border-gray-100"
+              data-aos="zoom-in"
+            >
               <FileText size={48} className="mx-auto text-gray-300 mb-2" />
               <p className="text-gray-500">No articles published yet.</p>
             </div>
           ) : (
-            articles?.map((article) => (
+            articles?.map((article, index) => (
               <div
                 key={article._id}
                 className="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition cursor-pointer shadow-sm hover:shadow-md"
                 onClick={() => navigate(`/article/${article.slug}`)}
                 data-aos="fade-up"
-                data-aos-delay="300"
+                data-aos-delay={`${index * 100}`}
               >
                 <h3 className="text-xl font-semibold mb-2 text-[#243635]">
                   {article.title}
