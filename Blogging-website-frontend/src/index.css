@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    min-height: 986px;
-}
 body{
     background-color: #FCFBF9;
     font-family: "Roboto Serif", serif !important;
+    margin: 0;
+    padding: 0;
 }

@@ -10,7 +10,7 @@ import Skeleton from "@mui/material/Skeleton";
 function ArticleList({ tag }) {
   const { articles, isArticlesLoading, ArticlesError } = useArticlesQuery(tag);
   const [page, setPage] = useState(1);
-  const articlesPerPage = 10; // Customize how many articles per page
+  const articlesPerPage = 30; // Customize how many articles per page
 
   // Initialize AOS on component mount
   useEffect(() => {
@@ -157,7 +157,7 @@ function ArticleList({ tag }) {
         sx={{
           alignItems: "center", // Center pagination horizontally
           mt: 4,
-          mb: 4,
+          mb: 16,
         }}
       >
         <Pagination

@@ -23,11 +23,11 @@ function App() {
   }, []);
   return (
     <Router>
-      <div>
+      <div className="flex flex-col min-h-screen">
         <header>
           <Navbar/>
         </header>
-        <main>
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<GuestRoute />}>
