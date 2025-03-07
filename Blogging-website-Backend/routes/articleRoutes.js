@@ -14,6 +14,8 @@ router.get('/:slug', articlesController.getArticleWithSlug);
 //a route to fetch articles with optional tag filtering
 router.get('/', articlesController.getArticlesByTag);
 
+// Route to delete an article - requires authentication
+router.delete('/:slug', verifyJWT, articlesController.deleteArticle);
 
 
 

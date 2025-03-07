@@ -1,5 +1,6 @@
 const Article = require("../models/Article");
 const User = require("../models/user");
+const Comment = require("../models/Comment");
 
 const createArticle = async (req, res) => {
   const id = req.userId;
@@ -38,6 +39,38 @@ const feedArticles = async (req, res) => {
     console.error("Error fetching articles", err);
     res.status(500).json({ error: "Error fetching articles" });
   }
+};
+
+const deleteArticle = async (req, res) => {
+  const userId = req.userId;
+  const user = await User.findById(userId).exec();
+
+  if (!user) {
+    return res.status(401).json({ message: "User Not Found" });
+  }
+
+  const { slug } = req.params;
+  const article = await Article.findOne({ slug }).exec();
+
+  if (!article) {
+    return res.status(404).json({ message: "Article Not Found" });
+  }
+
+  if (article.author.toString() !== userId.toString()) {
+    return res.status(403).json({
+      error: "Only the author can delete the article",
+    });
+  }
+
+  // Delete all associated comments
+  await Comment.deleteMany({ article: article._id });
+  
+  // Delete the article
+  await Article.deleteOne({ _id: article._id });
+
+  return res.status(200).json({
+    message: "Article has been successfully deleted",
+  });
 };
 
 const getArticleWithSlug = async (req, res) => {
@@ -88,4 +121,5 @@ module.exports = {
   feedArticles,
   getArticleWithSlug,
   getArticlesByTag,
+  deleteArticle,
 };

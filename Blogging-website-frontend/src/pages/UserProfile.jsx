@@ -1,7 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProfileQuery, useAuth } from "../hooks";
-import { User, Calendar, FileText, Pen, Edit3, UserX } from "lucide-react";
+import {
+  User,
+  Calendar,
+  FileText,
+  Pen,
+  Edit3,
+  UserX,
+  Trash2,
+} from "lucide-react";
 import Skeleton from "@mui/material/Skeleton";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -9,15 +17,29 @@ import "./Profile.css";
 import { UserNotFoundUI } from "../components";
 import ArticleHeatmap from "../components/ArticleHeatmap";
 import useArticleStats from "../hooks/useArticleStats";
+import useDeleteArticle from "../hooks/useDeleteArticle";
+import TrashBin from "../assets/TrashBin.svg";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const { isProfileLoading, profile, articles, profileError } = useProfileQuery();
+  const { isProfileLoading, profile, articles, profileError } =
+    useProfileQuery();
   const { authUser } = useAuth();
   const isCurrentUser = authUser?.username === username;
   const defaultAvatar =
     "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
+
+  // Modal state for article deletion
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState(null);
+
+  // Delete article mutation
+  const {
+    mutate: deleteArticle,
+    isLoading: isDeletingArticle,
+    error: deleteError,
+  } = useDeleteArticle();
 
   const {
     mostActiveMonth,
@@ -71,6 +93,34 @@ const UserProfile = () => {
       </div>
     );
   }
+
+  // Handle opening delete confirmation modal
+  const handleDeleteClick = (e, article) => {
+    e.stopPropagation(); // Prevent navigation to article
+    setArticleToDelete(article);
+    setIsDeleteModalOpen(true);
+  };
+
+  // Confirm article deletion
+  const confirmDeleteArticle = () => {
+    if (articleToDelete && articleToDelete.slug) {
+      deleteArticle(articleToDelete.slug, {
+        onSuccess: () => {
+          setIsDeleteModalOpen(false);
+          setArticleToDelete(null);
+        },
+        onError: (error) => {
+          console.error("Error deleting article:", error);
+        },
+      });
+    }
+  };
+
+  // Cancel article deletion
+  const cancelDeleteArticle = () => {
+    setIsDeleteModalOpen(false);
+    setArticleToDelete(null);
+  };
 
   if (isProfileLoading) {
     return (
@@ -221,7 +271,9 @@ const UserProfile = () => {
                   <Calendar size={14} />
                   <span>
                     Joined{" "}
-                    {new Date(profile?.createdAt || Date.now()).toLocaleDateString()}
+                    {new Date(
+                      profile?.createdAt || Date.now()
+                    ).toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -252,10 +304,7 @@ const UserProfile = () => {
         data-aos="fade-up"
         data-aos-duration="800"
       >
-        <div
-          className="flex items-center gap-3 mb-6"
-          data-aos="slide-right"
-        >
+        <div className="flex items-center gap-3 mb-6" data-aos="slide-right">
           <Calendar size={24} className="text-[#53C7C0]" />
           <h2 className="text-2xl font-bold text-[#243635]">
             Contribution Activity
@@ -268,10 +317,7 @@ const UserProfile = () => {
         data-aos="fade-up"
         data-aos-duration="800"
       >
-        <div
-          className="flex items-center gap-3 mb-6"
-          data-aos="slide-right"
-        >
+        <div className="flex items-center gap-3 mb-6" data-aos="slide-right">
           <FileText size={24} className="text-[#53C7C0]" />
           <h2 className="text-2xl font-bold text-[#243635]">
             Articles by {profile?.username}
@@ -284,18 +330,18 @@ const UserProfile = () => {
               data-aos="zoom-in"
             >
               <FileText size={48} className="mx-auto text-gray-300 mb-2" />
-              <p className="text-gray-200">No articles published yet.</p>
+              <p className="text-gray-500">No articles published yet.</p>
             </div>
           ) : (
             articles.map((article, index) => (
               <div
                 key={article._id}
-                className="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition cursor-pointer shadow-sm hover:shadow-md"
+                className="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition cursor-pointer shadow-sm hover:shadow-md relative"
                 onClick={() => navigate(`/article/${article.slug}`)}
                 data-aos="fade-up"
                 data-aos-delay={`${index * 100}`}
               >
-                <h3 className="text-xl font-semibold mb-2 text-[#243635]">
+                <h3 className="text-xl font-semibold mb-2 text-[#243635] pr-10">
                   {article.title}
                 </h3>
                 <p className="text-gray-600 mb-3 line-clamp-2">
@@ -307,11 +353,87 @@ const UserProfile = () => {
                     {new Date(article.createdAt).toLocaleDateString()}
                   </span>
                 </div>
+
+                {/* Delete button - only shown for current user */}
+                {isCurrentUser && (
+                  <button
+                    onClick={(e) => handleDeleteClick(e, article)}
+                    className="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                    title="Delete article"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                )}
               </div>
             ))
           )}
         </div>
       </div>
+
+      {/* Delete Article Confirmation Modal */}
+      {isDeleteModalOpen && articleToDelete && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+            onClick={cancelDeleteArticle}
+          ></div>
+
+          {/* Modal content */}
+          <div
+            className="bg-white rounded-xl shadow-xl z-50 p-6 max-w-md mx-auto transform transition-all"
+            data-aos="zoom-in"
+          >
+            <div className="flex justify-center items-center mb-4">
+              <img src={TrashBin} alt="Trash Bin" className="w-2/5 mx-auto" />
+            </div>
+            <h2 className="text-xl text-center font-semibold mb-3 text-[#FF4C4C]">
+              Delete Article
+            </h2>
+            <p className="mb-2 text-center text-gray-700">
+              Are you sure you want to delete "
+              <span className="font-medium">{articleToDelete.title}</span>"?
+            </p>
+            <p className="mb-5 text-center text-gray-500 text-sm">
+              This action cannot be undone. All comments associated with this
+              article will also be deleted.
+            </p>
+
+            {/* Show error message if there was an error */}
+            {deleteError && (
+              <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
+                <p>An error occurred while deleting the article.</p>
+              </div>
+            )}
+
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={cancelDeleteArticle}
+                className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors focus:outline-none"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeleteArticle}
+                disabled={isDeletingArticle}
+                className="px-5 py-2 bg-[#FF4C4C] text-white rounded-lg hover:bg-red-600 transition-colors focus:outline-none flex items-center gap-2"
+              >
+                {isDeletingArticle ? (
+                  <>
+                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={16} />
+                    <span>Delete Article</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
