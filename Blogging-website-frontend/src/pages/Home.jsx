@@ -1,9 +1,10 @@
 import classNames from "classnames";
-import React from "react";
+import React,{ useRef, useEffect } from "react";
 import { ArticleList, PopularTags, Footer } from "../components";
 import { useArticlesQuery, useAuth } from "../hooks";
 import "./Home.css";
 import bannerImage from "../assets/banner.png";
+import Typed from 'typed.js';
 
 const initialFilters = { tag: "", offset: null, feed: false };
 
@@ -30,6 +31,41 @@ function Home() {
     setFilters({ ...initialFilters, feed: true });
   }
 
+  // Create reference for the typed.js element
+  const typedElementRef = useRef(null);
+  let typedInstance = null;
+
+  // Set up Typed.js
+  useEffect(() => {
+    if (typedElementRef.current) {
+      typedInstance = new Typed(typedElementRef.current, {
+        strings: [
+          "A place to share your knowledge.",
+          "Share Your Wisdom.",
+          "Inspire with Words.",
+          "Empower Your Voice.",
+          "Create & Connect.",
+          "Think, Write, Grow.",
+          "Ideas Ignite.",
+          "Words Matter.",
+          "Unleash Passion.",
+          "Discover Stories.",
+          "Knowledge Unlocked."
+        ],
+        typeSpeed: 50,
+        backSpeed: 80,
+        backDelay: 500,
+        loop: true,
+      });
+    }
+    
+    // Cleanup function
+    return () => {
+      if (typedInstance) {
+        typedInstance.destroy();
+      }
+    };
+  }, []);
   return (
     <>
       <div
@@ -50,8 +86,9 @@ function Home() {
           }}
         >
           <div className="" style={{ padding: "40px" }}>
-            <h1 className="logo-font">Blogging</h1>
-            <p>A place to share your knowledge.</p>
+          <h1 className="logo-font">Writely</h1>
+            {/* <p>A place to share your knowledge.</p> */}
+            <p><span ref={typedElementRef}></span></p>
           </div>
         </div>
 

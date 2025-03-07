@@ -18,8 +18,17 @@ const Footer = () => {
     const fetchGithubProfile = async () => {
       try {
         const response = await fetch(
-          `https://api.github.com/users/${githubUsername}`
-        );
+          `https://api.github.com/users/${githubUsername}`,{
+            headers: {
+                Accept: "application/vnd.github.v3+json",
+                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        });
+
+        if (response.status === 403) {
+            console.log('Rate limit exceeded - try again later');
+            return;
+          }
 
         if (!response.ok) {
           throw new Error("Failed to fetch GitHub profile");
