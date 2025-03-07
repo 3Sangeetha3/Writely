@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/Writely_logo.svg";
@@ -9,6 +9,7 @@ import { Menu, X, User, ChevronDown, LogOut } from "lucide-react";
 // Import AOS
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Typed from "typed.js";
 
 function Navbar() {
   const { isAuth, authUser, logout } = useAuth();
@@ -17,6 +18,36 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Create reference for the typed.js element
+  const typedElementRef = useRef(null);
+  const typedInstanceRef = useRef(null);
+
+  // Set up Typed.js
+  useEffect(() => {
+    const initTyped = () => {
+      if (typedElementRef.current && !typedInstanceRef.current) {
+        typedInstanceRef.current = new Typed(typedElementRef.current, {
+          strings: ["Writely"],
+          typeSpeed: 100,
+          backSpeed: 50,
+          backDelay: 1500,
+          loop: true,
+          showCursor: false,
+        });
+      }
+    };
+
+    const initDelay = setTimeout(initTyped, 500);
+
+    return () => {
+      clearTimeout(initDelay);
+      if (typedInstanceRef.current) {
+        typedInstanceRef.current.destroy();
+        typedInstanceRef.current = null;
+      }
+    };
+  }, []);
 
   // Initialize AOS
   useEffect(() => {
@@ -109,6 +140,9 @@ function Navbar() {
               alt="Writely Logo"
               className="h-12 md:h-16 transition-all duration-300"
             />
+            <h1 className="text-3xl font-medium ml-2">
+              <span ref={typedElementRef}></span>
+            </h1>
           </div>
 
           {/* Desktop Navigation */}
