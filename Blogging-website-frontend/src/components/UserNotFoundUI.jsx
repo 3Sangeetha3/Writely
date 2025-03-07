@@ -16,7 +16,7 @@ const UserNotFoundUI = () => {
   }, []);
 
   return (
-    <div className="min-h-screen grid justify-center items-start p-4 pt-16">
+    <div className="min-h-screen mt-28 grid justify-center items-start p-4 pt-16">
       <div className="w-full max-w-5xl">
         {/* Card with glass effect */}
         <div

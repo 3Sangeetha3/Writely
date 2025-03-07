@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useProfileQuery, useAuth } from "../hooks";
-import { useNavigate } from "react-router-dom";
-import {
-  User,
-  Calendar,
-  FileText,
-  Pen,
-  Edit3,
-  UserX,
-} from "lucide-react";
+import { User, Calendar, FileText, Pen, Edit3, UserX } from "lucide-react";
 import Skeleton from "@mui/material/Skeleton";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Profile.css";
 import { UserNotFoundUI } from "../components";
+import ArticleHeatmap from "../components/ArticleHeatmap";
+import useArticleStats from "../hooks/useArticleStats";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -22,26 +16,38 @@ const UserProfile = () => {
   const { isProfileLoading, profile, articles, profileError } = useProfileQuery();
   const { authUser } = useAuth();
   const isCurrentUser = authUser?.username === username;
-  const defaultAvatar = "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
+  const defaultAvatar =
+    "https://cdn.jsdelivr.net/gh/3Sangeetha3/writely-images-cdn@main/Avatar/user-profile.png";
 
-  // Initialize AOS on component mount
+  const {
+    mostActiveMonth,
+    mostActiveDay,
+    averagePerMonth,
+    currentStreak,
+    longestStreak,
+  } = useArticleStats(articles);
+
   useEffect(() => {
     AOS.init({
       duration: 800,
       easing: "ease-in-out",
-      once: true, // Animations happen only once
+      once: true,
     });
   }, []);
 
-  // Error handling for profile not found
-  if (profileError && (profileError.message === "User not found" || profileError.response?.status === 404 || profileError.message.includes("not found"))) {
+  // Error handling for user not found
+  if (
+    profileError &&
+    (profileError.message === "User not found" ||
+      profileError.response?.status === 404 ||
+      profileError.message.includes("not found"))
+  ) {
     return <UserNotFoundUI />;
   }
 
-  // General profile error handling
   if (profileError) {
     return (
-      <div 
+      <div
         className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA] min-h-screen flex items-center justify-center"
         data-aos="fade-in"
       >
@@ -66,12 +72,10 @@ const UserProfile = () => {
     );
   }
 
-  // Loading state with skeleton UI and animations
   if (isProfileLoading) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-8 bg-[#F8F9FA]">
-        {/* Header Section Skeleton */}
-        <div 
+        <div
           className="bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl shadow-lg overflow-hidden p-8"
           data-aos="fade-down"
         >
@@ -104,9 +108,28 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-
-        {/* Articles Section Skeleton */}
-        <div 
+        <div
+          className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden p-8"
+          data-aos="fade-up"
+        >
+          <Skeleton
+            variant="text"
+            width={180}
+            height={30}
+            sx={{
+              bgcolor: "#E0E3E3",
+              borderRadius: "8px",
+              marginBottom: 2,
+            }}
+          />
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={100}
+            sx={{ bgcolor: "#E0E3E3", borderRadius: "8px" }}
+          />
+        </div>
+        <div
           className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden p-8"
           data-aos="fade-up"
         >
@@ -114,7 +137,11 @@ const UserProfile = () => {
             variant="text"
             width={180}
             height={40}
-            sx={{ bgcolor: "#E0E3E3", borderRadius: "8px", marginBottom: 4 }}
+            sx={{
+              bgcolor: "#E0E3E3",
+              borderRadius: "8px",
+              marginBottom: 4,
+            }}
           />
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
@@ -145,10 +172,8 @@ const UserProfile = () => {
     );
   }
 
-  // Successfully loaded profile with enhanced animations
   return (
-    <div className="max-w-6xl mt-28 mx-auto px-4 py-8 bg-[#F8F9FA]">
-      {/* Profile Header Section */}
+    <div className="max-w-7xl mt-28 mx-auto px-4 py-8 bg-[#F8F9FA]">
       <div
         className="bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl shadow-lg overflow-hidden transition-transform hover:shadow-xl"
         data-aos="fade-down"
@@ -156,16 +181,13 @@ const UserProfile = () => {
       >
         <div className="p-8">
           <div className="flex flex-col md:flex-row items-center gap-6">
-            {/* Profile Image */}
-            <div 
+            <div
               className="relative group"
               data-aos="zoom-in"
               data-aos-delay="300"
             >
-              <div 
-                className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#53C7C0] shadow-md bg-white transition-transform group-hover:scale-105"
-              >
-                {profile.image ? (
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#53C7C0] shadow-md bg-white transition-transform group-hover:scale-105">
+                {profile?.image ? (
                   <img
                     src={profile.image || defaultAvatar}
                     alt={`${profile.username}'s avatar`}
@@ -186,32 +208,26 @@ const UserProfile = () => {
                 </button>
               )}
             </div>
-            
-            {/* Profile Information */}
-            <div 
+            <div
               className="flex-1 text-center md:text-left"
               data-aos="fade-left"
               data-aos-delay="500"
             >
               <h1 className="text-3xl font-bold text-white mb-2">
-                {profile.username}
+                {profile?.username}
               </h1>
               <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-4">
                 <div className="bg-[#1D2E2D] text-gray-200 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                   <Calendar size={14} />
                   <span>
                     Joined{" "}
-                    {new Date(
-                      profile.createdAt || Date.now()
-                    ).toLocaleDateString()}
+                    {new Date(profile?.createdAt || Date.now()).toLocaleDateString()}
                   </span>
                 </div>
               </div>
               <p className="text-gray-200 max-w-2xl">
-                {profile.bio || "No bio available"}
+                {profile?.bio || "No bio available"}
               </p>
-              
-              {/* Action Buttons */}
               <div className="mt-4">
                 {isCurrentUser ? (
                   <button
@@ -231,33 +247,47 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-
-      {/* Articles Section */}
       <div
         className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden transition-shadow hover:shadow-xl p-8"
         data-aos="fade-up"
         data-aos-duration="800"
       >
-        <div 
+        <div
+          className="flex items-center gap-3 mb-6"
+          data-aos="slide-right"
+        >
+          <Calendar size={24} className="text-[#53C7C0]" />
+          <h2 className="text-2xl font-bold text-[#243635]">
+            Contribution Activity
+          </h2>
+        </div>
+        <ArticleHeatmap articles={articles} />
+      </div>
+      <div
+        className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden transition-shadow hover:shadow-xl p-8"
+        data-aos="fade-up"
+        data-aos-duration="800"
+      >
+        <div
           className="flex items-center gap-3 mb-6"
           data-aos="slide-right"
         >
           <FileText size={24} className="text-[#53C7C0]" />
           <h2 className="text-2xl font-bold text-[#243635]">
-            Articles by {profile.username}
+            Articles by {profile?.username}
           </h2>
         </div>
         <div className="space-y-4">
           {articles?.length === 0 ? (
-            <div 
+            <div
               className="text-center py-8 bg-gray-50 rounded-lg border border-gray-100"
               data-aos="zoom-in"
             >
               <FileText size={48} className="mx-auto text-gray-300 mb-2" />
-              <p className="text-gray-500">No articles published yet.</p>
+              <p className="text-gray-200">No articles published yet.</p>
             </div>
           ) : (
-            articles?.map((article, index) => (
+            articles.map((article, index) => (
               <div
                 key={article._id}
                 className="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition cursor-pointer shadow-sm hover:shadow-md"
