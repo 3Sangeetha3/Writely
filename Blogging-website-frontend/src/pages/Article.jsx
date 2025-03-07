@@ -22,7 +22,7 @@ function Article() {
 
   if (isArticleLoading) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8 bg-[#FCFBF9]">
+      <div className="max-w-6xl mt-28 mx-auto px-4 py-8 bg-[#FCFBF9]">
         {/* Banner Section Skeleton */}
         <div className="banner bg-[#243635] rounded-xl shadow-lg overflow-hidden p-8 flex flex-col items-center justify-center">
           <Skeleton
