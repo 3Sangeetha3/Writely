@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 connectDB();
 
 // Schedule a task to run every minute
-cron.schedule('*/15 * * * *', () => {
+cron.schedule('* * * * *', () => {
   console.log('Node.js application is alive');
 });
 
