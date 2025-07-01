@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.googleId;
+    }
   },
   email: {
     type: String,
@@ -38,6 +40,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['he', 'she', 'other'],
     default: 'other'
+  },
+  googleId: {
+    type: String,
+    unique: true
+  },
+  isGoogleUser: { 
+    type: Boolean, 
+    default: false 
   }
 });
 

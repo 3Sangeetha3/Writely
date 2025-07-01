@@ -52,6 +52,9 @@ app.use("/api/tags", require("../routes/tagRoutes"));
 //comment routes
 app.use("/api/articles",  require("../routes/commentRoutes"));
 
+// google auth routes
+app.use("/api/auth", require("../routes/userRoutes"));
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
 

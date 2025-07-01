@@ -27,7 +27,7 @@ function App() {
         <header>
           <Navbar/>
         </header>
-        <main className="flex-grow">
+        <main className="flex-grow overflow-hidden">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<GuestRoute />}>

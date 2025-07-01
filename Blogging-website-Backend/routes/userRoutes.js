@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const articlesController = require('../controllers/articlesController');
+const googleAuthController = require('../controllers/googleAuthController');
 const validateDetails = require("../middleware/userValidators");
 const upload = require("../middleware/multer");
 
@@ -35,6 +36,9 @@ router.get('/verifyemail', userController.verifyEmail);
 
 // profile routes
 router.get('/profiles/:username', userController.getProfileByUsername);
+
+// google auth routes
+router.post('/auth/google', googleAuthController.googleLogin);
 
 
 module.exports = router;
