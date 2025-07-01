@@ -6,7 +6,7 @@ const corsOptions = require("../config/corsOptions");
 const connectDB = require("../config/dbConnect");
 const verifyToken = require('../middleware/verifyJWT')
 const morgan = require("morgan");
-const cron = require('node-cron');
+//const cron = require('node-cron');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 4000;
 connectDB();
 
 // Schedule a task to run every minute
-cron.schedule('* * * * *', () => {
-  console.log('Node.js application is alive');
-});
+// cron.schedule('*/15 * * * *', () => {
+//   console.log('Node.js application is alive');
+// });
 
 app.use(morgan("dev"));
 app.use(express.json()); //middleware to parse json

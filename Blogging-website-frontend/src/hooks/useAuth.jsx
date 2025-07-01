@@ -25,13 +25,17 @@ const state = proxy({
 const isAuth = snapshot(state);
 const actions = {
   login: (user) => {
-    //console.log('login', {user, state});
+    // console.log('useAuth.js - login action called with user:', user);
     state.authUser = user;
-    window.localStorage.setItem(
-      "jwtToken",
-      btoa(JSON.stringify(state.authUser))
-    );
-    axios.defaults.headers.Authorization = `Token ${state.authUser.token}`;
+    const b64EncodedUser = btoa(JSON.stringify(state.authUser));
+    // console.log('useAuth.js - Encoded user for localStorage:', b64EncodedUser);
+    window.localStorage.setItem("jwtToken", b64EncodedUser);
+    if (state.authUser.token) {
+        axios.defaults.headers.Authorization = `Token ${state.authUser.token}`;
+        // console.log('useAuth.js - axios Authorization header set to:', axios.defaults.headers.Authorization);
+    } else {
+        console.warn('useAuth.js - state.authUser.token is missing after login:', state.authUser);
+    }
   },
   logout: () => {
     state.authUser = {};

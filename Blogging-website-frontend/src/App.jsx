@@ -11,16 +11,27 @@ import UserProfile from "./pages/UserProfile";
 
 function App() {
   useEffect(() => {
-
-    const jwt = window.localStorage.getItem('jwtToken');
-
-    if(!jwt) return ;
-
+  const jwt = window.localStorage.getItem('jwtToken');
+  // console.log('App.js - jwt from localStorage:', jwt); 
+  if(!jwt) {
+    console.log('App.js - No jwt found in localStorage. Returning.');
+    return;
+  }
+  try {
     const parsedJwt = JSON.parse(atob(jwt));
-    //console.log('parsedJwt',{parsedJwt})
-    axios.defaults.headers.Authorization = `Token ${parsedJwt.token}`;
-
-  }, []);
+    // console.log('App.js - Parsed JWT from localStorage:', parsedJwt); 
+    if (parsedJwt && parsedJwt.token) {
+        axios.defaults.headers.Authorization = `Token ${parsedJwt.token}`;
+        // console.log('App.js - axios Authorization header set to:', axios.defaults.headers.Authorization);
+    } else {
+        // console.log('App.js - parsedJwt or parsedJwt.token is missing/invalid:', parsedJwt);
+        window.localStorage.removeItem("jwtToken");
+    }
+  } catch (error) {
+    console.error('App.js - Error parsing/decoding jwt from localStorage:', error);
+    window.localStorage.removeItem("jwtToken");
+  }
+}, []);
   return (
     <Router>
       <div className="flex flex-col min-h-screen">

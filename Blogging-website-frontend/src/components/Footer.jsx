@@ -26,7 +26,7 @@ const Footer = () => {
         });
 
         if (response.status === 403) {
-            console.log('Rate limit exceeded - try again later');
+            // console.log('Rate limit exceeded - try again later');
             return;
           }
 
