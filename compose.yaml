@@ -1,0 +1,115 @@
+# specify the version of docker-compose
+# version: "3.8"
+
+# define the services/containers to be run
+services:
+  # define the frontend service
+  # we can use any name for the service. A standard naming convention is to use "web" for the frontend
+  frontend:
+    # we use depends_on to specify that service depends on another service
+    # in this case, we specify that the web depends on the api service
+    # this means that the api service will be started before the web service
+    depends_on: 
+      - backend
+    # specify the build context for the web service
+    # this is the directory where the Dockerfile for the web service is located
+    build: ./Blogging-website-frontend
+    # specify the image to be used for the web service
+    # this is the image that will be built for the frontend service
+    image: 3sangeetha3/writely-frontend:latest
+    # specify the ports to expose for the web service
+    # the first number is the port on the host machine
+    # the second number is the port inside the container
+    ports:
+      - 5173:5173
+    # specify the environment variables for the web service
+    # these environment variables will be available inside the container
+    env_file:
+      - ./Blogging-website-frontend/.env
+
+    # this is for docker compose watch mode
+    # anything mentioned under develop will be watched for changes by docker compose watch and it will perform the action mentioned
+    develop:
+      # we specify the files to watch for changes
+      watch:
+        # it'll watch for changes in package.json and package-lock.json and rebuild the container if there are any changes
+        - path: ./Blogging-website-frontend/package.json
+          action: rebuild
+        - path: ./Blogging-website-frontend/package-lock.json
+          action: rebuild
+        # it'll watch for changes in the frontend directory and sync the changes with the container real time
+        - path: ./Blogging-website-frontend
+          target: /app
+          action: sync
+    # specify the restart policy for the web service
+    # this means that the web service will be restarted if it stops or crashes
+    restart: unless-stopped
+
+  # define the backend service/container
+  backend: 
+    # specify the build context for the backend service
+    build: ./Blogging-website-Backend
+    # specify the image to be used for the backend service
+    # this is the image that will be built for the backend service
+    image: 3sangeetha3/writely-backend:latest
+    
+    # specify the ports to expose for the backend service
+    # the first number is the port on the host machine
+    # the second number is the port inside the container
+    ports: 
+      - 3000:3000
+
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+
+    # specify environment variables for the backend service
+    # for demo purposes, we're using a local mongodb instance
+    env_file:
+      - ./Blogging-website-Backend/.env
+    
+    # establish docker compose watch mode for the backend service
+    develop:
+      # specify the files to watch for changes
+      watch:
+        # it'll watch for changes in package.json and package-lock.json and rebuild the container and image if there are any changes
+        - path: ./Blogging-website-Backend/package.json
+          action: rebuild
+        - path: ./Blogging-website-Backend/package-lock.json
+          action: rebuild
+        
+        # it'll watch for changes in the backend directory and sync the changes with the container real time
+        - path: ./Blogging-website-Backend
+          target: /app
+          action: sync
+
+    # specify the healthcheck for the backend service
+    # this will check if the backend service is healthy
+    # if the healthcheck fails, the service will be restarted
+    # the healthcheck will check if the backend service is running on port 3000
+    # it will use curl to check if the service is responding
+    # the healthcheck will run every 10 seconds
+    # if the service does not respond within 5 seconds, it will be considered unhealthy
+    # if the service is unhealthy, it will be restarted
+    # the healthcheck will be retried 3 times before considering the service unhealthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    
+    volumes:
+      - backend_data:/app/uploads
+
+    # specify the restart policy for the backend service
+    # this means that the backend service will be restarted if it stops or crashes
+    restart: unless-stopped
+
+# define the volumes to be used by the services
+volumes:
+  # define a volume for the backend service
+  backend_data:
+    # this volume will be used to store the uploaded files
+    # it will be mounted to the /app/uploads directory inside the container
+    driver: local
+    
