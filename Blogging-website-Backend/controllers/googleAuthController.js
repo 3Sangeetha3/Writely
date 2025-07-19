@@ -55,11 +55,18 @@ const googleLogin = async (req, res) => {
     // 3. Create your own JWT using the user's toUserResponse() method
     // This ensures the JWT payload structure and the returned user object
     // match what your frontend (useAuth) and backend (verifyJWT) expect.
+    const token = jwt.sign(
+      { user: { id: user.id, email: user.email } },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
     const userResponse = user.toUserResponse();
+    userResponse.token = token;
 
     // 4. Send the user object (which now includes the token) to the frontend
     res.status(200).json({
-      user: userResponse, // userResponse already contains username, email, token, image, userId, bio
+      user: userResponse,
       message: 'Google login successful!'
     });
   } catch (err) {
