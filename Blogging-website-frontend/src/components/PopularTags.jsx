@@ -1,86 +1,50 @@
 import React from "react";
 import { useTagsQuery } from "../hooks";
-import Lottie from "lottie-react";
-import left_Arrow from "../assets/Left_Arrow.json";
-import right_Arrow from "../assets/Right_Arrow.json";
+import { ChevronLeft, ChevronRight, Hash, TrendingUp, Sparkles } from "lucide-react";
 import Skeleton from "@mui/material/Skeleton";
 
 function PopularTags({ onTagClick }) {
   const { isTagsLoading, tags, tagsError } = useTagsQuery();
   const scrollContainerRef = React.useRef(null);
 
-  // Array of light background colors
-  const colorClasses = [
-    "bg-pink-100",
-    "bg-blue-100",
-    "bg-green-100",
-    "bg-yellow-100",
-    "bg-purple-100",
-    "bg-red-100",
-    "bg-indigo-100",
-    "bg-teal-100",
-    "bg-sky-100",
-  ];
-
-  // Scroll left by 100px
   function scrollLeft() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -100, behavior: "smooth" });
+      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
     }
   }
 
-  // Scroll right by 100px
   function scrollRight() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 100, behavior: "smooth" });
+      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
     }
   }
 
   if (isTagsLoading) {
     return (
-      <div className="mb-6 border p-4 rounded-lg">
-        {/* Title Skeleton */}
-        <Skeleton 
-          variant="text" 
-          width={150} 
-          height={30} 
-          sx={{ bgcolor: "#E0E3E3" }} 
-        />
-  
-        <div className="relative flex items-center mt-2 p-2 border rounded-full shadow-sm">
-          {/* Left Arrow Skeleton */}
-          <div className="absolute left-2 z-10">
-            <Skeleton 
-              variant="circular" 
-              width={32} 
-              height={32} 
-              sx={{ bgcolor: "#E0E3E3" }} 
-            />
+      <div className="relative">
+        <div className="flex items-center gap-4 mb-6">
+          <Skeleton variant="circular" width={40} height={40} sx={{ bgcolor: "#E0E3E3" }} />
+          <Skeleton variant="text" width={150} height={30} sx={{ bgcolor: "#E0E3E3" }} />
+        </div>
+        <div className="relative flex items-center">
+          <div className="absolute left-0 z-10">
+            <Skeleton variant="circular" width={48} height={48} sx={{ bgcolor: "#E0E3E3" }} />
           </div>
-  
-          {/* Scrollable Tags Skeleton */}
-          <div className="w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory mx-12">
-            <div className="inline-flex space-x-3">
-              {Array.from(new Array(20)).map((_, index) => (
+          <div className="w-full overflow-x-auto scrollbar-hide mx-16">
+            <div className="inline-flex gap-4">
+              {Array.from(new Array(8)).map((_, index) => (
                 <Skeleton
                   key={index}
                   variant="rounded"
-                  width={150}
-                  height={30}
-                  sx={{ bgcolor: "#E0E3E3" }}
+                  width={140}
+                  height={48}
+                  sx={{ bgcolor: "#E0E3E3", borderRadius: "24px" }}
                 />
               ))}
             </div>
           </div>
-  
-          {/* Right Arrow Skeleton */}
-          <div className="absolute right-2 z-10">
-            <Skeleton 
-              variant="circular" 
-              width={32} 
-              height={32} 
-              sx={{ bgcolor: "#E0E3E3" }} 
-            />
+          <div className="absolute right-0 z-10">
+            <Skeleton variant="circular" width={48} height={48} sx={{ bgcolor: "#E0E3E3" }} />
           </div>
         </div>
       </div>
@@ -88,59 +52,74 @@ function PopularTags({ onTagClick }) {
   }
 
   if (tagsError) {
-    return <div>Error loading tags.</div>;
+    return (
+      <div className="text-center py-12">
+        <div className="bg-red-50/80 backdrop-blur-sm border border-red-200 rounded-2xl p-6 inline-block shadow-lg shadow-red-100/50">
+          <p className="text-red-600 font-medium">Error loading tags. Please try again later.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="mb-6 border p-4 rounded-lg">
-      <h2 className="text-xl text-[#001519] font-medium">Popular Tags</h2>
-
-      <div className="relative flex items-center mt-2 p-2 border rounded-full shadow-sm">
+    <div className="relative">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-gradient-to-br from-[#53C7C0] to-[#4AB3AC] rounded-2xl shadow-lg shadow-[#53C7C0]/20">
+            <TrendingUp className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-[#243635] font-semibold text-lg mb-1">Trending Topics</p>
+            <p className="text-gray-600 text-sm flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#53C7C0]" />
+              Click any tag to explore articles
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="relative flex items-center">
         {/* Left scroll button */}
         <button
           onClick={scrollLeft}
-          className="absolute left-2 z-10 bg-[#475756] w-8 h-8 flex items-center justify-center rounded-full shadow-md hover:bg-[#A8AFAF] focus:outline-none"
+          className="absolute left-0 z-20 bg-white/90 backdrop-blur-xl border border-[#243635] w-12 h-12 flex items-center justify-center rounded-2xl shadow-xl shadow-[#53C7C0]/10 hover:shadow-2xl hover:shadow-[#53C7C0]/20 hover:scale-110 hover:bg-gradient-to-br hover:from-[#53C7C0] hover:to-[#4AB3AC] hover:border-[#53C7C0]/30 transition-all duration-300 group"
+          aria-label="Scroll left"
         >
-          <Lottie
-            animationData={left_Arrow}
-            loop={true}
-            className="w-10 h-10 justify-items-start"
-          />
+          <ChevronLeft className="w-6 h-6 text-[#243635] group-hover:text-white group-hover:-translate-x-0.5 transition-all duration-300" />
         </button>
-
-        {/* The scrollable area */}
+        
+        {/* Scrollable tags container */}
         <div
           ref={scrollContainerRef}
-          className="w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory mx-12"
+          className="w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory mx-16 py-4"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitScrollbar: { display: 'none' }
+          }}
         >
-          <div className="inline-flex space-x-3">
-            {tags?.tags?.map((tag, index) => {
-              // Pick a background color
-              const bgColor = colorClasses[index % colorClasses.length];
-
-              return (
-                <span
-                  key={tag}
-                  onClick={() => onTagClick(tag)}
-                  className={`snap-center whitespace-nowrap cursor-pointer px-5 py-2 text-gray-800 text-sm font-medium rounded-md m-0.5 ${bgColor} hover:bg-opacity-80 transition`}
-                >
-                  {tag}
-                </span>
-              );
-            })}
+          <div className="inline-flex gap-4 pb-2">
+            {tags?.tags?.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => onTagClick(tag)}
+                className="group snap-center whitespace-nowrap px-6 py-3 text-[#243635] text-sm font-semibold rounded-2xl bg-white border-2 border-[#53C7C0] hover:bg-[#53C7C0] hover:text-white hover:border-[#53C7C0] transition-all duration-300 shadow-blue-md hover:shadow-lg hover:-translate-y-0.5 flex items-center gap-2"
+              >
+                <Hash className="w-4 h-4 group-hover:text-white text-[#53C7C0] transition-colors duration-300" />
+                {tag}
+              </button>
+            ))}
           </div>
         </div>
-
+        
         {/* Right scroll button */}
         <button
           onClick={scrollRight}
-          className="absolute right-2 z-10 bg-[#475756] w-8 h-8 flex items-center justify-center rounded-full shadow-md hover:bg-[#A8AFAF] focus:outline-none"
+          className="absolute right-0 z-20 bg-white/90 backdrop-blur-xl border border-[#243635] w-12 h-12 flex items-center justify-center rounded-2xl shadow-xl shadow-[#53C7C0]/10 hover:shadow-2xl hover:shadow-[#53C7C0]/20 hover:scale-110 hover:bg-gradient-to-br hover:from-[#53C7C0] hover:to-[#4AB3AC] hover:border-[#53C7C0]/30 transition-all duration-300 group"
+          aria-label="Scroll right"
         >
-          <Lottie
-            animationData={right_Arrow}
-            loop={true}
-            className="w-10 h-10 justify-items-start"
-          />
+          <ChevronRight className="w-6 h-6 text-[#243635] group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
         </button>
       </div>
     </div>
