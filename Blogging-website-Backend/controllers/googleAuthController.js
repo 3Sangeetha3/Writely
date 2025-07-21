@@ -1,8 +1,24 @@
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/user'); // Adjust path if needed
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const cloudinary = require('../utils/cloudinary');
+const streamifier = require('streamifier');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const uploadFromBuffer = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'avatars', resource_type: 'image' },
+      (error, result) => {
+        if (result) resolve(result.secure_url);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 
 const googleLogin = async (req, res) => {
   const { credential } = req.body;
@@ -21,13 +37,25 @@ const googleLogin = async (req, res) => {
     });
     const payload = ticket.getPayload();
 
+    // Download and upload avatar to Cloudinary if it's a Google URL
+    let avatarUrl = payload.picture;
+    if (avatarUrl && avatarUrl.includes('googleusercontent.com')) {
+      try {
+        const response = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
+        avatarUrl = await uploadFromBuffer(response.data);
+      } catch (err) {
+        console.error('Failed to upload avatar to Cloudinary:', err);
+        // fallback to Google URL if upload fails
+      }
+    }
+
     // 2. Find or create user in your DB
     let user = await User.findOne({ email: payload.email });
     if (!user) {
       user = await User.create({
         username: payload.name,
         email: payload.email,
-        avatar: payload.image || payload.picture, // Use Google profile picture if available
+        avatar: avatarUrl,
         googleId: payload.sub,
         isGoogleUser: true,
         verified: true, // Assuming Google users are verified
@@ -45,8 +73,8 @@ const googleLogin = async (req, res) => {
         user.verified = true; // Mark as verified if not already
       }
       // Update image if Google provides a new one or if yours is default
-      if (payload.picture && user.image !== payload.picture) {
-        user.image = payload.picture;
+      if (avatarUrl && user.image !== avatarUrl) {
+        user.image = avatarUrl;
       }
       await user.save(); // Save any updates
       //console.log('Existing Google user logged in:', user.email);

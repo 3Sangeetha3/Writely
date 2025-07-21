@@ -241,6 +241,7 @@ const UserProfile = () => {
                   <img
                     src={profile.image || defaultAvatar}
                     alt={`${profile.username}'s avatar`}
+                    onError={(e) => {e.target.src = defaultAvatar}}
                     className="w-full h-full object-cover"
                   />
                 ) : (
