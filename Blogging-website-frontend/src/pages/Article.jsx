@@ -189,7 +189,7 @@ function Article() {
   const sanitizedHTML = DOMPurify.sanitize(article.body);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 bg-[#FCFBF9]">
+    <div className="max-w-7xl mt-20 mx-auto px-4 py-8 bg-[#FCFBF9]">
       {/* Banner Section */}
       <div
         className="banner shadow-lg bg-gradient-to-br from-[#243635] to-[#314c4a] rounded-xl overflow-hidden transition-transform hover:shadow-xl"
