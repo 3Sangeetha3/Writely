@@ -116,7 +116,7 @@ function Settings() {
       className="mt-24 bg-[#F8F9FA] py-3 overflow-y-hidden"
       data-aos="fade-up"
     >
-      <div className="container mx-auto px-2 max-w-5xl py-2">
+      <div className="container mx-auto px-2 max-w-7xl py-2">
         <h1 className="text-center text-4xl font-bold text-[#243635] mb-8">
           Account Settings
         </h1>
